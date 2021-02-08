@@ -21,10 +21,6 @@ List<DoctorModel> doctorDataList;
 
  }
 
-
-
-
-
 class _DoctorsPageState extends State<DoctorsPage> {
   Widget _appBar() {
     return AppBar(
