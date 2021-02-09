@@ -1,11 +1,6 @@
-import 'package:eye_test/config/screens_controller.dart';
-import 'package:eye_test/main.dart';
-import 'package:flutter/material.dart';
-import 'package:eye_test/screens/home_page/Homepage.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:eye_test/theme/text_style.dart';
-import 'package:eye_test/theme/extention.dart';
 
+import 'package:flutter/material.dart';
+import 'package:eye_test/theme/theme.dart';
 class SplashPage extends StatefulWidget {
   SplashPage({Key key}) : super(key: key);
 

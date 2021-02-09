@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:eye_test/theme/light_color.dart';
+
+import 'package:eye_test/theme/theme.dart';
 
 class RatingStar extends StatefulWidget {
   RatingStar({Key key, this.rating}) : super(key: key);

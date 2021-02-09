@@ -1,13 +1,10 @@
-
+import 'package:eye_test/theme/theme.dart';
 import 'dart:async';
 
 import 'package:eye_test/screens/home_page/Homepage.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 // import '../db/users.dart';
 // import 'home.dart';

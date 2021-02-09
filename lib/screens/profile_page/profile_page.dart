@@ -1,25 +1,22 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/screens/profile_page/profile_page_listItems.dart';
-import 'package:eye_test/screens/signIn/Sign_in.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/size_config.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:eye_test/theme/theme.dart';
+
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:path/path.dart' as path;
+
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 
-import '../../constants.dart';
+
 
 
 class ProfilePage extends StatefulWidget {

@@ -1,11 +1,9 @@
-
+import 'package:eye_test/theme/theme.dart';
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
-import 'package:eye_test/screens/profile_page/profile_page_listItems.dart';
-import 'package:eye_test/theme/light_color.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
@@ -15,12 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../constants.dart';
+
 
 
 class UpdateProfilePage extends StatefulWidget {
@@ -342,10 +340,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
           validator: (String value) {
             if (value.isEmpty) {
               return 'E posta gerekli';
-            } else if (emailValidatorRegExp.hasMatch(value)) {
-              removeError(error: kInvalidEmailError);
             }
-
             if (value.length < 0 || value.length > 35) {
               return "Eposta, 20'den az karakter içermelidir";
             }

@@ -1,4 +1,4 @@
-import 'package:eye_test/screens/doctors_page/Splash_page.dart';
+import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/screens/splash/Splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:eye_test/provider/app_provider.dart';
 import 'package:eye_test/screens/home_page/Homepage.dart';

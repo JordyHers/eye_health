@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/config/screens_controller.dart';
 
 import 'package:eye_test/provider/app_provider.dart';
-import 'package:eye_test/screens/settings/settings.dart';
+
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/theme/theme.dart';

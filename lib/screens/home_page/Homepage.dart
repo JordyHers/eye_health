@@ -5,10 +5,9 @@ import 'package:eye_test/components/search.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/screens/doctors_page/doctors_page.dart';
+
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/screens/signIn/Sign_in.dart';
-import 'package:eye_test/services/AlgoliaSearch/algolia_search.dart';
 import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
@@ -32,9 +31,6 @@ import 'package:easy_localization/easy_localization.dart';
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/models/doctors_model.dart';
 import 'package:eye_test/models/data.dart';
-import 'package:eye_test/theme/extention.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:eye_test/theme/text_style.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 class HomePage extends StatefulWidget {
@@ -62,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-    doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
+
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
       // _orderModel = userProvider.currentOrder;
@@ -73,11 +69,10 @@ class _HomePageState extends State<HomePage> {
     _imageUrl = _currentUser.image;
     HomePageBody homePageBody = HomePageBody();
     ExamsPage examsPage = ExamsPage();
-    DoctorsPage doctorsPage = DoctorsPage();
     ProfilePage profilePage = ProfilePage();
     SearchBar searchBar = SearchBar();
 
-    pages = [homePageBody, doctorsPage, examsPage, doctorsPage, profilePage];
+    pages = [homePageBody, examsPage, examsPage,examsPage , profilePage];
   }
 
   void changePage(int value) {

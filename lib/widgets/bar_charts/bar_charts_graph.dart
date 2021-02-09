@@ -1,4 +1,4 @@
-import 'package:eye_test/theme/text_style.dart';
+import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;

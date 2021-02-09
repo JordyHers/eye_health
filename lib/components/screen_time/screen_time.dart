@@ -3,13 +3,8 @@ import 'package:device_apps/device_apps.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:eye_test/theme/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/theme/extention.dart';
-import 'package:eye_test/theme/light_color.dart';
-import 'package:eye_test/theme/text_style.dart';
 import 'package:eye_test/theme/theme.dart';
 
 
