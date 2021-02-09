@@ -109,7 +109,7 @@ extension OnPressed on Widget {
 
 /// Other values
 /// --------------------------------------------------------------------
-Duration kAnimationDuration = Duration(seconds: 2);
+Duration kAnimationDuration = Duration(milliseconds: 200);
 
 extension ExAlignment on Widget{
   Widget get alignTopCenter => Align(child: this,alignment: Alignment.topCenter,);
@@ -134,7 +134,7 @@ class LightColor {
   static const Color purple = Color(0xff8873f4);
   static const Color purpleLight = Color(0xff9489f4);
   static const Color purpleExtraLight = Color(0xffb1a5f6);
-
+  static const Color accentBlue = Colors.blueAccent;
   static const Color grey = Color(0xffb8bfce);
 
   static const Color iconColor = Color(0xff000000);

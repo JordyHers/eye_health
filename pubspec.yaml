@@ -80,7 +80,6 @@ flutter:
   assets:
     - assets/images/
     - assets/png/
-    - assets/doctors/
     - assets/
     - assets/Apps/
     - assets/Social/

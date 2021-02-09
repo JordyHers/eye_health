@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:algolia/algolia.dart';
-import 'package:eye_test/components/search.dart';
+
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
-import 'package:eye_test/screens/signIn/Sign_in.dart';
+
 import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';

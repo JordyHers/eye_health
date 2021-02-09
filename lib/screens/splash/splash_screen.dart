@@ -63,20 +63,14 @@ class _SplashScreenState extends State<SplashScreen> {
                     horizontal: getProportionateScreenWidth(20)),
                 child: Column(
                   children: <Widget>[
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        splashData.length,
-                            (index) => buildDot(index: index),
-                      ),
-                    ),
-                    Spacer(flex: 2),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      color: LightColor.purple,
-                      onPressed: (){
 
+
+                    Spacer(flex: 3),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      color: LightColor.accentBlue,
+                      onPressed: (){
+                      Navigator.pushReplacementNamed(context, '/Sign_in');
                       },
                       child: Text(
                         "Devam et",
@@ -84,6 +78,13 @@ class _SplashScreenState extends State<SplashScreen> {
                           fontSize: getProportionateScreenWidth(15),
                           color: Colors.white,
                         ),
+                      ),
+                    ),Spacer(flex: 1),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        splashData.length,
+                            (index) => buildDot(index: index),
                       ),
                     ),
                     Spacer(),
@@ -104,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
-        color: currentPage == index ? Colors.yellow : Color(0xFFD8D8D8),
+        color: currentPage == index ? LightColor.purpleLight : Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
       ),
     );
