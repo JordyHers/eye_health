@@ -199,7 +199,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       Scaffold.of(context).showSnackBar(snackbar2);
       print('unsuccessful');
     }
-    print("name: ${_currentUser.name}");
+    print('name: ${_currentUser.name}');
     print("category: ${_currentUser.address}");
     print("experience: ${_currentUser.telephone.toString()}");
     print("_imageFile ${_imageFile.toString()}");
