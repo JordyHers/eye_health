@@ -1,13 +1,11 @@
 import 'dart:io';
 
 import 'package:algolia/algolia.dart';
-
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
-
 import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
@@ -29,8 +27,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-import 'package:eye_test/models/doctors_model.dart';
-import 'package:eye_test/models/data.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 class HomePage extends StatefulWidget {
@@ -61,10 +57,8 @@ class _HomePageState extends State<HomePage> {
 
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
-      // _orderModel = userProvider.currentOrder;
     } else {
       _currentUser = UserModel();
-      //_orderModel = OrderModel();
     }
     _imageUrl = _currentUser.image;
     HomePageBody homePageBody = HomePageBody();
@@ -135,7 +129,6 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _HomePageBodyState extends State<HomePageBody> {
-  List<DoctorModel> doctorDataList;
   List <AppsModel>  appsDataList;
 
   final picker = ImagePicker();
@@ -150,17 +143,14 @@ class _HomePageBodyState extends State<HomePageBody> {
     return results;
   }
 
-  //OrderModel _orderModel;
   String _imageUrl;
   File _imageFile;
   Status _status = Status.Uninitialized;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   Status get status => _status;
 
   @override
   void initState() {
-    doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
     appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
 
     super.initState();

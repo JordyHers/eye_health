@@ -10,14 +10,12 @@ import 'package:eye_test/screens/profile_page/profile_page_main.dart';
 import 'package:eye_test/screens/profile_page/update_profile_page.dart';
 import 'package:eye_test/screens/see_more_page/see_more_doctors.dart';
 import 'package:eye_test/screens/see_more_page/see_more_page.dart';
-import 'package:eye_test/screens/settings/settings.dart';
+import 'package:eye_test/screens/settings/change_language.dart';
 import 'package:eye_test/screens/signIn/Sign_in.dart';
 import 'package:eye_test/screens/signup_page/Signup_page.dart';
 import 'package:eye_test/screens/splash/Splash_page.dart';
-import 'package:eye_test/screens/splash/splash_screen.dart';
 import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/widgets/custom_routes.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> getRoute() {
@@ -35,7 +33,7 @@ class Routes {
       '/screen_time': (_) => ScreenTime(),
       '/hero_animation_profile_page': (_) =>HeroProfile(),
       '/search_bar_algolia':(_) => SearchBar(),
-      '/settings':(_) => SettingsPage(),
+      '/change_language':(_) => SettingsPage(),
       '/focus_mode':(_) => FocusMode(),
       '/search_bar_algolia':(_) => SearchBar(),
       '/splash_control':(_) => SplashControl(),

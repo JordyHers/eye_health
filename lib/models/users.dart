@@ -10,7 +10,6 @@ class UserModel {
   static const ADDRESS= "address";
   static const IMAGE ="image";
   static const EMAIL = "email";
-  //static const CART = "cart";
 
 
   String name;
@@ -20,7 +19,6 @@ class UserModel {
   String id;
   String email;
   String image;
- // int _priceSum = 0;
 
 
 
@@ -76,23 +74,4 @@ class UserModel {
       'address':address,
     };
   }
-  // List<CartItemModel> _convertCartItems(List cart){
-  //   List<CartItemModel> convertedCart = [];
-  //   for(Map cartItem in cart){
-  //     convertedCart.add(CartItemModel.fromMap(cartItem));
-  //   }
-  //   return convertedCart;
-  // }
-
-  // int getTotalPrice({List cart}){
-  //   if(cart == null){
-  //     return 0;
-  //   }
-  //   for(Map cartItem in cart){
-  //     _priceSum += cartItem["price"] * cartItem["amount"];
-  //   }
-  //   int total = _priceSum;
-  //   return total;
-  // }
-
 }
