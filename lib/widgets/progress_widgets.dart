@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
 import 'package:eye_test/theme/theme.dart';
+import 'package:flutter/material.dart';
 
 class ProgressWidget extends StatefulWidget {
   ProgressWidget(
@@ -72,7 +72,7 @@ class _ProgressWidgetState extends State<ProgressWidget>
                 },
               ),
               Text(
-                "${widget.value}",
+                '${widget.value}',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
@@ -97,13 +97,13 @@ class ProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) async {
     var center1 = Offset(size.width / 2, size.height / 2);
-    Paint active = new Paint()
+    var active = Paint()
       ..color = activeColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 7;
 
-    Paint inActive = new Paint()
+    var inActive =  Paint()
       ..color = backgroundColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke

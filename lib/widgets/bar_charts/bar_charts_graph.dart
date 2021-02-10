@@ -1,8 +1,8 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:easy_localization/easy_localization.dart';
+
 import 'bar_charts_model.dart';
 
 

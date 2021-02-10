@@ -1,7 +1,8 @@
 import 'dart:async';
+
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
   NetworkBloc() : super(ConnectionInitial());

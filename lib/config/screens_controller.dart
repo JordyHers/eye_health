@@ -1,16 +1,9 @@
-import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/screens/splash/Splash_page.dart';
-import 'package:flutter/material.dart';
-import 'package:eye_test/provider/app_provider.dart';
 import 'package:eye_test/screens/home_page/Homepage.dart';
-import 'package:eye_test/screens/opening_page/opening_page.dart';
 import 'package:eye_test/screens/signIn/Sign_in.dart';
-import 'package:eye_test/screens/signup_page/Signup_page.dart';
 import 'package:eye_test/screens/splash/splash_screen.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/theme/theme.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:eye_test/config/routes.dart';
 
 
 

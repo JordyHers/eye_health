@@ -1,10 +1,10 @@
 import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
+import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/theme/theme.dart';
 
 
 class ScreenTime extends StatefulWidget {

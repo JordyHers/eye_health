@@ -1,23 +1,15 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/models/users.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/screens/profile_page/profile_page_listItems.dart';
-
-import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-
+import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/theme/theme.dart';
-
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
 import 'package:provider/provider.dart';
-
-import 'package:easy_localization/easy_localization.dart';
-
-
-
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);

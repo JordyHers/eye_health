@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:collection';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:eye_test/services/Google_Service/google_signin.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:uuid/uuid.dart';
 

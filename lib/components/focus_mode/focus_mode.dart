@@ -4,12 +4,10 @@
 
 
 /// DRAW TIMER WINDOW OVER OTHER APPS
-//TODO https://github.com/cimplesid/learn-flutter-youtube/blob/master/drawoverotherapps/lib/home.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wave/wave.dart';
 import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 import 'bloc/ticker.dart';
 import 'bloc/timer_bloc.dart';

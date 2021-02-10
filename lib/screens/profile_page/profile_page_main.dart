@@ -1,4 +1,3 @@
-import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:eye_test/screens/profile_page/update_profile_page.dart';
 import 'package:flutter/material.dart';
 class ProfilePageBody extends StatefulWidget {

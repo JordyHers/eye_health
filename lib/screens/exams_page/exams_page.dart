@@ -23,7 +23,6 @@ import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/components/ImagePicker.dart';
 
 
 class ExamsPage extends StatefulWidget {

@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/screens/splash/splash_content.dart';
+import 'package:eye_test/size_config.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:eye_test/size_config.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = "/";

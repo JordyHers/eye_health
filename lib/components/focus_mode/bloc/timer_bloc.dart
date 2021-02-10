@@ -1,8 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'dart:async';
-import 'package:meta/meta.dart';
+
+import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eye_test/components/focus_mode/bloc/ticker.dart';
+import 'package:meta/meta.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';

@@ -1,19 +1,15 @@
-import 'package:eye_test/theme/theme.dart';
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/size_config.dart';
+import 'package:eye_test/theme/theme.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -99,8 +95,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
     }
   }
 
+  // ignore: always_declare_return_types
   _getLocalImage() async {
-    File imageFile = await ImagePicker.pickImage(
+    var imageFile = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50, maxWidth: 200);
 
     if (imageFile != null) {

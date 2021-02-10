@@ -1,34 +1,32 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:algolia/algolia.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
-
+import 'package:eye_test/screens/exams_page/exams_page.dart';
+import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
+//_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+import 'package:eye_test/theme/theme.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_graph.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_model.dart';
 import 'package:eye_test/widgets/line_graph/line_graph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:eye_test/screens/exams_page/exams_page.dart';
-import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
-import 'package:easy_localization/easy_localization.dart';
-
-//_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-import 'package:eye_test/theme/theme.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 class HomePage extends StatefulWidget {
   static String routeName = "/homePage";
 

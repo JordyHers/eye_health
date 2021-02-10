@@ -1,4 +1,3 @@
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -195,7 +194,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         show: false,
       ),
     );
-    final LineChartBarData lineChartBarData2 = LineChartBarData(
+    final lineChartBarData2 = LineChartBarData(
       spots: [
         FlSpot(1, 1),
         FlSpot(3, 2.8),
@@ -217,7 +216,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         const Color(0x00aa4cfc),
       ]),
     );
-    final LineChartBarData lineChartBarData3 = LineChartBarData(
+    final lineChartBarData3 = LineChartBarData(
       spots: [
         FlSpot(1, 2.8),
         FlSpot(3, 1.9),

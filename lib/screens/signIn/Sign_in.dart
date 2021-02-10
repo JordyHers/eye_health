@@ -4,21 +4,17 @@ import 'dart:ui';
 // import 'package:coin_accessoires/widgets/style.dart';
 // import '../pages/signup.dart';
 import 'package:eye_test/screens/home_page/Homepage.dart';
-import 'package:eye_test/screens/opening_page/opening_page.dart';
-import 'package:eye_test/screens/signup_page/Signup_page.dart';
 import 'package:eye_test/services/Api/Auths.dart';
+import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_event.dart';
 import 'package:eye_test/services/Internet_Connection/network_state.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 // import '../widgets/loading.dart';
 import 'package:flutter_svg/svg.dart';
-
 // import 'package:provider/provider.dart';
 // import '../provider/user_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
