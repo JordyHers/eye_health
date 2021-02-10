@@ -1,61 +1,61 @@
 final appsMapList = [
   {
-    "name": "Whatsapp ",
-    "type": "Social Media",
-    "usage": "2 hours 30 min",
-    "isfavourite": true,
-    "image":"assets/Apps/whatsapp.png",
+    'name': 'Whatsapp ',
+    'type': 'Social Media',
+    'usage': '2 hours 30 min',
+    'isfavourite': true,
+    'image':'assets/Apps/whatsapp.png',
   }, {
-    "name": "Twitter",
-    "type": "Social Media",
-    "usage": "1hour 10 min",
-    "isfavourite": true,
-    "image":"assets/Apps/twitter.png",
+    'name': 'Twitter',
+    'type': 'Social Media',
+    'usage': '1hour 10 min',
+    'isfavourite': true,
+    'image':'assets/Apps/twitter.png',
   }, {
-    "name": "Instagram ",
-    "type": "Social Media",
-    "usage": " 30 mins",
-    "isfavourite": true,
-    "image":"assets/Apps/instagram.png",
+    'name': 'Instagram ',
+    'type': 'Social Media',
+    'usage': ' 30 mins',
+    'isfavourite': true,
+    'image':'assets/Apps/instagram.png',
   }, {
-    "name": " Google maps",
-    "type": "Maps",
-    "usage": "23 mins",
-    "isfavourite": false,
-    "image":"assets/Apps/google-maps.png",
+    'name': ' Google maps',
+    'type': 'Maps',
+    'usage': '23 mins',
+    'isfavourite': false,
+    'image':'assets/Apps/google-maps.png',
   }, {
-    "name": "Chrome ",
-    "type": "Browser",
-    "usage": " > 12 mins",
-    "isfavourite": false,
-    "image":"assets/Apps/chrome.png",
+    'name': 'Chrome ',
+    'type': 'Browser',
+    'usage': ' > 12 mins',
+    'isfavourite': false,
+    'image':'assets/Apps/chrome.png',
   }, {
-    "name": "Youtube",
-    "type": "Multimedia",
-    "usage": "2 hours 30 min",
-    "isfavourite": true,
-    "image":"assets/Apps/youtube.png",
+    'name': 'Youtube',
+    'type': 'Multimedia',
+    'usage': '2 hours 30 min',
+    'isfavourite': true,
+    'image':'assets/Apps/youtube.png',
   }, {
-    "name": "Netflix",
-    "type": "Streaming",
-    "usage": "  < 3 hours",
-    "isfavourite": true,
-    "image":"assets/Apps/netflix.png",
+    'name': 'Netflix',
+    'type': 'Streaming',
+    'usage': '  < 3 hours',
+    'isfavourite': true,
+    'image':'assets/Apps/netflix.png',
   },
   {
-    "name": "Facebook",
-    "type": "Social media",
-    "usage": "  2 hours",
-    "isfavourite": true,
-    "image":"assets/Apps/facebook.png",
+    'name': 'Facebook',
+    'type': 'Social media',
+    'usage': '  2 hours',
+    'isfavourite': true,
+    'image':'assets/Apps/facebook.png',
   },
 
   {
-    "name": "Angry Birds",
-    "type": "Game",
-    "usage": "  18 mins",
-    "isfavourite": true,
-    "image":"assets/Apps/angry-birds.png",
+    'name': 'Angry Birds',
+    'type': 'Game',
+    'usage': '  18 mins',
+    'isfavourite': true,
+    'image':'assets/Apps/angry-birds.png',
   },
  ];
 
@@ -90,7 +90,7 @@ final appsMapList = [
 //           Row(
 //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //             children: <Widget>[
-//               Text("Öğrenebileceğiniz konular", style: TextStyles.titleNormal),
+//               Text('Öğrenebileceğiniz konular', style: TextStyles.titleNormal),
 //               IconButton(
 //                   icon: Icon(
 //                     Icons.sort,
@@ -147,7 +147,7 @@ final appsMapList = [
 //               decoration: BoxDecoration(
 //                 color: Theme.of(context).backgroundColor,
 //               ),
-//               child:Image.asset("assets/images/logo.png", fit: BoxFit.fill)
+//               child:Image.asset('assets/images/logo.png', fit: BoxFit.fill)
 //
 //           ),
 //         ),
@@ -223,7 +223,7 @@ final appsMapList = [
 //                 Column(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
 //                   children: <Widget>[
-//                     Text("Merhaba", style: TextStyles.titleNormal),
+//                     Text('Merhaba', style: TextStyles.titleNormal),
 //                   ],
 //                 ),
 //               ],

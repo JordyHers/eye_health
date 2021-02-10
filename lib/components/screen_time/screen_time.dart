@@ -157,7 +157,7 @@ class __ListAppsPagesContentState extends State < _ListAppsPagesContent > {
         usageApps: widget.usageApps),
       builder: (BuildContext context, AsyncSnapshot < List < Application >> data) {
         if (widget.usageApps) {
-          getUsageStats();
+          getUsageStats(); 
           return ListView.builder(
             itemCount: _infos.length,
             itemBuilder: (context, index) {
