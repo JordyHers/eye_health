@@ -12,23 +12,23 @@ class ScreenTime extends StatefulWidget {
   _ScreenTimeState createState() => _ScreenTimeState();
 }
 
-class _ScreenTimeState extends State<ScreenTime> {
+class _ScreenTimeState extends State < ScreenTime > {
 
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//         appBar: AppBar(
-//           title: const Text('App Usage Example'),
-//           backgroundColor: Colors.green,
-//         ),
-//         body:
-//         floatingActionButton: FloatingActionButton(
-//             onPressed: getUsageStats, child: Icon(Icons.file_download)),
-//       );
-//
-//   }
-// }
+  //   @override
+  //   Widget build(BuildContext context) {
+  //     return  Scaffold(
+  //         appBar: AppBar(
+  //           title: const Text('App Usage Example'),
+  //           backgroundColor: Colors.green,
+  //         ),
+  //         body:
+  //         floatingActionButton: FloatingActionButton(
+  //             onPressed: getUsageStats, child: Icon(Icons.file_download)),
+  //       );
+  //
+  //   }
+  // }
 
   bool _showSystemApps = false;
   bool _onlyLaunchableApps = false;
@@ -36,7 +36,7 @@ class _ScreenTimeState extends State<ScreenTime> {
 
   Widget _appBar() {
     return AppBar(
-      title: Text('installed apps'.tr().toString(),style: TextStyles.h2Style, ),
+      title: Text('installed apps'.tr().toString(), style: TextStyles.h2Style, ),
       elevation: 0,
       backgroundColor: kAppPrimaryColor,
       leading: IconButton(
@@ -46,24 +46,24 @@ class _ScreenTimeState extends State<ScreenTime> {
           color: Colors.black,
         ),
         onPressed: () {
-         Navigator.pop(context);
+          Navigator.pop(context);
         },
       ),
-      actions: <Widget>[
+      actions: < Widget > [
 
-        PopupMenuButton<String>(
-          icon: Icon(Icons.more_vert, color: Colors.black,),
+        PopupMenuButton < String > (
+          icon: Icon(Icons.more_vert, color: Colors.black, ),
 
           itemBuilder: (BuildContext context) {
-            return <PopupMenuItem<String>>[
-              PopupMenuItem<String>(
-                  value: 'system_apps', child: Text('toggle system apps'.tr())),
-              PopupMenuItem<String>(
+            return <PopupMenuItem < String >> [
+              PopupMenuItem < String > (
+                value: 'system_apps', child: Text('toggle system apps'.tr())),
+              PopupMenuItem < String > (
                 value: 'launchable_apps',
-                child: Text('toggle launchable apps only'.tr(),),
-              ), PopupMenuItem<String>(
+                child: Text('toggle launchable apps only'.tr(), ),
+              ), PopupMenuItem < String > (
                 value: 'usage_apps',
-                child: Text('usage_apps'.tr(),),
+                child: Text('usage_apps'.tr(), ),
               )
             ];
           },
@@ -94,10 +94,10 @@ class _ScreenTimeState extends State<ScreenTime> {
     return Scaffold(
       appBar: _appBar(),
       body: _ListAppsPagesContent(
-          includeSystemApps: _showSystemApps,
-          onlyAppsWithLaunchIntent: _onlyLaunchableApps,
-          usageApps:_usageApps,
-          key: GlobalKey()),
+        includeSystemApps: _showSystemApps,
+        onlyAppsWithLaunchIntent: _onlyLaunchableApps,
+        usageApps: _usageApps,
+        key: GlobalKey()),
     );
   }
 }
@@ -108,21 +108,21 @@ class _ListAppsPagesContent extends StatefulWidget {
   final bool onlyAppsWithLaunchIntent;
   final bool usageApps;
 
-  const _ListAppsPagesContent(
-      {Key key,
-        this.includeSystemApps = false,
-        this.onlyAppsWithLaunchIntent = false,
-        this.usageApps =false})
-      : super(key: key);
+  const _ListAppsPagesContent({
+    Key key,
+    this.includeSystemApps = false,
+    this.onlyAppsWithLaunchIntent = false,
+    this.usageApps = false
+  }): super(key: key);
 
   @override
   __ListAppsPagesContentState createState() => __ListAppsPagesContentState();
 }
 
-class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
-  List<AppUsageInfo> _infos = [];
-  int _sumHours =0;
-  int _sumMin =0 ;
+class __ListAppsPagesContentState extends State < _ListAppsPagesContent > {
+  List < AppUsageInfo > _infos = [];
+  int _sumHours = 0;
+  int _sumMin = 0;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
   }
 
 
-  void  getUsageStats() async {
+  void getUsageStats() async {
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
@@ -140,106 +140,108 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
         print('List of Apps');
         print(_infos);
       });
-    } on AppUsageException catch (exception) {
+    }
+    on AppUsageException
+    catch (exception) {
       print(exception);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Application>>(
-        future: DeviceApps.getInstalledApplications(
-            includeAppIcons: true,
-            includeSystemApps: widget.includeSystemApps,
-            onlyAppsWithLaunchIntent: widget.onlyAppsWithLaunchIntent,
-            usageApps: widget.usageApps),
-        builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
-          if (widget.usageApps){
-            getUsageStats();
-            return  ListView.builder(
-                itemCount: _infos.length,
-                itemBuilder: (context, index) {
-                  for (var i=0;_infos.length>i;i++){
-                    _sumHours += _infos[index].usage.inHours;
-                    _sumMin += _infos[index].usage.inMinutes;
-                  }
-                  print('Sum of the hours');
-                  print(_sumHours);
-                  print('Sum of the minutes');
-                  print(_sumMin);
+    return FutureBuilder < List < Application >> (
+      future: DeviceApps.getInstalledApplications(
+        includeAppIcons: true,
+        includeSystemApps: widget.includeSystemApps,
+        onlyAppsWithLaunchIntent: widget.onlyAppsWithLaunchIntent,
+        usageApps: widget.usageApps),
+      builder: (BuildContext context, AsyncSnapshot < List < Application >> data) {
+        if (widget.usageApps) {
+          getUsageStats();
+          return ListView.builder(
+            itemCount: _infos.length,
+            itemBuilder: (context, index) {
+              for (var i = 0; _infos.length > i; i++) {
+                _sumHours += _infos[index].usage.inHours;
+                _sumMin += _infos[index].usage.inMinutes;
+              }
+              print('Sum of the hours');
+              print(_sumHours);
+              print('Sum of the minutes');
+              print(_sumMin);
 
-                  return ListTile(
-                      title: Text(_infos[index].appName),
-                      trailing: Text(_infos[index].usage.toString() ));
-                });
+              return ListTile(
+                title: Text(_infos[index].appName),
+                trailing: Text(_infos[index].usage.toString()));
+            });
 
-          }
-          if (data.data == null) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            List<Application> apps = data.data;
-            print(apps);
-            return
-              Scrollbar(
-                child: ListView.builder(
-                    itemBuilder: (BuildContext context, int position) {
-                      Application app = apps[position];
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              offset: Offset(4, 4),
-                              blurRadius: 10,
-                              color: LightColor.grey.withOpacity(.2),
-                            ),
-                            BoxShadow(
-                              offset: Offset(-3, 0),
-                              blurRadius: 15,
-                              color: LightColor.grey.withOpacity(.1),
-                            )
-                          ],
-                        ),
+        }
+        if (data.data == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          var apps = data.data;
+          print(apps);
+          return
+          Scrollbar(
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int position) {
+                Application app = apps[position];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    boxShadow: < BoxShadow > [
+                      BoxShadow(
+                        offset: Offset(4, 4),
+                        blurRadius: 10,
+                        color: LightColor.grey.withOpacity(.2),
+                      ),
+                      BoxShadow(
+                        offset: Offset(-3, 0),
+                        blurRadius: 15,
+                        color: LightColor.grey.withOpacity(.1),
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(0),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(13)),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                          child: ListTile(
-                            contentPadding: EdgeInsets.all(0),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(13)),
-                              child: Container(
-                                height: 45,
-                                width: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.transparent,
-                                ),
-                                child:  app is ApplicationWithIcon ? Image.memory(
-                                  app.icon,
-                                ) : null,
-                              ),
-                            ),
-                            title: Text(app.appName, style: TextStyles.title.bold),
-                            subtitle: Text('Version: ${app.versionName}\n'
-                                'Installed: ${DateTime.fromMillisecondsSinceEpoch(app.installTimeMillis).toString()}\n'
-                                'Updated: ${DateTime.fromMillisecondsSinceEpoch(app.updateTimeMillis).toString()}'
-                            ),
-                            trailing: Icon(
-                              Icons.keyboard_arrow_right,
-                              size: 30,
-                              color: Theme.of(context).primaryColor,
-                            ),
+                          height: 45,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.transparent,
                           ),
-                        ).ripple(() {
-                          DeviceApps.openApp(app.packageName);
-                        }, borderRadius: BorderRadius.all(Radius.circular(20))),
-                      );
-                    },
-                    itemCount: apps.length),
-              );
-          }
-        });
+                          child: app is ApplicationWithIcon ? Image.memory(
+                            app.icon,
+                          ) : null,
+                        ),
+                      ),
+                      title: Text(app.appName, style: TextStyles.title.bold),
+                      subtitle: Text('Version: ${app.versionName}\n'
+                        'Installed: ${DateTime.fromMillisecondsSinceEpoch(app.installTimeMillis).toString()}\n'
+                        'Updated: ${DateTime.fromMillisecondsSinceEpoch(app.updateTimeMillis).toString()}'
+                      ),
+                      trailing: Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 30,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ).ripple(() {
+                    DeviceApps.openApp(app.packageName);
+                  }, borderRadius: BorderRadius.all(Radius.circular(20))),
+                );
+              },
+              itemCount: apps.length),
+          );
+        }
+      });
   }
 }
 
@@ -267,5 +269,3 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
 // //       'Installed: ${DateTime.fromMillisecondsSinceEpoch(app.installTimeMillis).toString()}\n'
 // //       'Updated: ${DateTime.fromMillisecondsSinceEpoch(app.updateTimeMillis).toString()}'),
 // // ),
-
-
