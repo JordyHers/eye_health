@@ -46,7 +46,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                 image: FileImage(_pickedImage),
               )
                   : Image.asset(
-                "assets/png/qr-code-scan.png",width: 45,height: 45,
+                  'assets/png/qr-code-scan.png',width: 45,height: 45,
               ),
             ),
           ),
@@ -61,7 +61,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                 builder: (_) {
                   return AlertDialog(
                     title: Text(
-                      "Complete your action using..",
+                      'Complete your action using..',
                     ),
                     actions: [
                       FlatButton(
@@ -69,7 +69,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          "Cancel",
+                          'Cancel',
                         ),
                       ),
                     ],
@@ -80,7 +80,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                           ListTile(
                             leading: Icon(Icons.camera),
                             title: Text(
-                              "Camera",
+                              'Camera',
                             ),
                             onTap: () {
                               _pickImage(ImageSource.camera);
@@ -94,7 +94,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                           ListTile(
                             leading: Icon(Icons.image),
                             title: Text(
-                              "Gallery",
+                              'Gallery',
                             ),
                             onTap: () {
                               _pickImage(ImageSource.gallery);

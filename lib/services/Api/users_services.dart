@@ -3,7 +3,7 @@ import 'package:eye_test/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserServices{
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String collection = "Users";
 
   void createUser(Map<String, dynamic> data) {

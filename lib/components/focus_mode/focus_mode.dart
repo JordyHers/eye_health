@@ -1,5 +1,4 @@
 
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 ///TIMER FOR FOCUS MODE
 //TODO https://medium.com/flutter-community/flutter-timer-with-flutter-bloc-a464e8332ceb
 
@@ -56,11 +55,11 @@ class Timer extends StatelessWidget {
                 child: Center(
                   child: BlocBuilder<TimerBloc, TimerState>(
                     builder: (context, state) {
-                      final String minutesStr = ((state.duration / 60) % 60)
+                      final minutesStr = ((state.duration / 60) % 60)
                           .floor()
                           .toString()
                           .padLeft(2, '0');
-                      final String secondsStr = (state.duration % 60)
+                      final secondsStr = (state.duration % 60)
                           .floor()
                           .toString()
                           .padLeft(2, '0');
@@ -99,7 +98,7 @@ class Actions extends StatelessWidget {
   List<Widget> _mapStateToActionButtons({
     TimerBloc timerBloc,
   }) {
-    final TimerState currentState = timerBloc.state;
+    final currentState = timerBloc.state;
     if (currentState is TimerInitial) {
       return [
         FloatingActionButton(

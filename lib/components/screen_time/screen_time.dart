@@ -1,6 +1,5 @@
 import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,9 +110,9 @@ class _ListAppsPagesContent extends StatefulWidget {
 
   const _ListAppsPagesContent(
       {Key key,
-        this.includeSystemApps: false,
-        this.onlyAppsWithLaunchIntent: false,
-        this.usageApps:false})
+        this.includeSystemApps = false,
+        this.onlyAppsWithLaunchIntent = false,
+        this.usageApps =false})
       : super(key: key);
 
   @override
@@ -133,12 +132,12 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
 
   void  getUsageStats() async {
     try {
-      DateTime endDate = new DateTime.now();
-      DateTime startDate = endDate.subtract(Duration(hours: 1));
-      List<AppUsageInfo> infoList = await AppUsage.getAppUsage(startDate, endDate);
+      var endDate = DateTime.now();
+      var startDate = endDate.subtract(Duration(hours: 1));
+      var infoList = await AppUsage.getAppUsage(startDate, endDate);
       setState(() {
         _infos = infoList;
-        print("List of Apps");
+        print('List of Apps');
         print(_infos);
       });
     } on AppUsageException catch (exception) {
@@ -160,13 +159,13 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
             return  ListView.builder(
                 itemCount: _infos.length,
                 itemBuilder: (context, index) {
-                  for (int i=0;_infos.length>i;i++){
+                  for (var i=0;_infos.length>i;i++){
                     _sumHours += _infos[index].usage.inHours;
                     _sumMin += _infos[index].usage.inMinutes;
                   }
-                  print("Sum of the hours");
+                  print('Sum of the hours');
                   print(_sumHours);
-                  print("Sum of the minutes");
+                  print('Sum of the minutes');
                   print(_sumMin);
 
                   return ListTile(

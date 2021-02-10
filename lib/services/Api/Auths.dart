@@ -268,7 +268,7 @@ class PushNotificationService {
     }
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        print('onMessage: $message');
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
