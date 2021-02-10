@@ -31,7 +31,7 @@ class _SearchState extends State<Search> {
               borderSide: BorderSide(color: Colors.white,),
               borderRadius: BorderRadius.circular(5.0),
             ),
-            hintText: "....",
+            hintText: '....',
             prefixIcon: Icon(
               Icons.search,
               color: Colors.blueGrey[300],

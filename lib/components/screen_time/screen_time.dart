@@ -185,7 +185,7 @@ class __ListAppsPagesContentState extends State < _ListAppsPagesContent > {
           Scrollbar(
             child: ListView.builder(
               itemBuilder: (BuildContext context, int position) {
-                Application app = apps[position];
+                var app = apps[position];
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(
