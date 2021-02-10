@@ -2,7 +2,7 @@ final appsMapList = [
   {
     'name': 'Whatsapp ',
     'type': 'Social Media',
-    'usage': '2 hours 30 min',
+    'usage': '2 hours 30 min', 
     'isfavourite': true,
     'image':'assets/Apps/whatsapp.png',
   }, {
