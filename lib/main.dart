@@ -25,7 +25,7 @@ void main() async {
       ChangeNotifierProvider.value(value: AppProvider()),
 
     ],
-    child: EasyLocalization(child: MyApp(),path: "resources/langs",saveLocale: true,supportedLocales: [
+    child: EasyLocalization(child: MyApp(),path: 'resources/langs',saveLocale: true,supportedLocales: [
       Locale('en','US'),
       Locale('tr','TR'),
       Locale('fr','FR')
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: Routes.getRoute(),
       onGenerateRoute: (settings) => Routes.onGenerateRoute(settings),
-      initialRoute: "OpeningPage",
+      initialRoute: 'OpeningPage',
        //home: ScreensController(),
     );
   }
