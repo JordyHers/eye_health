@@ -80,27 +80,28 @@ abstract class BaseAuth {
   //   notifyListeners();
   // }
 
-  addUser(UserModel model) {
+  addUser(UserModel model) async {
     _userList.insert(0, model);
     notifyListeners();
   }
 
-  deleteUser(UserModel model) {
+  deleteUser(UserModel model) async {
     _userList.removeWhere((_user) => _user.id == user.uid);
     notifyListeners();
   }
 
+  @override
   Future<bool> continueSignUp() async {
     _status = Status.Authenticating;
     notifyListeners();
     _userServices.createUser({
       'name': user.displayName,
-      'surname':"soyisim",
+      'surname':'soyisim',
       'email': user.email,
-      'address': "adres",
+      'address': 'adres',
       'image': user.photoURL,
       'uid': user.uid,
-      'telephone': "5XXXXXXXXX"});
+      'telephone': '5XXXXXXXXX'});
     return true;
     
 
@@ -145,21 +146,20 @@ abstract class BaseAuth {
       return false;
     }
   }
-  // Future<bool> addToCart(
-  //     {Product product }) async {
+  // Future<bool> appsToList(
+  //     {AppsModel model }) async {
   //   try {
-  //     var uuid = Uuid();
-  //     String cartItemId = uuid.v4();
-  //     List<CartItemModel> cart = _userModel.cart;
-  //
-  //     Map cartItem = {
-  //       "id": cartItemId,
-  //       "name": product.name,
-  //       "image": product.picture,
-  //       "productId": product.id,
-  //       "price": product.price,
-  //       "amount":product.amount,
-  //     };
+      
+  //     String appId = "AppID";
+  //     List<AppsModel> appsList = _userModel.apps;
+  
+      // Map appItem = {
+      //   "id": cartItemId,
+      //   "name": product.name,
+      //   "image": product.picture,
+      //   "productId": product.id,
+        
+      // };
 
 //       CartItemModel item = CartItemModel.fromMap(cartItem);
 // //      if(!itemExists){

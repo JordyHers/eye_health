@@ -1,14 +1,11 @@
 import 'dart:io';
 
-
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/screens/exams_page/exams_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/services/AlgoliaSearch/search_algolia.dart';
@@ -29,8 +26,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
- 
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -52,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-   
+
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
@@ -60,11 +55,9 @@ class _HomePageState extends State<HomePage> {
     }
     _imageUrl = _currentUser.image;
     var homePageBody = HomePageBody();
-    var examsPage = ExamsPage();
     var profilePage = ProfilePage();
-    
 
-    pages = [homePageBody, examsPage, examsPage, examsPage, profilePage];
+    pages = [homePageBody, profilePage];
   }
 
   void changePage(int value) {
@@ -268,12 +261,6 @@ class _HomePageBodyState extends State<HomePageBody> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('category'.tr().toString(), style: TextStyles.titleNormal),
-              Text(
-                'see all'.tr().toString(),
-                style: TextStyles.titleNormal.copyWith(color: Theme.of(context).primaryColor),
-              ).p(8).ripple(() {
-                Navigator.pushNamed(context, '/see_more_page');
-              })
             ],
           ),
         ),
@@ -299,83 +286,21 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   ///+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  ///_______________________-WIDGET HOSPITAL _________________________________________________________
-
-  Widget _categoryCardHospital(String title, String subtitle, {Color color, Color lightColor}) {
-    TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.white;
-    if (AppTheme.fullWidth(context) < 392) {
-      titleStyle = TextStyles.body.bold.white;
-      subtitleStyle = TextStyles.bodySm.bold.white;
-    }
-    return AspectRatio(
-      aspectRatio: 6 / 8,
-      child: Container(
-        height: 280,
-        width: AppTheme.fullWidth(context) * .3,
-        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/search-hospital.jpg'),
-            fit: BoxFit.fitHeight,
-          ),
-          color: color,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(4, 4),
-              blurRadius: 10,
-              color: lightColor.withOpacity(.4),
-            )
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(title, style: titleStyle).hP8,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Flexible(
-                      child: Text(
-                        subtitle,
-                        style: subtitleStyle,
-                      ).hP8,
-                    ),
-                  ],
-                ).p16
-              ],
-            ),
-          ),
-        ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
-      ),
-    );
-  }
-
-  ///+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET FOCUS MODE _________________________________________________________
 
   Widget _categoryCardFocus(String title, String subtitle, {Color color, Color lightColor}) {
-    TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.white;
+    var titleStyle = TextStyles.title.bold.white;
+    var subtitleStyle = TextStyles.body.bold.white;
     if (AppTheme.fullWidth(context) < 392) {
       titleStyle = TextStyles.body.bold.white;
       subtitleStyle = TextStyles.bodySm.bold.white;
     }
     return AspectRatio(
-      aspectRatio: 6 / 8,
+      aspectRatio: 7 / 8,
       child: Container(
-        height: 280,
-        width: AppTheme.fullWidth(context) * .3,
-        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+        height: 300,
+        width: AppTheme.fullWidth(context) * 1.3,
+        margin: EdgeInsets.only(left: 10, right: 5, bottom: 20, top: 10),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/focus_mode.jpg'),
@@ -435,18 +360,16 @@ class _HomePageBodyState extends State<HomePageBody> {
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET SCREEN TIME _________________________________________________________
   Widget _categoryCardScreenTime(String subtitle, {Color color, Color lightColor}) {
-    TextStyle titleStyle = TextStyles.title.bold.white;
-    TextStyle subtitleStyle = TextStyles.body.bold.black;
+    var subtitleStyle = TextStyles.body.bold.black;
     if (AppTheme.fullWidth(context) < 392) {
-      titleStyle = TextStyles.body.bold.black;
       subtitleStyle = TextStyles.bodySm.bold.grey;
     }
     return AspectRatio(
-      aspectRatio: 6 / 8,
+      aspectRatio: 7 / 8,
       child: Container(
-        height: 280,
-        width: AppTheme.fullWidth(context) * .3,
-        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+        height: 250,
+        width: AppTheme.fullWidth(context) * 1.3,
+        margin: EdgeInsets.only(left: 5, right: 10, bottom: 20, top: 10),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/screen_time2.jpg'),

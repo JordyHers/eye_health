@@ -8,8 +8,6 @@ import 'package:eye_test/screens/profile_page/hero_animation_profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page_main.dart';
 import 'package:eye_test/screens/profile_page/update_profile_page.dart';
-import 'package:eye_test/screens/see_more_page/see_more_doctors.dart';
-import 'package:eye_test/screens/see_more_page/see_more_page.dart';
 import 'package:eye_test/screens/settings/change_language.dart';
 import 'package:eye_test/screens/signIn/Sign_in.dart';
 import 'package:eye_test/screens/signup_page/Signup_page.dart';
@@ -28,8 +26,6 @@ class Routes {
       '/profile_page_main': (_) => ProfilePageBody(),
       '/profile_page': (_) => ProfilePage(),
       '/update_profile_page': (_) => UpdateProfilePage(),
-      '/see_more_page': (_) => MorePage(),
-      '/see_more_doctors': (_) => MoreDoctorsPage(),
       '/screen_time': (_) => ScreenTime(),
       '/hero_animation_profile_page': (_) =>HeroProfile(),
       '/search_bar_algolia':(_) => SearchBar(),

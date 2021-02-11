@@ -16,7 +16,7 @@ class _SearchBarState extends State<SearchBar> {
   String _searchTerm;
 
   Future<List<AlgoliaObjectSnapshot>> _operation(String input) async {
-    var query = _algoliaApp.instance.index('Doctors').search(input);
+    var query = _algoliaApp.instance.index('ListOfApps').search(input);
     var querySnap = await query.getObjects();
     var results = querySnap.hits;
     return results;

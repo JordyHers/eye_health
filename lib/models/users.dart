@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'cart_item.dart';
 
+import 'apps_model.dart';
+//import 'cart_item.dart';
 
 class UserModel {
   static const NAME = "name";
   static const ID = "uid";
   static const SURNAME = "surname";
   static const TELEPHONE = "telephone";
-  static const ADDRESS= "address";
-  static const IMAGE ="image";
+  static const ADDRESS = "address";
+  static const IMAGE = "image";
   static const EMAIL = "email";
-
+  static const APPS = "apps";
 
   String name;
   String surname;
@@ -19,8 +20,7 @@ class UserModel {
   String id;
   String email;
   String image;
-
-
+  List<AppsModel> apps;
 
   UserModel();
 
@@ -33,35 +33,32 @@ class UserModel {
 //   String get email => _email;
   //String get image => image;
 
-
   // public variables
 
   // public variables
-  //List<CartItemModel> cart;
+
   //int totalCartPrice;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     id = snapshot.data()[ID];
     name = snapshot.data()[NAME];
     surname = snapshot.data()[SURNAME];
-    telephone= snapshot.data()[TELEPHONE];
+    telephone = snapshot.data()[TELEPHONE];
     address = snapshot.data()[ADDRESS];
     email = snapshot.data()[EMAIL];
     image = snapshot.data()[IMAGE];
-    //cart = _convertCartItems(snapshot.data[CART]?? []);
+    apps = snapshot.data()[APPS];
     //totalCartPrice = snapshot.data[CART] == null ? 0 :getTotalPrice(cart: snapshot.data[CART]);
-
   }
   UserModel.fromMap(Map<String, dynamic> data) {
     id = data['id'];
-   name = data['name'];
-   surname = data['surname'];
-   image = data['image'];
-   telephone= data['telephone'];
-   email = data['email'];
-
+    name = data['name'];
+    surname = data['surname'];
+    image = data['image'];
+    telephone = data['telephone'];
+    email = data['email'];
+    apps = data['apps'];
   }
-
 
   Map<String, dynamic> toMap() {
     return {
@@ -71,7 +68,8 @@ class UserModel {
       'surname': surname,
       'telephone': telephone,
       'email': email,
-      'address':address,
+      'address': address,
+      'apps' : apps,
     };
   }
 }
