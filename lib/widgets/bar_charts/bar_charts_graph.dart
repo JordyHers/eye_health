@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'bar_charts_model.dart';
 
-
 class BarChartGraph extends StatefulWidget {
   final List<BarChartModel> data;
 
@@ -23,8 +22,7 @@ class _BarChartGraphState extends State<BarChartGraph> {
     // TODO: implement initState
     super.initState();
     _barChartList = [
-      BarChartModel(usage:  ''),
-
+      BarChartModel(usage: ''),
     ];
   }
 
@@ -40,40 +38,40 @@ class _BarChartGraphState extends State<BarChartGraph> {
     ];
 
     return _buildFinancialList(series);
-
   }
 
   Widget _buildFinancialList(series) {
     return _barChartList != null
         ? ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => Divider(
-        color: Colors.white,
-        height: 5,
-      ),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: _barChartList.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: MediaQuery.of(context).size.height/ 3.3,
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(_barChartList[index].usage,style:
-                     TextStyles.headTitleColored,
-                  ),
-                ],
-              ),
-              Expanded( child: charts.BarChart(series, animate: true)),
-            ],
-          ),
-        );
-      },
-    )
+            physics: NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.white,
+              height: 5,
+            ),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: _barChartList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                height: MediaQuery.of(context).size.height / 3.3,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _barChartList[index].usage,
+                          style: TextStyles.headTitleColored,
+                        ),
+                      ],
+                    ),
+                    Expanded(child: charts.BarChart(series, animate: true)),
+                  ],
+                ),
+              );
+            },
+          )
         : SizedBox();
   }
 }
