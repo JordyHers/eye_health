@@ -39,8 +39,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Status get status => _status;
 
-  int currentPage = 0;
-  List<Widget> pages;
+
+ 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
 
