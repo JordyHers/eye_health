@@ -102,6 +102,7 @@ abstract class BaseAuth {
       'uid': user.uid,
       'telephone': "5XXXXXXXXX"});
     return true;
+    
 
   }
 
@@ -197,30 +198,36 @@ abstract class BaseAuth {
      notifyListeners();
    }
 
+  @override
   Future<void> signOut() async {
-    _auth.signOut();
+    await _auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
 
 
+  @override
+  // ignore: missing_return
   Future<bool> sendEmailVerification() async {
-    User user = await  _auth.currentUser;
+    var user = await  _auth.currentUser;
     try {
       await user.sendEmailVerification();
       return true;
     } catch (e) {
-      print("Bir hata oldu");
+      
+      print('Bir hata oldu');
       print(e.message);
     }
   }
 
+  @override
   Future<bool> isEmailVerified() async {
-    User user = await _auth.currentUser;
+    var user = await _auth.currentUser;
     return user.emailVerified;
   }
 
+  @override
   Future<void> resetPassword(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
@@ -268,10 +275,10 @@ class PushNotificationService {
         print('onMessage: $message');
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        print('onLaunch: $message');
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        print('onResume: $message');
       },
     );
   }

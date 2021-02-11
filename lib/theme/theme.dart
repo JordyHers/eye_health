@@ -12,7 +12,7 @@ class AppTheme {
       bottomAppBarColor: LightColor.background,
       dividerColor: LightColor.grey,
       primaryTextTheme: TextTheme(
-          body1: TextStyle(color:LightColor.titleTextColor)
+       bodyText2: TextStyle(color:LightColor.titleTextColor)
       )
   );
 

@@ -1,5 +1,4 @@
 
-import 'package:eye_test/screens/home_page/Homepage.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -19,9 +18,9 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
 
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
-  TextEditingController _name = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _name = TextEditingController();
   bool hidePass = true;
 
 
@@ -108,11 +107,12 @@ class _SignUpState extends State<SignUp> {
                                   if (value.isEmpty) {
                                     Pattern pattern =
                                         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                    RegExp regex = new RegExp(pattern);
-                                    if (!regex.hasMatch(value))
+                                    var regex =  RegExp(pattern);
+                                    if (!regex.hasMatch(value)) {
                                       return 'Please make sure your email address is valid';
-                                    else
+                                    } else {
                                       return null;
+                                    }
                                   }
                                 },
                               ),
@@ -135,14 +135,14 @@ class _SignUpState extends State<SignUp> {
                                 controller: _password,
                                 obscureText: hidePass,
                                 decoration: InputDecoration(
-                                    hintText: "parola",
+                                    hintText: 'parola',
                                     icon: Icon(Icons.lock_outline),
                                     border: InputBorder.none),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Ce champ ne peut etre vide";
+                                    return "This field can't be empty";
                                   } else if (value.length < 6) {
-                                    return "Le mot de passe doit avoir au moins 6 composants";
+                                    return 'The password should have at least 6 characters';
                                   }
                                   return null;
                                 },
@@ -170,18 +170,18 @@ class _SignUpState extends State<SignUp> {
                               onPressed: () async{
                                 if(_formKey.currentState.validate()){
                                   if(!await user.signUp( _email.text, _password.text)){
-                                    _key.currentState.showSnackBar(SnackBar(content: Text("Erreur lors de l'enregistrement")));
+                                    _key.currentState.showSnackBar(SnackBar(content: Text('Bir hata oldu')));
                                     return;
                                   }
-                                  user.continueSignUp();
-
-                                  Navigator.pushNamed(context, "/Homepage");
+                                  await user.continueSignUp();
+                                        await Navigator.pushNamed(context, '/Homepage')
+                                  ;
 
                                 }
                               },
                               minWidth: MediaQuery.of(context).size.width,
                               child: Text(
-                                "Kaydol",
+                                'Kaydol',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.white,
@@ -197,7 +197,7 @@ class _SignUpState extends State<SignUp> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                "Zaten hesabınız var mı",
+                                'Zaten hesabınız var mı',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.bold),
                               ))),
@@ -210,7 +210,7 @@ class _SignUpState extends State<SignUp> {
 
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Oturum aç", style: TextStyle(fontSize: 18,color: Colors.grey),),
+                              child: Text('Oturum aç', style: TextStyle(fontSize: 18,color: Colors.grey),),
                             ),
                             Padding(
                               padding:
@@ -221,11 +221,11 @@ class _SignUpState extends State<SignUp> {
                                         await  signInWithGoogle().then((result) async {
                                           await user.continueSignUp();
                                           if (result != null) {
-                                            Navigator.pushNamed(context, HomePage.routeName);
+                                            await Navigator.pushNamed(context, '/Homepage');
                                           }
                                         });
                                       },
-                                      child: Image.asset("assets/png/google_search.png", width: 30,)
+                                      child: Image.asset('assets/png/google_search.png', width: 30,)
                                   )),
                             ),
                           ],

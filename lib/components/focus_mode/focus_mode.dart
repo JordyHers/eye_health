@@ -1,6 +1,6 @@
 
 ///TIMER FOR FOCUS MODE
-//TODO https://medium.com/flutter-community/flutter-timer-with-flutter-bloc-a464e8332ceb
+// https://medium.com/flutter-community/flutter-timer-with-flutter-bloc-a464e8332ceb
 
 
 /// DRAW TIMER WINDOW OVER OTHER APPS

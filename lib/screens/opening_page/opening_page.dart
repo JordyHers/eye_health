@@ -14,8 +14,8 @@ class _OpeningPageState extends State<OpeningPage> {
 
   Widget _parentsCard(String title, String subtitle,
       {Color color, Color lightColor}) {
-    TextStyle titleStyle = TextStyles.title.bold.black;
-    TextStyle subtitleStyle = TextStyles.title.bold.black;
+    var titleStyle = TextStyles.title.bold.black;
+    var subtitleStyle = TextStyles.title.bold.black;
     if (AppTheme.fullWidth(context) < 392) {
       titleStyle = TextStyles.title.bold.black;
       subtitleStyle = TextStyles.title.bold.black;
@@ -83,8 +83,8 @@ class _OpeningPageState extends State<OpeningPage> {
 
   Widget _childrenCard(String title, String subtitle,
       {Color color, Color lightColor}) {
-    TextStyle titleStyle = TextStyles.title.bold.black;
-    TextStyle subtitleStyle = TextStyles.body.bold.black;
+    var titleStyle = TextStyles.title.bold.black;
+    var subtitleStyle = TextStyles.body.bold.black;
     if (AppTheme.fullWidth(context) < 392) {
       titleStyle = TextStyles.title.bold.black;
       subtitleStyle = TextStyles.title.bold.black;
@@ -158,10 +158,10 @@ class _OpeningPageState extends State<OpeningPage> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 70,),
-                _parentsCard("parent".tr().toString(), "control".tr().toString(),
+                _parentsCard('parent'.tr().toString(), 'control'.tr().toString(),
                     color: LightColor.purple, lightColor: LightColor.purpleLight),
                 SizedBox(height: 35,),
-                _childrenCard("child".tr().toString(), "time".tr().toString(),
+                _childrenCard('child'.tr().toString(), 'time'.tr().toString(),
                     color: LightColor.purple, lightColor: LightColor.purpleLight)
               ],
             ),

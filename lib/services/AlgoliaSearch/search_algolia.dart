@@ -17,9 +17,9 @@ class _SearchBarState extends State<SearchBar> {
   String _searchTerm;
 
   Future<List<AlgoliaObjectSnapshot>> _operation(String input) async {
-    AlgoliaQuery query = _algoliaApp.instance.index("Doctors").search(input);
-    AlgoliaQuerySnapshot querySnap = await query.getObjects();
-    List<AlgoliaObjectSnapshot> results = querySnap.hits;
+    var query = _algoliaApp.instance.index('Doctors').search(input);
+    var querySnap = await query.getObjects();
+    var results = querySnap.hits;
     return results;
   }
   Widget _appBar() {
@@ -36,7 +36,7 @@ class _SearchBarState extends State<SearchBar> {
                   _searchTerm = val;
                 });
               },
-              style: new TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.black, fontSize: 20),
               decoration:  InputDecoration(
                    
                   border: InputBorder.none,
@@ -59,32 +59,32 @@ class _SearchBarState extends State<SearchBar> {
             StreamBuilder<List<AlgoliaObjectSnapshot>>(
               stream: Stream.fromFuture(_operation(_searchTerm)),
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
+                if (!snapshot.hasData) {
                   return Center(child: Image.asset('assets/png/pixeltrue-search-1.png'));
-                else {
-                  List<AlgoliaObjectSnapshot> currSearchStuff = snapshot.data;
+                } else {
+                  var currSearchStuff = snapshot.data;
 
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return Container();
                     default:
-                      if (snapshot.hasError)
-                        return new Text('Error: ${snapshot.error}');
-                      else
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
                         return CustomScrollView(
                           shrinkWrap: true,
                           slivers: <Widget>[
                             SliverList(
                               delegate: SliverChildBuilderDelegate(
                                 (context, index) {
-                                  return _searchTerm.length > 0
+                                  return _searchTerm.isNotEmpty
                                       ? DisplaySearchResult(
                                           name: currSearchStuff[index]
-                                              .data["name"],
+                                              .data['name'],
                                           type: currSearchStuff[index]
-                                              .data["type"],
+                                              .data['type'],
                                           description: currSearchStuff[index]
-                                              .data["description"],
+                                              .data['description'],
                                         )
                                       : Container();
                                 },
@@ -93,6 +93,7 @@ class _SearchBarState extends State<SearchBar> {
                             ),
                           ],
                         );
+                      }
                   }
                 }
               },
@@ -116,15 +117,15 @@ class DisplaySearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Text(
-        name ?? "",
+        name ?? '',
         style: TextStyle(color: Colors.black),
       ),
       Text(
-        type ?? "",
+        type ?? '',
         style: TextStyle(color: Colors.black),
       ),
       Text(
-        description ?? "",
+        description ?? '',
         style: TextStyle(color: Colors.black),
       ),
       Divider(

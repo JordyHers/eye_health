@@ -14,7 +14,7 @@ import 'package:eye_test/screens/settings/change_language.dart';
 import 'package:eye_test/screens/signIn/Sign_in.dart';
 import 'package:eye_test/screens/signup_page/Signup_page.dart';
 import 'package:eye_test/screens/splash/Splash_page.dart';
-import 'package:eye_test/services/AlgoliaSearch/search_bar_algolia.dart';
+import 'package:eye_test/services/AlgoliaSearch/search_algolia.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -35,7 +35,7 @@ class Routes {
       '/search_bar_algolia':(_) => SearchBar(),
       '/change_language':(_) => SettingsPage(),
       '/focus_mode':(_) => FocusMode(),
-      '/search_bar_algolia':(_) => SearchBar(),
+      '/search_algolia':(_) => SearchBar(),
       '/splash_control':(_) => SplashControl(),
       '/opening_page':(_)=> OpeningPage(),
 

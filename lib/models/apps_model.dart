@@ -38,7 +38,7 @@ class AppsModel {
   String toRawJson() => json.encode(toJson());
 
   factory AppsModel.fromJson(Map<String, dynamic> json) => AppsModel(
-    name: json["name"] == null ? null : json["name"],
+    name: json['name'] == null ? null : json['name'],
     type: json["type"] == null ? null : json["type"],
     usage: json["usage"] == null ? null : json["usage"],
     isfavourite: json["isfavourite"] == null ? null : json["isfavourite"],

@@ -57,7 +57,7 @@ class _LoginState extends State<Login> {
                               child: Column(
                                 children: [
 
-                                  Center(child: Image.asset("assets/png/no-disconnect.png")),
+                                  Center(child: Image.asset('assets/png/no-disconnect.png')),
                                   SizedBox(height: 10,),
                                   Text('İnternet bağlantısı yok',style: TextStyle(fontSize: 23),)
                                 ],
@@ -123,12 +123,13 @@ class _LoginState extends State<Login> {
                                                 if (value.isEmpty) {
                                                   Pattern pattern =
                                                       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                                  RegExp regex =
-                                                      new RegExp(pattern);
-                                                  if (!regex.hasMatch(value))
+                                                  var regex =
+                                                      RegExp(pattern);
+                                                  if (!regex.hasMatch(value)) {
                                                     return 'Please make sure your email address is valid';
-                                                  else
+                                                  } else {
                                                     return null;
+                                                  }
                                                 }
                                               },
                                             ),
@@ -155,9 +156,9 @@ class _LoginState extends State<Login> {
                                               ),
                                               validator: (value) {
                                                 if (value.isEmpty) {
-                                                  return "The password field cannot be empty";
+                                                  return 'The password field cannot be empty';
                                                 } else if (value.length < 6) {
-                                                  return "the password has to be at least 6 characters long";
+                                                  return 'the password has to be at least 6 characters long';
                                                 }
                                                 return null;
                                               },
@@ -178,16 +179,17 @@ class _LoginState extends State<Login> {
                                                 if (_formKey.currentState
                                                     .validate()) {
                                                   if(await user.signIn(_email.text, _password.text)){
-                                                    Navigator.pushReplacementNamed(
-                                                        context, "/Homepage");
+                                                    await Navigator.pushReplacementNamed(
+                                                        context, '/Homepage');
                                                   }
                                                   if (!await user.signIn(
                                                       _email.text,
-                                                      _password.text))
+                                                      _password.text)) {
                                                     _key.currentState
                                                         .showSnackBar(SnackBar(
                                                             content: Text(
-                                                                "Giriş sırasında hata oldu")));
+                                                                'Giriş sırasında hata oldu')));
+                                                  }
                                                 }
 
                                               },
@@ -196,7 +198,7 @@ class _LoginState extends State<Login> {
                                                   .size
                                                   .width,
                                               child: Text(
-                                                "Oturum aç",
+                                                'Oturum aç',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -239,7 +241,7 @@ class _LoginState extends State<Login> {
 // );
 
                                                     Navigator.pushNamed(context,
-                                                        "/Signup_page");
+                                                        '/Signup_page');
                                                   },
                                                   child: Text(
                                                     "Yeni bir hesap oluştur",
@@ -275,14 +277,14 @@ class _LoginState extends State<Login> {
                                                       await user
                                                           .continueSignUp();
                                                       if (result != null) {
-                                                        Navigator.pushNamed(
+                                                        await Navigator.pushNamed(
                                                             context,
-                                                            HomePage.routeName);
+                                                            '/Homepage');
                                                       }
                                                     });
                                                   },
                                                   child: Image.asset(
-                                                    "assets/png/google_search.png",
+                                                    'assets/png/google_search.png',
                                                     width: 30,
                                                   )),
                                             ),
@@ -296,8 +298,9 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     );
-                  else
-                    return Text("");
+                  else {
+                    return Text('');
+                  }
                 },
               )),
     );
