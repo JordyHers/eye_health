@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:algolia/algolia.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
