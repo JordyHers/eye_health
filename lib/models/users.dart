@@ -4,14 +4,14 @@ import 'apps_model.dart';
 //import 'cart_item.dart';
 
 class UserModel {
-  static const NAME = "name";
-  static const ID = "uid";
-  static const SURNAME = "surname";
-  static const TELEPHONE = "telephone";
-  static const ADDRESS = "address";
-  static const IMAGE = "image";
-  static const EMAIL = "email";
-  static const APPS = "apps";
+  static const NAME = 'name';
+  static const ID = 'uid';
+  static const SURNAME = 'surname';
+  static const TELEPHONE = 'telephone';
+  static const ADDRESS = 'address';
+  static const IMAGE = 'image';
+  static const EMAIL = 'email';
+  static const APPS = 'apps';
 
   String name;
   String surname;

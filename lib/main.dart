@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       routes: Routes.getRoute(),
-      onGenerateRoute: (settings) => Routes.onGenerateRoute(settings),
       initialRoute: 'OpeningPage',
        //home: ScreensController(),
     );

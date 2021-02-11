@@ -22,7 +22,7 @@ class SplashContent extends StatelessWidget {
         Spacer(),
 
         Text(
-          "parental control".tr(),
+          'parental control'.tr(),
           style: TextStyle(
             fontSize: getProportionateScreenWidth(25),
             color: Colors.black,

@@ -1,7 +1,7 @@
 import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
+
 import 'package:eye_test/services/Api/apps_services.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +39,7 @@ class _ScreenTimeState extends State<ScreenTime> {
         style: TextStyles.h2Style,
       ),
       elevation: 0,
-      backgroundColor: kAppPrimaryColor,
+      backgroundColor: LightColor.background,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios,
@@ -119,24 +119,17 @@ class _ListAppsPagesContent extends StatefulWidget {
 
 class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
   List<AppUsageInfo> _infos = [];
-  int _sumHours = 0;
-  int _sumMin = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void getUsageStats() async {
-    final AppsServices _appsServices = AppsServices();
+    final _appsServices = AppsServices();
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
 
       setState(() {
-        _appsServices.createApps({'apps':_infos});
         _infos = infoList;
+        _appsServices.createApps({'apps': _infos});
         print('List of Apps');
         print(_infos);
       });
@@ -159,15 +152,6 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
             return ListView.builder(
                 itemCount: _infos.length,
                 itemBuilder: (context, index) {
-                  for (var i = 0; _infos.length > i; i++) {
-                    _sumHours += _infos[index].usage.inHours;
-                    _sumMin += _infos[index].usage.inMinutes;
-                  }
-                  print('Sum of the hours');
-                  print(_sumHours);
-                  print('Sum of the minutes');
-                  print(_sumMin);
-
                   return ListTile(title: Text(_infos[index].appName), trailing: Text(_infos[index].usage.toString()));
                 });
           }
@@ -219,9 +203,7 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
                             ),
                           ),
                           title: Text(app.appName, style: TextStyles.title.bold),
-                          subtitle: Text('Version: ${app.versionName}\n'
-                              'Installed: ${DateTime.fromMillisecondsSinceEpoch(app.installTimeMillis).toString()}\n'
-                              'Updated: ${DateTime.fromMillisecondsSinceEpoch(app.updateTimeMillis).toString()}'),
+                          subtitle: Text('Version: ${app.versionName}\n'),
                           trailing: Icon(
                             Icons.keyboard_arrow_right,
                             size: 30,

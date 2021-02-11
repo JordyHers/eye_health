@@ -1,6 +1,6 @@
 {
   "hello" : "Merhaba,",
-  "title" : "Retina",
+  "title" : "Time's up",
   "user" : "Bey efendi",
   "search doctor": "Doktor ara",
   "category": "Kategori",
@@ -42,7 +42,8 @@
   "control": "Kontrol et",
    "time": "Zaman",
   "parental control": "Ebeveyn kontrolu",
-  "continue": "Devam et"
+  "continue": "Devam et",
+  "other": "diğer "
 
 
 

@@ -1,4 +1,4 @@
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
+import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -38,19 +38,16 @@ class ProfileListItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Icon(
-              this.icon,
+              icon,
               size: 25,
             ),
             SizedBox(width: 15),
             Text(
-              this.text,
-              style: kTitleTextStyle.copyWith(
-                  fontWeight: FontWeight.w500,
-
-              ),
+              text,
+              style: TextStyles.body,
             ),
             Spacer(),
-            if (this.hasNavigation)
+            if (hasNavigation)
               Icon(
                 LineAwesomeIcons.angle_right,
                 size: 25,

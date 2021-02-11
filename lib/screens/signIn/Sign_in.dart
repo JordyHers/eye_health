@@ -1,9 +1,6 @@
 import 'dart:ui';
 
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:coin_accessoires/widgets/style.dart';
-// import '../pages/signup.dart';
-import 'package:eye_test/screens/home_page/Homepage.dart';
+
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
@@ -13,20 +10,19 @@ import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../widgets/loading.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter_svg/svg.dart';
-// import 'package:provider/provider.dart';
-// import '../provider/user_provider.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-// import 'home.dart';
 
-const color = const Color(0xffF7EBE6);
-const secColor = const Color(0xff565455);
+const color = Color(0xffF7EBE6);
+const secColor = Color(0xff565455);
 
 class Login extends StatefulWidget {
-  static String routeName = "/Sign_in";
+ 
 
   @override
   _LoginState createState() => _LoginState();
@@ -36,8 +32,8 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
 
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +44,7 @@ class _LoginState extends State<Login> {
               create: (context) => NetworkBloc()..add(ListenConnection()),
               child: BlocBuilder<NetworkBloc, NetworkState>(
                 builder: (context, state) {
-                  if (state is ConnectionFailure)
+                  if (state is ConnectionFailure) {
                     return Scaffold(
                         backgroundColor: Colors.white,
                         body: Center(
@@ -56,14 +52,14 @@ class _LoginState extends State<Login> {
                               padding: const EdgeInsets.fromLTRB(8.0,200,8.0,8.0),
                               child: Column(
                                 children: [
-
                                   Center(child: Image.asset('assets/png/no-disconnect.png')),
                                   SizedBox(height: 10,),
                                   Text('İnternet bağlantısı yok',style: TextStyle(fontSize: 23),)
                                 ],
                               ),
                             )));
-                  if (state is ConnectionSuccess)
+                  }
+                  if (state is ConnectionSuccess) {
                     return Stack(
                       children: <Widget>[
                         Container(
@@ -93,7 +89,7 @@ class _LoginState extends State<Login> {
                                         child: Container(
                                             alignment: Alignment.topCenter,
                                             child: SvgPicture.asset(
-                                              'assets/images/optometrist.svg',
+                                              'assets/images/Login.svg',
                                               width: 260.0,
                                             )),
                                       ),
@@ -115,11 +111,11 @@ class _LoginState extends State<Login> {
                                               controller: _email,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
-                                                hintText: "E-posta",
+                                                hintText: 'E-posta',
                                                 icon:
                                                     Icon(Icons.alternate_email),
                                               ),
-                                              validator: (value) {
+                                              validator: (value)  {
                                                 if (value.isEmpty) {
                                                   Pattern pattern =
                                                       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -151,7 +147,7 @@ class _LoginState extends State<Login> {
                                               controller: _password,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
-                                                hintText: "parola",
+                                                hintText: 'password',
                                                 icon: Icon(Icons.lock_outline),
                                               ),
                                               validator: (value) {
@@ -188,7 +184,7 @@ class _LoginState extends State<Login> {
                                                     _key.currentState
                                                         .showSnackBar(SnackBar(
                                                             content: Text(
-                                                                'Giriş sırasında hata oldu')));
+                                                                'A mistake occured')));
                                                   }
                                                 }
 
@@ -198,7 +194,7 @@ class _LoginState extends State<Login> {
                                                   .size
                                                   .width,
                                               child: Text(
-                                                'Oturum aç',
+                                                'Sign in',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -215,13 +211,10 @@ class _LoginState extends State<Login> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: InkWell(
                                               onTap: () {
-// Navigator.push(
-//     context,
-//     MaterialPageRoute(
-//         builder: (context) => SmsPage()));
+
                                               },
                                               child: Text(
-                                                "Sms Verification ",
+                                                'Sms Verification ',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Colors.black,
@@ -235,16 +228,11 @@ class _LoginState extends State<Login> {
                                                   const EdgeInsets.all(8.0),
                                               child: InkWell(
                                                   onTap: () {
-// Navigator.push(
-//   context,
-//   MaterialPageRoute(builder: (context) => SignUp()),
-// );
-
                                                     Navigator.pushNamed(context,
                                                         '/Signup_page');
                                                   },
                                                   child: Text(
-                                                    "Yeni bir hesap oluştur",
+                                                    'Log with new account ',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: Colors.black),
@@ -261,7 +249,7 @@ class _LoginState extends State<Login> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "diğer ",
+                                                'other'.tr(),
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.grey),
@@ -298,7 +286,7 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     );
-                  else {
+                  } else {
                     return Text('');
                   }
                 },
@@ -307,7 +295,7 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _handlePermissions() async {
-    Map<Permission, PermissionStatus> statuses = await [
+    var statuses = await [
       Permission.notification,
       Permission.location,
       Permission.storage,

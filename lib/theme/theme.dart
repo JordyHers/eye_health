@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class AppTheme {
@@ -6,6 +7,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
       backgroundColor: LightColor.background,
       primaryColor: LightColor.purple,
+      fontFamily: GoogleFonts.openSans().fontFamily,
       cardTheme: CardTheme(color: LightColor.background),
       textTheme: TextTheme(headline4: TextStyle(color: LightColor.black)),
       iconTheme: IconThemeData(color: LightColor.iconColor),
@@ -121,8 +123,8 @@ extension ExAlignment on Widget{
 class LightColor {
   static const Color background = Color(0XFFfefefe);
 
-  static const Color titleTextColor = const Color(0xff1b1718);
-  static const Color subTitleTextColor = const Color(0xffb9bfcd);
+  static const Color titleTextColor =  Color(0xff1b1718);
+  static const Color subTitleTextColor = Color(0xffb9bfcd);
 
   static const Color skyBlue = Color(0xff71b4fb);
   static const Color lightBlue = Color(0xff7fbcfb);
@@ -169,3 +171,29 @@ class TextStyles {
   static TextStyle get body => TextStyle(fontSize: FontSizes.body, fontWeight: FontWeight.w300);
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
 }
+
+IconData twitter = IconData(0xe900, fontFamily: 'CustomIcons');
+IconData facebook = IconData(0xe901, fontFamily: 'CustomIcons');
+IconData googlePlus = IconData(0xe902, fontFamily: 'CustomIcons');
+IconData linkedin = IconData(0xe903, fontFamily: 'CustomIcons');
+
+const kSpacingUnit = 10;
+
+final kTitleTextStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+);
+
+BoxDecoration avatarDecoration =
+    BoxDecoration(shape: BoxShape.circle, color: LightColor.purple, boxShadow: [
+  BoxShadow(
+    color: LightColor.background,
+    offset: Offset(10, 10),
+    blurRadius: 10,
+  ),
+  BoxShadow(
+    color: LightColor.grey,
+    offset: Offset(-10, -10),
+    blurRadius: 10,
+  ),
+]);

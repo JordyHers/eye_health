@@ -12,7 +12,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.pushNamed(context, "/splash_control");
+      Navigator.pushNamed(context, '/splash_control');
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ScreensController()));
     });
     super.initState();
@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/screen_time.jpg",),
+                image: AssetImage('assets/images/screen_time.jpg',),
                 fit: BoxFit.contain,
               ),
             ),

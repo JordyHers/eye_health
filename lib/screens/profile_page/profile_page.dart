@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
 import 'package:eye_test/screens/profile_page/profile_page_listItems.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -39,16 +38,15 @@ class _ProfilePageState extends State<ProfilePage> {
     _imageUrl = _currentUser.image;
     _name = _currentUser.name;
     _email = _currentUser.email;
-    if (userProvider.languageisUpdated() != null)  {
-      print(" Profile Page : Reloaded ");
+    if (userProvider.languageisUpdated() != null) {
+      print(' Profile Page : Reloaded ');
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kAppPrimaryColor,
+      backgroundColor: LightColor.background,
       body: Stack(
         children: <Widget>[
           Padding(
@@ -63,8 +61,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       AppBarButton(
                         icon: Icons.arrow_back,
-                        onPressed: (){
-                         Navigator.pushReplacementNamed(context, '/Homepage');
+                        onPressed: () {
+                          Navigator.pop(context);
                         },
                       ),
                     ],
@@ -79,8 +77,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(
                   _name ?? 'Kullanıcı',
                   style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,),
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Text(
                   _email ?? '@myemail.com',
@@ -90,7 +89,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(
                   'Mobil Uygulama Geliştirici ve Açık kaynak sağlayıcı.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20,),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
                 ProfileListItems(),
               ],
@@ -106,32 +107,29 @@ class AppBarButton extends StatelessWidget {
   final IconData icon;
   final Function onPressed;
 
-  const AppBarButton({this.icon,this.onPressed});
+  const AppBarButton({this.icon, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 55,
       height: 55,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: kAppPrimaryColor,
-          boxShadow: [
-            BoxShadow(
-              color: kLightBlack,
-              offset: Offset(1, 1),
-              blurRadius: 10,
-            ),
-            BoxShadow(
-              color: kWhite,
-              offset: Offset(-1, -1),
-              blurRadius: 10,
-            ),
-          ]),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: LightColor.background, boxShadow: [
+        BoxShadow(
+          color: LightColor.black,
+          offset: Offset(1, 1),
+          blurRadius: 10,
+        ),
+        BoxShadow(
+          color: LightColor.black,
+          offset: Offset(-1, -1),
+          blurRadius: 10,
+        ),
+      ]),
       child: IconButton(
         icon: Icon(icon),
         onPressed: onPressed,
-        color: fCL,
+        color: LightColor.accentBlue,
       ),
     );
   }
@@ -146,8 +144,6 @@ class _AvatarImageState extends State<AvatarImage> {
   String _imageUrl;
   UserModel _currentUser;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -159,13 +155,10 @@ class _AvatarImageState extends State<AvatarImage> {
       _currentUser = UserModel();
     }
     _imageUrl = _currentUser.image;
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: 150,
       height: 150,
@@ -180,11 +173,10 @@ class _AvatarImageState extends State<AvatarImage> {
             image: DecorationImage(
               fit: BoxFit.fill,
               image: _imageUrl == null
-                  ?  AssetImage("assets/images/users.jpg")
-                  :NetworkImage(
-                _imageUrl,
-
-              ),
+                  ? AssetImage('assets/images/users.jpg')
+                  : NetworkImage(
+                      _imageUrl,
+                    ),
             ),
           ),
         ),
@@ -233,7 +225,7 @@ class SocialIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
+    return Padding(
       padding: EdgeInsets.only(left: 20.0),
       child: Container(
         width: 45.0,
@@ -250,7 +242,7 @@ class SocialIcon extends StatelessWidget {
 }
 
 class ProfileListItems extends StatelessWidget {
-  Auths _auths = Auths.initialize();
+  final Auths _auths = Auths.initialize();
   Status _status = Status.Uninitialized;
   Status get status => _status;
 
@@ -261,82 +253,79 @@ class ProfileListItems extends StatelessWidget {
         children: <Widget>[
           ProfileListItem(
             icon: LineAwesomeIcons.user_shield,
-            onPressed: (){
-
-            },
+            onPressed: () {},
             text: 'contact us'.tr().toString(),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.history,
-            onPressed: (){
-            Navigator.pushNamed(context, '/profile_page_main');
+            onPressed: () {
+              Navigator.pushNamed(context, '/profile_page_main');
             },
             text: 'update profile'.tr().toString(),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.cog,
-            onPressed: (){
-            Navigator.pushNamed(context,'/settings');
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
             },
             text: 'settings'.tr().toString(),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.alternate_sign_out,
             onPressed: () async {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                        //this right here
-                        child: Container(
-                          height: 200,
-                          width: 200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '       Are you sure ?'.tr().toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+              await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                      //this right here
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '       Are you sure ?'.tr().toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 280.0,
+                                child: RaisedButton(
+                                  onPressed: () async {
+                                    await _auths.signOut();
+                                    await Navigator.pushReplacementNamed(context, '/Sign_in');
+                                    _status = Status.Unauthenticated;
+                                  },
+                                  child: Text(
+                                    'yes'.tr().toString(),
+                                    style: TextStyle(color: Colors.white, fontSize: 18),
+                                  ),
+                                  color: LightColor.green,
                                 ),
-                                SizedBox(
-                                  width: 280.0,
-                                  child: RaisedButton(
-                                    onPressed: () async {
-                                      await _auths.signOut();
-                                      Navigator.pushReplacementNamed(context, '/Sign_in');
-                                      _status = Status.Unauthenticated;
+                              ),
+                              SizedBox(
+                                width: 280.0,
+                                child: RaisedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
                                     },
                                     child: Text(
-                                      "yes".tr().toString(),
-                                      style: TextStyle(color: Colors.white,fontSize: 18),
+                                      'no'.tr().toString(),
+                                      style: TextStyle(color: Colors.white, fontSize: 18),
                                     ),
-                                    color: LightColor.green,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 280.0,
-                                  child: RaisedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "no".tr().toString(),
-                                        style: TextStyle(color: Colors.white,fontSize: 18),
-                                      ),
-                                      color: LightColor.grey),
-                                )
-                              ],
-                            ),
+                                    color: LightColor.grey),
+                              )
+                            ],
                           ),
                         ),
-                      );
-                    });
+                      ),
+                    );
+                  });
             },
             text: 'log out'.tr().toString(),
             hasNavigation: false,

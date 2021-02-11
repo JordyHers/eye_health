@@ -23,16 +23,16 @@ class _BarChartGraphState extends State<BarChartGraph> {
     // TODO: implement initState
     super.initState();
     _barChartList = [
-      BarChartModel(usage:  "4 saat 15 dakika"),
+      BarChartModel(usage:  ''),
 
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<BarChartModel, String>> series = [
+    var series = <charts.Series<BarChartModel, String>>[
       charts.Series(
-          id: "Usage",
+          id: 'Usage',
           data: widget.data,
           domainFn: (BarChartModel series, _) => series.days.toLowerCase(),
           measureFn: (BarChartModel series, _) => series.time,

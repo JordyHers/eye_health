@@ -4,7 +4,6 @@ import 'package:eye_test/config/screens_controller.dart';
 import 'package:eye_test/config/splash_control.dart';
 import 'package:eye_test/screens/home_page/Homepage.dart';
 import 'package:eye_test/screens/opening_page/opening_page.dart';
-import 'package:eye_test/screens/profile_page/hero_animation_profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page.dart';
 import 'package:eye_test/screens/profile_page/profile_page_main.dart';
 import 'package:eye_test/screens/profile_page/update_profile_page.dart';
@@ -27,7 +26,6 @@ class Routes {
       '/profile_page': (_) => ProfilePage(),
       '/update_profile_page': (_) => UpdateProfilePage(),
       '/screen_time': (_) => ScreenTime(),
-      '/hero_animation_profile_page': (_) =>HeroProfile(),
       '/search_bar_algolia':(_) => SearchBar(),
       '/change_language':(_) => SettingsPage(),
       '/focus_mode':(_) => FocusMode(),
@@ -38,16 +36,6 @@ class Routes {
     };
   }
 
-  static Route onGenerateRoute(RouteSettings settings) {
-    final pathElements = settings.name.split('/');
-    if (pathElements[0] != '' || pathElements.length == 1) {
-      return null;
-    }
-    // switch (pathElements[1]) {
-    //   case "DetailPage":
-    //     return CustomRoute<bool>(
-    //         builder: (BuildContext context) => DetailPage(model: settings.arguments,));
-    //
-    // }
-  }
+  
+  
 }

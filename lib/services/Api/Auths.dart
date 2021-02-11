@@ -37,12 +37,12 @@ abstract class BaseAuth {
   List<UserModel> _userList = [];
   String order;
 
-  FirebaseAuth _auth;
+  final FirebaseAuth _auth;
   User _user;
   Status _status = Status.Uninitialized;
   Status get status => _status;
   User get user => _user;
-  UserServices _userServices = UserServices();
+  final UserServices _userServices = UserServices();
 
   // OrderServices _orderServices = OrderServices();
   // List<OrderModel> _orders = [];
@@ -107,6 +107,7 @@ abstract class BaseAuth {
 
   }
 
+  @override
   Future<bool> signIn(String email, String password) async {
     try{
       _status = Status.Authenticating;
@@ -133,6 +134,7 @@ abstract class BaseAuth {
   // }
 
 
+  @override
   Future<bool> signUp(String email, String password) async {
     try{
       _status = Status.Authenticating;
@@ -188,6 +190,7 @@ abstract class BaseAuth {
 
 
 
+  @override
   Future<void> reloadUserModel()async{
     _userModel = await _userServices.getUserById(user.uid);
     notifyListeners();

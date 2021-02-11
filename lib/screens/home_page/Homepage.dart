@@ -1,15 +1,14 @@
 import 'dart:io';
-
+import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/screens/profile_page/profile_page.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
-import 'package:eye_test/services/AlgoliaSearch/search_algolia.dart';
+
 import 'package:eye_test/services/Api/Auths.dart';
+import 'package:eye_test/services/Api/apps_services.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -21,7 +20,7 @@ import 'package:eye_test/widgets/line_graph/line_graph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -30,20 +29,51 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
   UserModel _currentUser;
+  List<AppsModel> appsDataList;
 
   String _imageUrl;
   File _imageFile;
-  Status _status = Status.Uninitialized;
-
+  final Status _status = Status.Uninitialized;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   Status get status => _status;
+
   int currentPage = 0;
   List<Widget> pages;
+  TabController _tabController;
+  List<AppUsageInfo> _infos = [];
+
+  void getUsageStats() async {
+    final _appsServices = AppsServices();
+    try {
+      var endDate = DateTime.now();
+      var startDate = endDate.subtract(Duration(hours: 1));
+      var infoList = await AppUsage.getAppUsage(startDate, endDate);
+
+      setState(() {
+        _infos = infoList;
+        _appsServices.createApps({'apps': _infos});
+        print('List of Apps');
+        print(_infos);
+      });
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
 
   @override
   void initState() {
+    super.initState();
+    appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
+    getUsageStats();
     super.initState();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
@@ -54,96 +84,14 @@ class _HomePageState extends State<HomePage> {
       _currentUser = UserModel();
     }
     _imageUrl = _currentUser.image;
-    var homePageBody = HomePageBody();
-    var profilePage = ProfilePage();
+    _tabController = TabController(length: 2, vsync: this);
 
-    pages = [homePageBody, profilePage];
-  }
-
-  void changePage(int value) {
-    setState(() {
-      currentPage = value;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final userProvider = Provider.of<Auths>(context);
-    return Scaffold(
-        body: BlocProvider(
-            create: (context) => NetworkBloc()..add(ListenConnection()),
-            child: BlocBuilder<NetworkBloc, NetworkState>(
-              builder: (context, state) {
-                if (state is ConnectionFailure) return Scaffold(body: Center(child: Image.asset('assets/png/no-internet-.jpg')));
-                if (state is ConnectionSuccess) {
-                  return pages[currentPage];
-                } else {
-                  return Text('');
-                }
-              },
-            )),
-        bottomNavigationBar: ConvexAppBar(
-            backgroundColor: kAppPrimaryColor,
-            elevation: 0,
-            activeColor: LightColor.grey,
-            items: [
-              TabItem(icon: Center(child: FaIcon(FontAwesomeIcons.home))),
-              TabItem(icon: Center(child: FaIcon(FontAwesomeIcons.invision))),
-              TabItem(icon: Center(child: FaIcon(FontAwesomeIcons.plus))),
-              TabItem(
-                icon: Center(child: FaIcon(FontAwesomeIcons.peopleArrows)),
-              ),
-              TabItem(
-                  icon: Center(
-                      child: Icon(
-                Icons.more_vert,
-                size: 30,
-              ))),
-            ],
-            initialActiveIndex: 2,
-            //optional, default as 0
-            onTap: changePage));
-  }
-}
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//_____________________________________ HOME PAGE body ______________________________________________________
-
-class HomePageBody extends StatefulWidget {
-  HomePageBody({Key key}) : super(key: key);
-
-  @override
-  _HomePageBodyState createState() => _HomePageBodyState();
-}
-
-class _HomePageBodyState extends State<HomePageBody> {
-  List<AppsModel> appsDataList;
-
-  final picker = ImagePicker();
-  UserModel _currentUser;
-
-  String _imageUrl;
-  File _imageFile;
-  Status _status = Status.Uninitialized;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  Status get status => _status;
-
-  @override
-  void initState() {
-    appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
-
-    super.initState();
-    final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
 
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
-      // _orderModel = userProvider.currentOrder;
     } else {
       _currentUser = UserModel();
-      //_orderModel = OrderModel();
     }
     _imageUrl = _currentUser.image;
   }
@@ -151,7 +99,7 @@ class _HomePageBodyState extends State<HomePageBody> {
   Widget _appBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: kAppPrimaryColor,
+      backgroundColor: Colors.white,
       leading: IconButton(
         icon: Icon(
           Icons.notifications,
@@ -173,7 +121,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/hero_animation_profile_page');
+            Navigator.pushNamed(context, '/profile_page');
           },
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(13)),
@@ -200,57 +148,17 @@ class _HomePageBodyState extends State<HomePageBody> {
   }
 
   Widget _header() {
-    final userProvider = Provider.of<Auths>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('hello'.tr().toString(), style: TextStyles.title.subTitleColor),
-        Text(userProvider.userModel?.name ?? 'user'.tr().toString(), style: TextStyles.h3Large),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Text('2 Hours 30 mins'.tr().toString(), style: TextStyles.titleM),
+        ),
+        Text('16 mins more than the previous day'.tr().toString(), style: TextStyles.title.subTitleColor),
       ],
     ).p16;
   }
-
-  // Widget _searchField() {
-  //   return GestureDetector(
-  //
-  //     child: Column(
-  //       children: [
-  //         Container(
-  //           height: 55,
-  //           margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-  //           width: MediaQuery.of(context).size.width,
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.all(Radius.circular(13)),
-  //             boxShadow: <BoxShadow>[
-  //               BoxShadow(
-  //                 color: LightColor.grey.withOpacity(.3),
-  //                 blurRadius: 15,
-  //                 offset: Offset(5, 5),
-  //               )
-  //             ],
-  //           ),
-  //           child: TextField(
-  //
-  //             decoration: InputDecoration(
-  //               contentPadding:
-  //                   EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-  //               border: InputBorder.none,
-  //               hintText: "search".tr().toString(),
-  //               hintStyle: TextStyles.body.subTitleColor,
-  //               suffixIcon: SizedBox(
-  //                   width: 50,
-  //                   child: Icon(Icons.search, color: LightColor.purple)
-  //                       .alignCenter
-  //                       .ripple(() {}, borderRadius: BorderRadius.circular(13))),
-  //             ),
-  //           ),
-  //         ),
-  //
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _category() {
     return Column(
@@ -273,10 +181,6 @@ class _HomePageBodyState extends State<HomePageBody> {
               _categoryCardFocus('focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
               _categoryCardScreenTime('screen time'.tr().toString(), color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
-              // _categoryCardHospital("hospitals".tr().toString(), "35 " + "near you".tr().toString(),
-              //     color: LightColor.green, lightColor: LightColor.lightGreen),
-              // _categoryCardDark("dark mode".tr().toString(), "relax".tr().toString(),
-              //     color: LightColor.orange, lightColor: LightColor.lightOrange),
             ],
           ),
         ),
@@ -435,9 +339,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                     Icons.sort,
                     color: Theme.of(context).primaryColor,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/see_more_doctors');
-                  })
+                  onPressed: () {})
               // .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
             ],
           ).hP16,
@@ -523,7 +425,7 @@ class _HomePageBodyState extends State<HomePageBody> {
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
-      days: 'Wednesday'.tr(),
+      days: 'Wed'.tr(),
       time: 10,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
@@ -548,104 +450,108 @@ class _HomePageBodyState extends State<HomePageBody> {
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
   ];
-//==================================================================HOME PAGE BODY +++++++++++++++++++++++++++++++++++
+
   @override
   Widget build(BuildContext context) {
-    Auths _auths = Auths.initialize();
+    // ignore: unused_local_variable
     final userProvider = Provider.of<Auths>(context);
-
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: _appBar(),
-      backgroundColor: kAppPrimaryColor,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                _header(),
-                BarChartGraph(
-                  data: data,
-                ),
-                LineChartSample1(),
-                _category(),
-              ],
-            ),
-          ),
-          _appsList()
-        ],
-      ),
+      body: BlocProvider(
+          create: (context) => NetworkBloc()..add(ListenConnection()),
+          child: BlocBuilder<NetworkBloc, NetworkState>(
+            builder: (context, state) {
+              if (state is ConnectionFailure) return Scaffold(body: Center(child: Image.asset('assets/png/no-internet-.jpg')));
+              if (state is ConnectionSuccess) {
+                return Scaffold(
+                  key: _scaffoldKey,
+                  appBar: _appBar(),
+                  backgroundColor: LightColor.background,
+                  body: Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 22, 12, 10),
+                    child: Column(
+                      children: [
+                        // give the tab bar a height [can change height to preferred height]
+                        Container(
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(
+                              20.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(.03),
+                            child: TabBar(
+                              controller: _tabController,
+                              // give the indicator a decoration (color and border radius)
+                              indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  15.0,
+                                ),
+                                color: Colors.white,
+                              ),
+                              labelColor: Colors.black,
+                              unselectedLabelColor: Colors.white,
+                              tabs: [
+                                // first tab [you can add an icon using the icon property]
+                                Tab(
+                                  text: 'DashBoard',
+                                ),
+
+                                // second tab [you can add an icon using the icon property]
+                                Tab(
+                                  text: 'Control',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // tab bar view here
+                        Expanded(
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              // first tab bar view widget
+                              CustomScrollView(
+                                slivers: <Widget>[
+                                  SliverList(
+                                    delegate: SliverChildListDelegate(
+                                      [
+                                        _header(),
+                                        BarChartGraph(
+                                          data: data,
+                                        ),
+                                        LineChartSample1(),
+                                        _category(),
+                                      ],
+                                    ),
+                                  ),
+                                  _appsList()
+                                ],
+                              ),
+
+                              // second tab bar view widget
+                              ListView.builder(
+                                  itemCount: _infos.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(title: Text(_infos[index].appName), trailing: Text(_infos[index].usage.toString()));
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Text('');
+              }
+            },
+          )),
     );
   }
 }
-//________________________________________________________________________________
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
-// Widget _categoryCardHospital(String title, String subtitle,
-//     {Color color, Color lightColor}) {
-//   TextStyle titleStyle = TextStyles.title.bold.white;
-//   TextStyle subtitleStyle = TextStyles.body.bold.white;
-//   if (AppTheme.fullWidth(context) < 392) {
-//     titleStyle = TextStyles.body.bold.white;
-//     subtitleStyle = TextStyles.bodySm.bold.white;
-//   }
-//   return AspectRatio(
-//     aspectRatio: 6 / 8,
-//     child: Container(
-//       height: 280,
-//       width: AppTheme.fullWidth(context) * .3,
-//       margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
-//       decoration: BoxDecoration(
-//         image:  DecorationImage(
-//           image:  AssetImage('assets/images/dark_mode.jpg'),
-//           fit: BoxFit.cover,
-//         ),
-//         color: color,
-//         borderRadius: BorderRadius.all(Radius.circular(20)),
-//         boxShadow: <BoxShadow>[
-//           BoxShadow(
-//             offset: Offset(4, 4),
-//             blurRadius: 10,
-//             color: lightColor.withOpacity(.8),
-//           )
-//         ],
-//       ),
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.all(Radius.circular(20)),
-//         child: Container(
-//           child: Stack(
-//             children: <Widget>[
-//               Positioned(
-//                 top: -20,
-//                 left: -20,
-//                 child: CircleAvatar(
-//                   backgroundColor: lightColor,
-//                   radius: 60,
-//                 ),
-//               ),
-//               Column(
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: <Widget>[
-//                   Flexible(
-//                     child: Text(
-//                         title,
-//                         style: titleStyle
-//                     ).hP8,
-//                   ),
-//                   SizedBox(
-//                     height: 10,
-//                   ),
-//                   Flexible(
-//                     child: Text(
-//                       subtitle,
-//                       style: subtitleStyle,
-//                     ).hP8,
-//                   ),
-//                 ],
-//               ).p16
-//             ],
-//           ),
-//         ),
-//       ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
-//     ),
-//   );
-// }
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//_____________________________________ HOME PAGE body ______________________________________________________

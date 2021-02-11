@@ -48,10 +48,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
 
   }
   void removeError({String error}) {
-    if (errors.contains(error))
+    if (errors.contains(error)) {
       setState(() {
         errors.remove(error);
       });
+    }
   }
 
 
@@ -169,7 +170,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
                       trailing: Icon(Icons.save),
                       title: Center(
                         child: Text(
-                          "Kaydet",
+                          'Kaydet',
                           style: TextStyle(fontSize: 15,color: Colors.white),
                         ),
                       )),
@@ -183,7 +184,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
 
   }
 
-  _saveImage() {
+  void _saveImage() {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -200,10 +201,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       print('unsuccessful');
     }
     print('name: ${_currentUser.name}');
-    print("category: ${_currentUser.address}");
-    print("experience: ${_currentUser.telephone.toString()}");
-    print("_imageFile ${_imageFile.toString()}");
-    print("_imageUrl $_imageUrl");
+    print('category: ${_currentUser.address}');
+    print('experience: ${_currentUser.telephone.toString()}');
+    print('_imageFile ${_imageFile.toString()}');
+    print('_imageUrl $_imageUrl');
   }
 
   uploadUserImage( UserModel user , bool isUpdating, File localFile) async {
@@ -237,7 +238,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
   }
 
   uploadUser(UserModel user, bool isUpdating, {String imageUrl}) async {
-    CollectionReference userRef = FirebaseFirestore.instance.collection('Users');
+    var userRef = FirebaseFirestore.instance.collection('Users');
 
     if (imageUrl != null) {
       user.image = imageUrl;
@@ -248,7 +249,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       print('updated user with id: ${user.id}');
     } else {
 
-      DocumentReference documentRef = await userRef.add(user.toMap());
+      var documentRef = await userRef.add(user.toMap());
 
        //_userModel.id = documentRef.documentID;
       print('uploaded doctor successfully: ${user.toString()}');

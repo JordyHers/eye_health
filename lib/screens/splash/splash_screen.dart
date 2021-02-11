@@ -5,7 +5,7 @@ import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  static String routeName = "/";
+  
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -16,17 +16,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   List<Map<String, String>> splashData = [
     {
-      "text": "Hello".tr(),
-      "image": "assets/images/undraw_play_time_7k7b.svg"
+      'text': 'Hello'.tr(),
+      'image': 'assets/images/undraw_play_time_7k7b.svg'
     },
     {
-      "text":
-      "control the time your kids spend on screen",
-      "image": "assets/images/Chat-rafiki.svg"
+      'text':
+      'control the time your kids spend on screen',
+      'image': 'assets/images/Chat-rafiki.svg'
     },
     {
-      "text": " because we care",
-      "image": "assets/images/Devices-rafiki.svg"
+      'text': ' because we care',
+      'image': 'assets/images/Devices-rafiki.svg'
     },
   ];
 
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 },
                 itemCount: splashData.length,
                 itemBuilder: (context, index) => SplashContent(
-                  image: splashData[index]["image"],
+                  image: splashData[index]['image'],
                   text: splashData[index]['text'],
                 ),
               ),
@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Navigator.pushReplacementNamed(context, '/Sign_in');
                       },
                       child: Text(
-                        "Devam et",
+                        'Devam et',
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(15),
                           color: Colors.white,

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:algolia/algolia.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/screens/profile_page/profile_page_constants.dart';
+import 'package:eye_test/theme/theme.dart';
+
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
@@ -24,7 +25,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget _appBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: kAppPrimaryColor,
+      backgroundColor: LightColor.background,
        leading: Container(),
       actions: <Widget>[
         Expanded(

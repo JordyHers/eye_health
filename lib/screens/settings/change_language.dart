@@ -46,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier  {
 
               },
               child: Text(
-                " English",
+                ' English',
                 style: TextStyles.titleMedium,
               )),
           Divider(thickness: .5,color: Colors.grey,),
@@ -64,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier  {
                   notifyListeners();
                 });
               },
-              child: Text(" Türkçe ", style: TextStyles.titleMedium)),
+              child: Text(' Türkçe ', style: TextStyles.titleMedium)),
           Divider(thickness: .5,color: Colors.grey,),
 
           GestureDetector(
@@ -79,7 +79,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier  {
                  notifyListeners();
                });
 
-              }, child: Text(" Francais ", style: TextStyles.titleMedium))
+              }, child: Text(' Francais ', style: TextStyles.titleMedium))
         ],
       ),
     );

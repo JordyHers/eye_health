@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 
 class AppsModel {
@@ -18,7 +15,7 @@ class AppsModel {
     this.image,
   });
 
-  AppsModelcopyWith({
+  AppsModel AppsModelcopyWith({
     String name,
     String type,
     String usage,
@@ -38,19 +35,20 @@ class AppsModel {
   String toRawJson() => json.encode(toJson());
 
   factory AppsModel.fromJson(Map<String, dynamic> json) => AppsModel(
+    // ignore: prefer_if_null_operators
     name: json['name'] == null ? null : json['name'],
-    type: json["type"] == null ? null : json["type"],
-    usage: json["usage"] == null ? null : json["usage"],
-    isfavourite: json["isfavourite"] == null ? null : json["isfavourite"],
-    image: json["image"] == null ? null : json["image"],
+    type: json['type'] == null ? null : json['type'],
+    usage: json['usage'] == null ? null : json['usage'],
+    isfavourite: json['isfavourite'] == null ? null : json["isfavourite"],
+    image: json['image'] == null ? null : json['image'],
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name == null ? null : name,
-    "type": type == null ? null : type,
-    "usage": usage == null ? null : usage,
-    "isfavourite": isfavourite == null ? null : isfavourite,
-    "image": image == null ? null : image,
+    'name': name,
+    'type':  type,
+    'usage':  usage,
+    'isfavourite':  isfavourite,
+    'image':  image,
   };
 }
 
