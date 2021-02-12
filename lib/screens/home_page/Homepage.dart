@@ -572,7 +572,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
                                 // second tab [you can add an icon using the icon property]
                                 Tab(
-                                  text: 'Control',
+                                  text: 'Usage',
                                 ),
                               ],
                             ),
