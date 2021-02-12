@@ -19,7 +19,6 @@ class _BarChartGraphState extends State<BarChartGraph> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _barChartList = [
       BarChartModel(usage: ''),

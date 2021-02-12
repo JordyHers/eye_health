@@ -80,11 +80,13 @@ abstract class BaseAuth {
   //   notifyListeners();
   // }
 
+  // ignore: always_declare_return_types
   addUser(UserModel model) async {
     _userList.insert(0, model);
     notifyListeners();
   }
 
+  // ignore: always_declare_return_types
   deleteUser(UserModel model) async {
     _userList.removeWhere((_user) => _user.id == user.uid);
     notifyListeners();

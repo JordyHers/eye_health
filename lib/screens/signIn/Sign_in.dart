@@ -13,7 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 const color = Color(0xffF7EBE6);
@@ -122,6 +122,7 @@ class _LoginState extends State<Login> {
                                                 return null;
                                               }
                                             }
+                                            return null;
                                           },
                                         ),
                                       ),
@@ -256,12 +257,12 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future<void> _handlePermissions() async {
-    var statuses = await [
-      Permission.notification,
-      Permission.location,
-      Permission.storage,
-    ].request();
-    print(statuses[Permission.location]);
-  }
+  // Future<void> _handlePermissions() async {
+  //   var statuses = await [
+  //     Permission.notification,
+  //     Permission.location,
+  //     Permission.storage,
+  //   ].request();
+  //   print(statuses[Permission.location]);
+  // }
 }

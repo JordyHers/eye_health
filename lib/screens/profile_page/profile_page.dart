@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/users.dart';
@@ -20,10 +20,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   UserModel _currentUser;
-  String _imageUrl;
   String _name;
   String _email;
-  File _imageFile;
+ 
 
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       _currentUser = UserModel();
     }
-    _imageUrl = _currentUser.image;
     _name = _currentUser.name;
     _email = _currentUser.email;
     if (userProvider.languageisUpdated() != null) {
@@ -241,9 +239,16 @@ class SocialIcon extends StatelessWidget {
   }
 }
 
-class ProfileListItems extends StatelessWidget {
+class ProfileListItems extends StatefulWidget {
+  @override
+  _ProfileListItemsState createState() => _ProfileListItemsState();
+}
+
+class _ProfileListItemsState extends State<ProfileListItems> {
   final Auths _auths = Auths.initialize();
+
   Status _status = Status.Uninitialized;
+
   Status get status => _status;
 
   @override

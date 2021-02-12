@@ -11,11 +11,13 @@ import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Api/apps_services.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
+import 'package:eye_test/size_config.dart';
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_graph.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_model.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,8 +41,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Status get status => _status;
 
-
- 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
 
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       subtitleStyle = TextStyles.bodySm.bold.white;
     }
     return AspectRatio(
-      aspectRatio: 7 / 8,
+      aspectRatio: 6 / 8,
       child: Container(
         height: 300,
         width: AppTheme.fullWidth(context) * 1.3,
@@ -268,14 +268,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       subtitleStyle = TextStyles.bodySm.bold.grey;
     }
     return AspectRatio(
-      aspectRatio: 7 / 8,
+      aspectRatio: 6 / 8,
       child: Container(
         height: 250,
         width: AppTheme.fullWidth(context) * 1.3,
         margin: EdgeInsets.only(left: 5, right: 10, bottom: 20, top: 10),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/screen_time2.jpg'),
+            image: AssetImage('assets/images/Homework.png'),
             fit: BoxFit.cover,
           ),
           color: color,
@@ -332,7 +332,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('most used apps'.tr().toString(), style: TextStyles.titleNormal),
+              Text('Installed Apps'.tr().toString(), style: TextStyles.titleNormal),
               IconButton(
                   icon: Icon(
                     Icons.sort,
@@ -342,9 +342,82 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               // .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
             ],
           ).hP16,
-          getMostUsedApps(),
+          //getMostUsedApps(),
+          getInstalledApps(),
         ],
       ),
+    );
+  }
+
+  Widget getInstalledApps() {
+    return Container(
+      height: getProportionateScreenHeight(305),
+      child: FutureBuilder<List<Application>>(
+          future:
+              DeviceApps.getInstalledApplications(includeAppIcons: true, includeSystemApps: false, onlyAppsWithLaunchIntent: true, usageApps: false),
+          builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
+            if (data.data == null) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              var apps = data.data;
+              print(apps);
+              return ListView.builder(
+                  itemBuilder: (BuildContext context, int position) {
+                    var app = apps[position];
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            offset: Offset(4, 4),
+                            blurRadius: 10,
+                            color: LightColor.grey.withOpacity(.2),
+                          ),
+                          BoxShadow(
+                            offset: Offset(-3, 0),
+                            blurRadius: 15,
+                            color: LightColor.grey.withOpacity(.1),
+                          )
+                        ],
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(13)),
+                            child: Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.transparent,
+                              ),
+                              child: app is ApplicationWithIcon
+                                  ? Image.memory(
+                                      app.icon,
+                                    )
+                                  : null,
+                            ),
+                          ),
+                          title: Text(app.appName, style: TextStyles.title.bold),
+                          subtitle: Text(' ${app.versionName}\n'),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 30,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ).ripple(() {
+                        DeviceApps.openApp(app.packageName);
+                      }, borderRadius: BorderRadius.all(Radius.circular(20))),
+                    );
+                  },
+                  itemCount: apps.length);
+            }
+          }),
     );
   }
 

@@ -27,10 +27,9 @@ class UpdateProfilePage extends StatefulWidget {
 class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifier {
   UserModel _currentUser;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> errors = [];
-  final snackbar = SnackBar(content: Text("Guncelledi"),);
-  final snackbar2 = SnackBar(content: Text("Bir hata oldu"),);
+  final snackbar = SnackBar(content: Text('Guncelledi'),);
+  final snackbar2 = SnackBar(content: Text('Bir hata oldu'),);
 
   String _imageUrl;
   File _imageFile;
@@ -56,7 +55,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
   }
 
 
-  _showImage() {
+  // ignore: missing_return
+  StatelessWidget _showImage() {
     if (_imageFile == null && _imageUrl == null) {
       return Icon(Icons.person,size: 90,color: Colors.grey[500],);
     } else if (_imageFile != null) {
@@ -98,6 +98,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
 
   // ignore: always_declare_return_types
   _getLocalImage() async {
+    // ignore: deprecated_member_use
     var imageFile = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50, maxWidth: 200);
 
@@ -117,7 +118,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
-        autovalidate: true,
         child: Center(
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
@@ -189,7 +189,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       return;
     }
     _formKey.currentState.save();
-    bool isUpdating = true;
+    var isUpdating = true;
 
     bool success = uploadUserImage(_currentUser, isUpdating, _imageFile);
     if (success){
@@ -207,12 +207,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
     print('_imageUrl $_imageUrl');
   }
 
+  // ignore: always_declare_return_types
   uploadUserImage( UserModel user , bool isUpdating, File localFile) async {
-    CollectionReference reference = FirebaseFirestore.instance.collection('Users');
+    //var reference = FirebaseFirestore.instance.collection('Users');
 
 
     if (localFile != null) {
-      print("uploading image");
+      print('uploading image');
 
       var fileExtension = path.extension(localFile.path);
       print(fileExtension);
@@ -220,7 +221,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       var uuid = Uuid().v4();
 
 
-      final StorageReference firebaseStorageRef =
+      final firebaseStorageRef =
       FirebaseStorage.instance.ref().child('Users/ProfilePictures/$uuid$fileExtension');
 
       await firebaseStorageRef.putFile(localFile).onComplete.catchError((onError) {
@@ -229,7 +230,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       });
 
       String url = await firebaseStorageRef.getDownloadURL();
-      print("download url: $url");
+      print('download url: $url');
       uploadUser(user, isUpdating, imageUrl: url);
     } else {
       print('...skipping image upload');
@@ -237,6 +238,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
     }
   }
 
+  // ignore: always_declare_return_types
   uploadUser(UserModel user, bool isUpdating, {String imageUrl}) async {
     var userRef = FirebaseFirestore.instance.collection('Users');
 
@@ -305,6 +307,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
               return 'İsim gerekli';
             }
 
+            // ignore: prefer_is_empty
             if (value.length < 0 || value.length > 15) {
               return "Soyad, 3'ten fazla ve 20'den az harf içermelidir";
             }
@@ -339,7 +342,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
             if (value.isEmpty) {
               return 'E posta gerekli';
             }
-            if (value.length < 0 || value.length > 35) {
+            if (value.isEmpty || value.length > 35) {
               return "Eposta, 20'den az karakter içermelidir";
             }
             return null;

@@ -39,7 +39,7 @@ class AppsModel {
     name: json['name'] == null ? null : json['name'],
     type: json['type'] == null ? null : json['type'],
     usage: json['usage'] == null ? null : json['usage'],
-    isfavourite: json['isfavourite'] == null ? null : json["isfavourite"],
+    isfavourite: json['isfavourite'] == null ? null : json['isfavourite'],
     image: json['image'] == null ? null : json['image'],
   );
 
