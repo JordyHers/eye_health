@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "55550312415-of6l6m369qlvu9gt5oq6c75q43pdrgml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hershel.eye_test",
+            "certificate_hash": "749f39333bd4a3da6b47014840379d9efa283393"
+          }
+        },
+        {
           "client_id": "55550312415-qhu97jjt0kpcsuvrebcmekslvom71kl6.apps.googleusercontent.com",
           "client_type": 3
         }
