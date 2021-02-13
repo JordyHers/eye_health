@@ -16,8 +16,6 @@ import 'package:flutter_svg/svg.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-const color = Color(0xffF7EBE6);
-const secColor = Color(0xff565455);
 
 class Login extends StatefulWidget {
   @override
@@ -184,20 +182,7 @@ class _LoginState extends State<Login> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: InkWell(
-                                          onTap: () {},
-                                          child: Text(
-                                            'Sms Verification ',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                    
                                       Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: InkWell(
@@ -226,12 +211,11 @@ class _LoginState extends State<Login> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: MaterialButton(
-                                              onPressed: () async {
-                                                await signInWithGoogle().then((result) async {
-                                                  await user.continueSignUp();
-                                                  if (result != null) {
-                                                    await Navigator.pushNamed(context, '/Homepage');
-                                                  }
+                                              onPressed: ()  async{
+                                              await   signInWithGoogle().then((result)  async {
+                                                   // ignore: unawaited_futures
+                                                  await  user.continueSignUp();
+                                                 Navigator.pushReplacementNamed(context, '/Homepage');
                                                 });
                                               },
                                               child: Image.asset(

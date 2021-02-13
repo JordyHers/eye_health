@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
-import 'package:eye_test/models/users.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Api/apps_services.dart';
@@ -32,11 +30,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
-  UserModel _currentUser;
   List<AppsModel> appsDataList;
 
-  String _imageUrl;
-  File _imageFile;
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Status get status => _status;
@@ -54,7 +49,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       setState(() {
         _infos = infoList;
         _appsServices.createApps({'apps': _infos});
-        print('List of Apps');
+        
         print(_infos);
       });
     } on AppUsageException catch (exception) {
@@ -78,21 +73,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     userProvider.reloadUserModel();
 
     if (userProvider.currentUser != null) {
-      _currentUser = userProvider.currentUser;
     } else {
-      _currentUser = UserModel();
     }
-    _imageUrl = _currentUser.image;
     _tabController = TabController(length: 2, vsync: this);
+    
 
-    userProvider.reloadUserModel();
+   
 
-    if (userProvider.currentUser != null) {
-      _currentUser = userProvider.currentUser;
-    } else {
-      _currentUser = UserModel();
-    }
-    _imageUrl = _currentUser.image;
   }
 
   Widget _appBar() {
@@ -130,14 +117,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
               ),
-              child: _imageFile == null && _imageUrl == null
-                  ? Image.asset('assets/images/users.jpg', fit: BoxFit.fill)
-                  : Hero(
+              child: Hero(
                       tag: 'profile',
-                      child: Image.network(
-                        _imageUrl,
-                        fit: BoxFit.fill,
-                      ),
+                      child: Icon(Icons.settings),
                     ),
             ),
           ).p(8),
@@ -199,7 +181,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       subtitleStyle = TextStyles.bodySm.bold.white;
     }
     return AspectRatio(
-      aspectRatio: 6 / 8,
+      aspectRatio: 6.5 / 8,
       child: Container(
         height: 300,
         width: AppTheme.fullWidth(context) * 1.3,
@@ -224,14 +206,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: Container(
             child: Stack(
               children: <Widget>[
-                // Positioned(
-                //   top: -20,
-                //   left: -20,
-                //   child: CircleAvatar(
-                //     backgroundColor: lightColor,
-                //     radius: 60,
-                //   ),
-                // ),
+           
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -268,7 +243,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       subtitleStyle = TextStyles.bodySm.bold.grey;
     }
     return AspectRatio(
-      aspectRatio: 6 / 8,
+      aspectRatio: 6.5 / 8,
       child: Container(
         height: 250,
         width: AppTheme.fullWidth(context) * 1.3,

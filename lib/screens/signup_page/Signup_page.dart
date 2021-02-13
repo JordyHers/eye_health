@@ -200,8 +200,8 @@ class _SignUpState extends State<SignUp> {
                                     padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                                     child: Material(
                                         child: MaterialButton(
-                                            onPressed: () async {
-                                              await signInWithGoogle().then((result) async {
+                                            onPressed: ()  {
+                                               signInWithGoogle().then((result) async {
                                                 await user.continueSignUp();
                                                 if (result != null) {
                                                   await Navigator.pushNamed(context, '/Homepage');
