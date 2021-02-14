@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_data.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
+  List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
   List<AppsModel> appsDataList;
 
   final Status _status = Status.Uninitialized;
@@ -50,10 +52,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(() {
         _infos = infoList;
-        _appsServices.createApps({'apps': _infos});
-        
         print(_infos);
       });
+      _appsServices.createApps({'ListOfApps': List<AppsModel>.from(_infos.map((e) {
+        return AppsInfos(
+           name: e.appName,
+          usage: e.usage.toString(),
+        );
+      }))});
     } on AppUsageException catch (exception) {
       print(exception);
     }
@@ -68,20 +74,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
-    getUsageStats();
-    super.initState();
+    //appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-
+    getUsageStats();
     if (userProvider.currentUser != null) {
     } else {
     }
     _tabController = TabController(length: 2, vsync: this);
-    
-
-   
-
   }
 
   Widget _appBar() {
@@ -559,7 +559,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             ),
                           ),
                         ),
-                        // tab bar view here
+                       /// Tab bar view here
                         Expanded(
                           child: TabBarView(
                             controller: _tabController,
@@ -582,7 +582,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                 ],
                               ),
 
-                              // second tab bar view widget
+                              /// Second tab bar view widget
                               ListView.builder(
                                   itemCount: _infos.length,
                                   itemBuilder: (context, index) {

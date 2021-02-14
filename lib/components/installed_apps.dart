@@ -39,25 +39,6 @@ class _ListAppsPagesContent extends StatefulWidget {
 }
 
 class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
-  List<AppUsageInfo> _infos = [];
-
-  void getUsageStats() async {
-    final _appsServices = AppsServices();
-    try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList = await AppUsage.getAppUsage(startDate, endDate);
-
-      setState(() {
-        _infos = infoList;
-        _appsServices.createApps({'apps': _infos});
-        print('List of Apps');
-        print(_infos);
-      });
-    } on AppUsageException catch (exception) {
-      print(exception);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,54 +1,56 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AppsModel {
-  String name;
-  String type;
-  String usage;
-  bool isfavourite;
-  String image;
 
-  AppsModel({
-    this.name,
-    this.type,
-    this.usage,
-    this.isfavourite,
-    this.image,
-  });
+  static const NAME = 'name';
+  static const IMAGE = 'image';
+  static const USAGE = 'usage';
+  static const TYPE = 'type';
 
-  AppsModel AppsModelcopyWith({
-    String name,
-    String type,
-    String usage,
-    bool isfavourite,
-    String image,
-  }) =>
-      AppsModel(
-        name: name ?? this.name,
-        type: type ?? this.type,
-        usage: usage ?? this.usage,
-        isfavourite: isfavourite ?? this.isfavourite,
-        image: image ?? this.image,
-      );
 
-  factory AppsModel.fromRawJson(String str) => AppsModel.fromJson(json.decode(str));
+  String _usage;
+  String _name;
+  String _image;
+  String _type;
 
-  String toRawJson() => json.encode(toJson());
 
-  factory AppsModel.fromJson(Map<String, dynamic> json) => AppsModel(
-    // ignore: prefer_if_null_operators
-    name: json['name'] == null ? null : json['name'],
-    type: json['type'] == null ? null : json['type'],
-    usage: json['usage'] == null ? null : json['usage'],
-    isfavourite: json['isfavourite'] == null ? null : json['isfavourite'],
-    image: json['image'] == null ? null : json['image'],
-  );
+  String get name => _name;
+  String get image => _image;
+  String get usage => _usage;
+  String get type => _type;
 
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'type':  type,
-    'usage':  usage,
-    'isfavourite':  isfavourite,
-    'image':  image,
-  };
+
+
+
+  AppsModel.fromSnapshot(DocumentSnapshot snapshot) {
+    _name = snapshot.data()[NAME];
+    _usage = snapshot.data()[USAGE];
+    _type = snapshot.data()[TYPE];
+    _image = snapshot.data()[IMAGE];
+
+
+  }
+  AppsModel.fromMap(Map<String, dynamic> data) {
+    _name = data['name'];
+    _usage = data['usage'];
+    _type = data['type'];
+    _image = data['image'];
+
+
+  }
+
+  // Map<String, dynamic> toJson() => {
+  //   'name': name,
+  //   'type':  type,
+  //   'usage':  usage,
+  //   'image':  image,
+  // };
+}
+class AppsInfos extends AppsModel{
+  final String name;
+  final String usage;
+  AppsInfos ({this.name,this.usage}) : super.fromMap(null);
 }
 
