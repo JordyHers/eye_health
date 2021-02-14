@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 
 class UserServices{
@@ -10,7 +11,11 @@ class UserServices{
   void createUser(Map<String, dynamic> data) {
     _firestore.collection(collection).doc(data['uid']).set(data);
   }
-
+  void addToList({String userId, AppsModel appsItem}){
+    _firestore.collection(collection).doc(userId).update({
+      'apps': FieldValue.arrayUnion([appsItem.toMap()])
+    });
+  }
   Future<UserModel> getUserById(String id)=> _firestore.collection(collection).doc(id).get().then((doc){
     return UserModel.fromSnapshot(doc);
   });

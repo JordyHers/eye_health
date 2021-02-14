@@ -38,8 +38,14 @@ class AppsModel {
     _type = data['type'];
     _image = data['image'];
 
-
   }
+  Map toMap() => {
+    IMAGE: image,
+    NAME: name,
+    USAGE: usage,
+    TYPE: type,
+
+  };
 
   // Map<String, dynamic> toJson() => {
   //   'name': name,
@@ -48,9 +54,5 @@ class AppsModel {
   //   'image':  image,
   // };
 }
-class AppsInfos extends AppsModel{
-  final String name;
-  final String usage;
-  AppsInfos ({this.name,this.usage}) : super.fromMap(null);
-}
+
 

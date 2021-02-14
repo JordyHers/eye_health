@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_test/models/apps_model.dart';
 import 'package:uuid/uuid.dart';
 
 class AppsServices {
@@ -9,6 +10,7 @@ class AppsServices {
     _firestore.collection(collection).doc(data['id']).set(data);
 
   }
+
   Future<List<DocumentSnapshot>> getApps()=>_firestore.collection(collection).get().then((snaps) {
     return snaps.docs;
   });

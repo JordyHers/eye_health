@@ -54,11 +54,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         _infos = infoList;
         print(_infos);
       });
-      _appsServices.createApps({'ListOfApps': List<AppsModel>.from(_infos.map((e) {
-        return AppsInfos(
-           name: e.appName,
-          usage: e.usage.toString(),
-        );
+      _appsServices.createApps({'ListOfApps': List<AppUsageInfo>.from(_infos.map((e) {
+        // return AppsModels(
+        //    name: e.appName,
+        //   usage: e.usage.toString(),
+        // );
       }))});
     } on AppUsageException catch (exception) {
       print(exception);
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
               child: Hero(
                       tag: 'profile',
-                      child: Icon(Icons.settings),
+                      child: Icon(Icons.settings,color: LightColor.grey,size: 25,),
                     ),
             ),
           ).p(8),

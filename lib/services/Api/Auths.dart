@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -150,32 +151,31 @@ abstract class BaseAuth {
       return false;
     }
   }
-  // Future<bool> appsToList(
-  //     {AppsModel model }) async {
-  //   try {
-      
-  //     String appId = "AppID";
-  //     List<AppsModel> appsList = _userModel.apps;
+  Future<bool> appsToList(
+      {AppsModel model }) async {
+    try {
+      String appId = "AppID";
+      List<AppsModel> appsList = _userModel.apps;
   
-      // Map appItem = {
-      //   "id": cartItemId,
-      //   "name": product.name,
-      //   "image": product.picture,
-      //   "productId": product.id,
-        
-      // };
+      Map appItem = {
+        'name': model.name,
+        'image': model.image,
+        'usage':model.usage,
+        'type': model.type
 
-//       CartItemModel item = CartItemModel.fromMap(cartItem);
-// //      if(!itemExists){
-//       print("CART ITEMS ARE: ${cart.toString()}");
-//       _userServices.addToCart(userId: _user.uid, cartItem: item);
-// //      }
-//       return true;
-//     } catch (e) {
-//       print("THE ERROR ${e.toString()}");
-//       return false;
-//     }
-//   }
+      };
+
+      AppsModel appsModel = AppsModel.fromMap(appItem);
+//      if(!itemExists){
+      print("CART ITEMS ARE: ${appsList.toString()}");
+      _userServices.addToList(userId: _user.uid, appsItem: appsModel);
+//      }
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
+  }
 
   // Future<bool> removeFromCart({CartItemModel cartItem})async{
   //   print("THE PRODUCT IS: ${cartItem.toString()}");
