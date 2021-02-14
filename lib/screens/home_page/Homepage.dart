@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
         ).ripple(() {
-          Navigator.pushNamed(context, '/screen_time');
+
         }, borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );
@@ -313,8 +313,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     Icons.sort,
                     color: Theme.of(context).primaryColor,
                   ),
-                  onPressed: () {})
-              // .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/screen_time');
+                  })
+               .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
             ],
           ).hP16,
           //getMostUsedApps(),
