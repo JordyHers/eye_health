@@ -1,104 +1,25 @@
 import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:eye_test/services/Api/apps_services.dart';
 import 'package:eye_test/theme/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ScreenTime extends StatefulWidget {
+class InstalledApps extends StatefulWidget {
   @override
-  _ScreenTimeState createState() => _ScreenTimeState();
+  _InstalledAppsState createState() => _InstalledAppsState();
 }
 
-class _ScreenTimeState extends State<ScreenTime> {
-  //   @override
-  //   Widget build(BuildContext context) {
-  //     return  Scaffold(
-  //         appBar: AppBar(
-  //           title: const Text('App Usage Example'),
-  //           backgroundColor: Colors.green,
-  //         ),
-  //         body:
-  //         floatingActionButton: FloatingActionButton(
-  //             onPressed: getUsageStats, child: Icon(Icons.file_download)),
-  //       );
-  //
-  //   }
-  // }
+class _InstalledAppsState extends State<InstalledApps> {
 
-  bool _showSystemApps = false;
+  final bool _showSystemApps = false;
   bool _onlyLaunchableApps = false;
   bool _usageApps = false;
 
-  Widget _appBar() {
-    return AppBar(
-      title: Text(
-        'installed apps'.tr().toString(),
-        style: TextStyles.h2Style,
-      ),
-      elevation: 0,
-      backgroundColor: LightColor.background,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          size: 30,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        PopupMenuButton<String>(
-          icon: Icon(
-            Icons.more_vert,
-            color: Colors.black,
-          ),
-          itemBuilder: (BuildContext context) {
-            return <PopupMenuItem<String>>[
-              PopupMenuItem<String>(value: 'system_apps', child: Text('toggle system apps'.tr())),
-              PopupMenuItem<String>(
-                value: 'launchable_apps',
-                child: Text(
-                  'toggle launchable apps only'.tr(),
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'usage_apps',
-                child: Text(
-                  'usage_apps'.tr(),
-                ),
-              )
-            ];
-          },
-          onSelected: (String key) {
-            if (key == 'system_apps') {
-              setState(() {
-                _showSystemApps = !_showSystemApps;
-              });
-            }
-            if (key == 'launchable_apps') {
-              setState(() {
-                _onlyLaunchableApps = !_onlyLaunchableApps;
-              });
-            }
-            if (key == 'usage_apps') {
-              setState(() {
-                _usageApps = !_usageApps;
-              });
-            }
-          },
-        )
-      ],
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
       body: _ListAppsPagesContent(
           includeSystemApps: _showSystemApps, onlyAppsWithLaunchIntent: _onlyLaunchableApps, usageApps: _usageApps, key: GlobalKey()),
     );
@@ -147,14 +68,6 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
             onlyAppsWithLaunchIntent: widget.onlyAppsWithLaunchIntent,
             usageApps: widget.usageApps),
         builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
-          if (widget.usageApps) {
-            getUsageStats();
-            return ListView.builder(
-                itemCount: _infos.length,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text(_infos[index].appName), trailing: Text(_infos[index].usage.toString()));
-                });
-          }
           if (data.data == null) {
             return const Center(child: CircularProgressIndicator());
           } else {
@@ -197,8 +110,8 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
                               ),
                               child: app is ApplicationWithIcon
                                   ? Image.memory(
-                                      app.icon,
-                                    )
+                                app.icon,
+                              )
                                   : null,
                             ),
                           ),
@@ -222,27 +135,3 @@ class __ListAppsPagesContentState extends State<_ListAppsPagesContent> {
   }
 }
 
-//
-//
-//
-//
-// Column(
-// children: apps.map((x) {
-// return app is ApplicationWithIcon ? _appsTile(x) : null;
-// }).toList());
-// // ListTile(
-// //   leading: app is ApplicationWithIcon
-// //       ? CircleAvatar(
-// //     backgroundImage: MemoryImage(app.icon),
-// //     backgroundColor: Colors.white,
-// //   )
-// //       : null,
-// //   onTap: () => DeviceApps.openApp(app.packageName),
-// //   title: Text('${app.appName} (${app.packageName})'),
-// //   subtitle: Text('Version: ${app.versionName}\n'
-// //       'System app: ${app.systemApp}\n'
-// //       'APK file path: ${app.apkFilePath}\n'
-// //       'Data dir: ${app.dataDir}\n'
-// //       'Installed: ${DateTime.fromMillisecondsSinceEpoch(app.installTimeMillis).toString()}\n'
-// //       'Updated: ${DateTime.fromMillisecondsSinceEpoch(app.updateTimeMillis).toString()}'),
-// // ),

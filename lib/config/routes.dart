@@ -1,5 +1,6 @@
 import 'package:eye_test/components/focus_mode/focus_mode.dart';
-import 'package:eye_test/components/screen_time/screen_time.dart';
+import 'package:eye_test/components/geo_locate/geo.dart';
+import 'package:eye_test/components/installed_apps.dart';
 import 'package:eye_test/config/screens_controller.dart';
 import 'package:eye_test/config/splash_control.dart';
 import 'package:eye_test/screens/home_page/Homepage.dart';
@@ -25,7 +26,8 @@ class Routes {
       '/profile_page_main': (_) => ProfilePageBody(),
       '/profile_page': (_) => ProfilePage(),
       '/update_profile_page': (_) => UpdateProfilePage(),
-      '/screen_time': (_) => ScreenTime(),
+      '/geo': (_) => Geo(),
+      '/installed_apps': (_) => InstalledApps(),
       '/search_bar_algolia':(_) => SearchBar(),
       '/change_language':(_) => SettingsPage(),
       '/focus_mode':(_) => FocusMode(),

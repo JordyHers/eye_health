@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -136,7 +138,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           padding: const EdgeInsets.only(top: 20.0),
           child: Text('2 Hours 30 mins'.tr().toString(), style: TextStyles.titleM),
         ),
-        Text('16 mins more than the previous day'.tr().toString(), style: TextStyles.title.subTitleColor),
+        Text('16 mins more than the previous day'.tr().toString(), style: TextStyles.bodySm.subTitleColor),
       ],
     ).p16;
   }
@@ -161,7 +163,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             children: <Widget>[
               _categoryCardFocus('focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
-              _categoryCardScreenTime('screen time'.tr().toString(), color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
+              _categoryCardFindOnMap('Find on Map'.tr().toString(), color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
             ],
           ),
         ),
@@ -176,93 +178,90 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget _categoryCardFocus(String title, String subtitle, {Color color, Color lightColor}) {
     var titleStyle = TextStyles.title.bold.white;
     var subtitleStyle = TextStyles.body.bold.white;
-    if (AppTheme.fullWidth(context) < 392) {
-      titleStyle = TextStyles.body.bold.white;
-      subtitleStyle = TextStyles.bodySm.bold.white;
-    }
-    return AspectRatio(
-      aspectRatio: 6.5 / 8,
-      child: Container(
-        height: 300,
-        width: AppTheme.fullWidth(context) * 1.3,
-        margin: EdgeInsets.only(left: 10, right: 5, bottom: 20, top: 10),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/focus_mode.jpg'),
-            fit: BoxFit.cover,
-          ),
-          color: color,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(4, 4),
-              blurRadius: 10,
-              color: lightColor.withOpacity(.4),
-            )
-          ],
+    // if (AppTheme.fullWidth(context) < 392) {
+    //   titleStyle = TextStyles.body.bold.white;
+    //   subtitleStyle = TextStyles.bodySm.bold.white;
+    // }
+    return Container(
+      height: 20,
+      width: AppTheme.fullWidth(context) * 0.5 ,
+      margin: EdgeInsets.only(left: 10, right: 5, bottom: 20, top: 10),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/Meditation-rafiki.png'),
+          fit: BoxFit.cover,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-           
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Flexible(
-                      child: Text(title, style: titleStyle).hP8,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Flexible(
-                      child: Text(
-                        subtitle,
-                        style: subtitleStyle,
-                      ).hP8,
-                    ),
-                  ],
-                ).p16
-              ],
-            ),
-          ),
-        ).ripple(() {
-          Navigator.pushNamed(context, '/focus_mode');
-        }, borderRadius: BorderRadius.all(Radius.circular(20))),
+        color: color,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            offset: Offset(4, 4),
+            blurRadius: 10,
+            color: lightColor.withOpacity(.4),
+          )
+        ],
       ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        child: Container(
+          child: Stack(
+            children: <Widget>[
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Flexible(
+                    child: Text(title, style: titleStyle).hP8,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Flexible(
+                    child: Text(
+                      subtitle,
+                      style: subtitleStyle,
+                    ).hP8,
+                  ),
+                ],
+              ).p16
+            ],
+          ),
+        ),
+      ).ripple(() {
+        Navigator.pushNamed(context, '/focus_mode');
+      }, borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 
   ///+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET SCREEN TIME _________________________________________________________
-  Widget _categoryCardScreenTime(String subtitle, {Color color, Color lightColor}) {
+  Widget _categoryCardFindOnMap(String subtitle, {Color color, Color lightColor}) {
     var subtitleStyle = TextStyles.body.bold.black;
-    if (AppTheme.fullWidth(context) < 392) {
-      subtitleStyle = TextStyles.bodySm.bold.grey;
-    }
-    return AspectRatio(
-      aspectRatio: 6.5 / 8,
-      child: Container(
-        height: 250,
-        width: AppTheme.fullWidth(context) * 1.3,
-        margin: EdgeInsets.only(left: 5, right: 10, bottom: 20, top: 10),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/Homework.png'),
-            fit: BoxFit.cover,
-          ),
-          color: color,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(4, 4),
-              blurRadius: 10,
-              color: lightColor.withOpacity(.4),
-            )
-          ],
+    // if (AppTheme.fullWidth(context) < 392) {
+    //   subtitleStyle = TextStyles.bodySm.bold.grey;
+    // }
+    return Container(
+      height: 50,
+      width: AppTheme.fullWidth(context) * 0.5,
+      margin: EdgeInsets.only(left: 5, right: 10, bottom: 20, top: 10),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/Navigation-pana.png'),
+          fit: BoxFit.cover,
         ),
+        color: color,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            offset: Offset(4, 4),
+            blurRadius: 10,
+            color: lightColor.withOpacity(.4),
+          )
+        ],
+      ),
+      child: AspectRatio(
+        aspectRatio: 6.5 / 9,
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           child: Container(
@@ -294,7 +293,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
         ).ripple(() {
-
+           Navigator.pushNamed(context, '/geo');
         }, borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );
@@ -314,9 +313,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     color: Theme.of(context).primaryColor,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/screen_time');
+
                   })
-               .p(12).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
+               .p(12).ripple(() {
+                Navigator.pushNamed(context, '/installed_apps');
+              }, borderRadius: BorderRadius.all(Radius.circular(20))),
             ],
           ).hP16,
           //getMostUsedApps(),
@@ -392,7 +393,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       }, borderRadius: BorderRadius.all(Radius.circular(20))),
                     );
                   },
-                  itemCount: 2);
+                  itemCount: 3);
             }
           }),
     );
@@ -462,40 +463,43 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+
+
   final List<BarChartModel> data = [
+
     BarChartModel(
-      days: 'Monday'.tr(),
-      time: 25,
+      days: 'Mon'.tr(),
+      time:  45 ,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
-      days: 'Tuesday'.tr(),
-      time: 30,
+      days: 'Tues'.tr(),
+      time: 20,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Wed'.tr(),
-      time: 10,
+      time: 18,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
-      days: 'Thursday'.tr(),
+      days: 'Thurs'.tr(),
       time: 24,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
-      days: 'Friday'.tr(),
-      time: 30,
+      days: 'Fri'.tr(),
+      time: 50,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlueAccent),
     ),
     BarChartModel(
-      days: 'Saturday'.tr(),
-      time: 11,
+      days: 'Sat'.tr(),
+      time: 41,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
-      days: 'Sunday'.tr(),
-      time: 53,
+      days: 'Sun'.tr(),
+      time: 23,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
   ];
