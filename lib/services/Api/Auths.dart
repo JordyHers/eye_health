@@ -8,6 +8,7 @@ import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:uuid/uuid.dart';
 
@@ -127,6 +128,31 @@ abstract class BaseAuth {
       return false;
     }
 
+  }
+  Future<bool> addAppsToList(
+      {AppUsageInfo appUsageInfo }) async {
+    try {
+      var uuid = Uuid();
+      var appItemId = uuid.v4();
+      List<AppUsageInfo> apps = _userModel.apps;
+
+      Map appsItem = {
+        'id': appItemId,
+        'appName': appUsageInfo.appName,
+        'packageName': appUsageInfo.packageName,
+        'usage': appUsageInfo.usage,
+      };
+
+      var item = AppUsageInfo.fromMap(appsItem);
+//      if(!itemExists){
+      print("Apps ITEMS ARE: ${apps.toString()}");
+      _userServices.addToList(userId: _user.uid, appsItem: item);
+//      }
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      return false;
+    }
   }
   // getIdOrders() async{
   //   order = await _orderServices.getNumOrders(_user.uid);

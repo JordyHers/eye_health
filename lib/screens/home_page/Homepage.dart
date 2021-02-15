@@ -52,9 +52,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       var startDate = endDate.subtract(Duration(hours: 1));
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
 
-      setState(() {
+      setState(()  {
         _infos = infoList;
-
+        userProvider.addAppsToList(appUsageInfo: _infos.first,
+        );
         print(_infos);
       });
     } on AppUsageException catch (exception) {

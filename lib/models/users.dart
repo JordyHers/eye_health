@@ -1,3 +1,4 @@
+import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'apps_model.dart';
@@ -20,7 +21,7 @@ class UserModel {
   String id;
   String email;
   String image;
-  List<AppsModel> apps;
+  List<AppUsageInfo> apps;
 
   UserModel();
 
@@ -47,7 +48,7 @@ class UserModel {
     address = snapshot.data()[ADDRESS];
     email = snapshot.data()[EMAIL];
     image = snapshot.data()[IMAGE];
-    apps = snapshot.data()[APPS];
+    apps = _convertAppItems(snapshot.data()[APPS]?? []);
     //totalCartPrice = snapshot.data[CART] == null ? 0 :getTotalPrice(cart: snapshot.data[CART]);
   }
   UserModel.fromMap(Map<String, dynamic> data) {
@@ -71,5 +72,12 @@ class UserModel {
       'address': address,
       'apps' : apps,
     };
+  }
+  List<AppUsageInfo> _convertAppItems(List apps){
+    var convertedApps = <AppUsageInfo>[];
+    for(Map _apps in apps){
+      convertedApps.add(AppUsageInfo.fromMap(_apps));
+    }
+    return convertedApps;
   }
 }
