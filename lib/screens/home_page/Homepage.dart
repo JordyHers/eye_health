@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:app_usage/app_usage.dart';
@@ -45,8 +46,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   List<AppUsageInfo> _infos = [];
 
   void getUsageStats() async {
-    final userProvider = Provider.of<Auths>(context,listen: false);
-   // final _appsServices = AppsServices();
+    final _appsServices = AppsServices();
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
@@ -54,7 +54,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        userProvider.addAppsToList(appUsageInfo: _infos.elementAt(0));
+        _appsServices.createApps({
+          'List of Apps': _infos.asMap()
+        });
+        print('THIS LIST IS FROM INFOS\n'
+        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         print(_infos);
       });
     } on AppUsageException catch (exception) {
@@ -71,7 +75,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    //appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
+   // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
 
@@ -606,6 +610,3 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//_____________________________________ HOME PAGE body ______________________________________________________

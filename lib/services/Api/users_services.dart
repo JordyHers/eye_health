@@ -13,7 +13,7 @@ class UserServices{
     _firestore.collection(collection).doc(data['uid']).set(data);
   }
   void addToList({String userId, AppUsageInfo appsItem}){
-    _firestore.collection(collection).doc(userId).update({
+    _firestore.collection('Data/ListofApps').doc(userId).update({
       'apps': FieldValue.arrayUnion([appsItem.toMap()])
     });
   }
