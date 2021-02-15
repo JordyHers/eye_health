@@ -32,6 +32,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
   List<AppsModel> appsDataList;
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   List<AppUsageInfo> _infos = [];
 
   void getUsageStats() async {
+    final userProvider = Provider.of<Auths>(context);
     final _appsServices = AppsServices();
     try {
       var endDate = DateTime.now();
@@ -52,14 +54,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(() {
         _infos = infoList;
+
         print(_infos);
       });
-      _appsServices.createApps({'ListOfApps': List<AppUsageInfo>.from(_infos.map((e) {
-        // return AppsModels(
-        //    name: e.appName,
-        //   usage: e.usage.toString(),
-        // );
-      }))});
     } on AppUsageException catch (exception) {
       print(exception);
     }
@@ -584,8 +581,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
                               /// Second tab bar view widget
                               ListView.builder(
+
                                   itemCount: _infos.length,
                                   itemBuilder: (context, index) {
+
                                     return ListTile(title: Text(_infos[index].appName), trailing: Text(_infos[index].usage.toString()));
                                   }),
                             ],
