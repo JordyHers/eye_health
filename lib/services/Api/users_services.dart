@@ -12,9 +12,9 @@ class UserServices{
   void createUser(Map<String, dynamic> data) {
     _firestore.collection(collection).doc(data['uid']).set(data);
   }
-  void addToList({String userId, AppUsageInfo appsItem}){
-    _firestore.collection('Data/ListofApps').doc(userId).update({
-      'apps': FieldValue.arrayUnion([appsItem.toMap()])
+  void addToList({String userId, List <AppUsageInfo> appsItem}){
+    _firestore.collection(collection).doc(userId).set({
+      'List of apps': appsItem.asMap()
     });
   }
   Future<UserModel> getUserById(String id)=> _firestore.collection(collection).doc(id).get().then((doc){

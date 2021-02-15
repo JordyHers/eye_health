@@ -11,6 +11,7 @@ import 'package:eye_test/models/apps_model.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Api/apps_services.dart';
+import 'package:eye_test/services/Api/users_services.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 import 'package:eye_test/size_config.dart';
@@ -46,7 +47,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   List<AppUsageInfo> _infos = [];
 
   void getUsageStats() async {
-    final _appsServices = AppsServices();
+    final userProvider = Provider.of<Auths>(context, listen: false);
+    //final _appsServices = AppsServices();
+    final _userServices = UserServices();
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
@@ -54,9 +57,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        _appsServices.createApps({
-          'List of Apps': _infos.asMap()
-        });
+        userProvider.addAppsToList(_infos.toList());
+        // _appsServices.createApps({
+        //   'List of Apps': _infos.asMap()
+        // });
         print('THIS LIST IS FROM INFOS\n'
         '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         print(_infos);
