@@ -45,8 +45,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   List<AppUsageInfo> _infos = [];
 
   void getUsageStats() async {
-    final userProvider = Provider.of<Auths>(context);
-    final _appsServices = AppsServices();
+    final userProvider = Provider.of<Auths>(context,listen: false);
+   // final _appsServices = AppsServices();
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
@@ -54,8 +54,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        userProvider.addAppsToList(appUsageInfo: _infos.first,
-        );
+        userProvider.addAppsToList(appUsageInfo: _infos.elementAt(0));
         print(_infos);
       });
     } on AppUsageException catch (exception) {
@@ -75,7 +74,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     //appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-    getUsageStats();
+
+    Future.delayed(Duration.zero, () {
+      getUsageStats();
+    });;
+
     if (userProvider.currentUser != null) {
     } else {
     }
@@ -464,7 +467,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
   final List<BarChartModel> data = [
-
     BarChartModel(
       days: 'Mon'.tr(),
       time:  45 ,

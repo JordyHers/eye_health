@@ -137,12 +137,12 @@ abstract class BaseAuth {
       List<AppUsageInfo> apps = _userModel.apps;
 
       Map appsItem = {
+        // ignore: omit_local_variable_types
         'id': appItemId,
         'appName': appUsageInfo.appName,
         'packageName': appUsageInfo.packageName,
         'usage': appUsageInfo.usage,
       };
-
       var item = AppUsageInfo.fromMap(appsItem);
 //      if(!itemExists){
       print("Apps ITEMS ARE: ${apps.toString()}");
