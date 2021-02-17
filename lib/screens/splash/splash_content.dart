@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,12 +21,12 @@ class SplashContent extends StatelessWidget {
     return Column(
       children: <Widget>[
         Spacer(),
-
+     
         Text(
           'parental control'.tr(),
           style: TextStyle(
             fontSize: getProportionateScreenWidth(25),
-            color: Colors.black,
+            color:LightColor.accentBlue,
             fontWeight: FontWeight.bold,
           ),
         ),

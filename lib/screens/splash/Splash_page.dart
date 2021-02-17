@@ -11,8 +11,8 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2)).then((_) {
-      Navigator.pushNamed(context, '/splash_control');
+    Future.delayed(Duration(seconds: 1)).then((_) {
+      Navigator.pushReplacementNamed(context, '/splash_control');
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ScreensController()));
     });
     super.initState();

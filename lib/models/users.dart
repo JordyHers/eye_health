@@ -125,7 +125,7 @@ UserModel _UserModelFromJson (dynamic json) {
     email: json['email'] as String,
     reference: json['reference'],
     image: json['image'],
-    appsUsageModel: _convertModel(json['appsUsageModel'] as List),
+    appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
   );
 }
 

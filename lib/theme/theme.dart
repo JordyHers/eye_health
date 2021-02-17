@@ -167,7 +167,7 @@ class TextStyles {
   static TextStyle get h1Style => TextStyle(fontSize: FontSizes.sizeXXl, fontWeight: FontWeight.bold);
   static TextStyle get h2Style => TextStyle(fontSize: FontSizes.sizeXl, fontWeight: FontWeight.bold,color: Colors.black);
   static TextStyle get h3Large => TextStyle(fontSize: FontSizes.Large, fontWeight: FontWeight.bold,color: Colors.black);
-  static TextStyle get headTitleColored=> TextStyle(fontSize: FontSizes.Large, fontWeight: FontWeight.bold,color: Colors.black);
+  static TextStyle get headTitleColored=> TextStyle(fontSize: FontSizes.sizeXl, fontWeight: FontWeight.bold,color: Colors.blueAccent);
   static TextStyle get body => TextStyle(fontSize: FontSizes.body, fontWeight: FontWeight.w300);
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
 }

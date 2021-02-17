@@ -21,7 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
     },
     {
       'text':
-      'control the time your kids spend on screen',
+      'control the time your kids spend \n '
+          ' spend on screen',
       'image': 'assets/images/Chat-rafiki.svg'
     },
     {
@@ -70,10 +71,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       color: LightColor.accentBlue,
                       onPressed: (){
-                      Navigator.pushReplacementNamed(context, '/Sign_in');
+                      Navigator.pushReplacementNamed(context, '/opening_page');
                       },
                       child: Text(
-                        'Devam et',
+                        'continue'.tr(),
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(15),
                           color: Colors.white,
