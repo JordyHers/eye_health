@@ -15,13 +15,13 @@ class UserServices{
     _firestore.collection(collection).doc(data['uid']).set(data);
   }
   void addToList({String userId, List <AppUsageInfo> appsItem}){
-    print('Last list of apps before upload');
-    print('---------------------------------------------------------------------\n');
-    print(appsItem);
-    print('---------------------------------------------------------------------\n');
+    // print('Last list of apps before upload');
+    // print('---------------------------------------------------------------------\n');
+    // print(appsItem);
+    // print('---------------------------------------------------------------------\n');
 
     _firestore.collection(data).doc(userId).set({
-      'appsUsageModel': 'new life'
+      'appsUsageModel': appsItem.map((e) => e.toJson())
     });
   }
   Future<UserModel> getUserById(String id)=> _firestore.collection(collection).doc(id).get().then((doc){

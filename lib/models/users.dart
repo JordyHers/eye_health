@@ -1,6 +1,9 @@
 
+
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_test/services/Api/Auths.dart';
+import 'package:provider/provider.dart';
 import 'appUsageInfos_model.dart';
 
 class DataRepository {
@@ -15,20 +18,14 @@ class DataRepository {
     return collection.add(mod.toJson());
   }
   // 4
-  updateMod(UserModel mod) async {
-    return await collection.doc(mod.reference.id).update(mod.toJson());
+  updateMod(UserModel mod, List<AppUsageInfo> apps) async {
+     mod.appsUsageModel = apps ;
+
+   await collection.doc(mod.reference.id).update(mod.toJson());
   }
 }
 
 class UserModel {
-  static const NAME = 'name';
-  static const ID = 'uid';
-  static const SURNAME = 'surname';
-  static const TELEPHONE = 'telephone';
-  static const ADDRESS = 'address';
-  static const IMAGE = 'image';
-  static const EMAIL = 'email';
-  static const APPS = 'apps';
 
   String name;
   String surname;
@@ -56,7 +53,7 @@ class UserModel {
         'address': address,
         'reference': reference,
         'image': image,
-        'appsUsageModel': appsUsageModel,
+        'appsUsageModel': appsList(appsUsageModel.toList()),
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -100,7 +97,7 @@ class UserModel {
 
 
 }
-List<Map<String, dynamic>> appsList(List<AppsUsageModel> apps) {
+List<Map<String, dynamic>> appsList(List<AppUsageInfo> apps) {
   if (apps == null) {
     return null;
   }
@@ -109,14 +106,15 @@ List<Map<String, dynamic>> appsList(List<AppsUsageModel> apps) {
     appsMap.add(value.toJson());
   });
   return appsMap;
-  // List<AppsUsageModel> _convertAppItems(List apps){
-  //   var convertedApps = <AppsUsageModel>[];
-  //   for(Map _apps in apps){
-  //     convertedApps.add(AppsUsageModel.fromMap(_apps));
-  //   }
-  //   return convertedApps;
-  // }
+
 }
+// List<AppsUsageModel> _convertAppItems(List apps){
+//   var convertedApps = <AppsUsageModel>[];
+//   for(Map _apps in apps){
+//     convertedApps.add(AppUsageInfo.fromMap(_apps));
+//   }
+//   return convertedApps;
+// }
 
 UserModel _UserModelFromJson (dynamic json) {
   return   UserModel(
@@ -128,7 +126,7 @@ UserModel _UserModelFromJson (dynamic json) {
     email: json['email'] as String,
     reference: json['reference'],
     image: json['image'],
-    appsUsageModel: _convertModel(json['appsUsageModel']as List),
+    appsUsageModel: _convertModel(json['appsUsageModel'] as List),
   );
 }
 
@@ -142,3 +140,4 @@ List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
   });
   return apps;
 }
+

@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
-  List<AppsModel> appsDataList;
 
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -47,8 +46,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
-  List<AppsUsageModel> list =[];
   DataRepository _rep =DataRepository();
+
   void getUsageStats() async {
     final userProvider = Provider.of<Auths>(context, listen: false);
    // final _appsServices = AppsServices();
@@ -60,14 +59,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        userProvider.addAppsToList(_infos);
-
-        // _appsServices.createApps({
-        //   'List of Apps': _infos.asMap()
-        // });
-        print('THIS LIST IS FROM List\n'
-        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-        print(_infos);
+        _rep.updateMod(userProvider.currentUser,_infos);
       });
     } on AppUsageException catch (exception) {
       print(exception);
@@ -86,11 +78,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
    // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-
     Future.delayed(Duration.zero, () {
       getUsageStats();
-    });;
-    _rep.updateMod(userProvider.currentUser);
+    });
+
     if (userProvider.currentUser != null) {
     } else {
     }
@@ -412,12 +403,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget getMostUsedApps() {
-    return Column(
-        children: appsDataList.map((x) {
-      return _appsTile(x);
-    }).toList());
-  }
+  // Widget getMostUsedApps() {
+  //   return Column(
+  //       children: appsDataList.map((x) {
+  //     return _appsTile(x);
+  //   }).toList());
+  // }
 
   Widget _appsTile(AppsModel model) {
     return Container(

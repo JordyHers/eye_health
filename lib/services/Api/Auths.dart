@@ -103,12 +103,10 @@ abstract class BaseAuth {
     notifyListeners();
     _userServices.createUser({
       'name': user.displayName,
-      'surname':'soyisim',
       'email': user.email,
       'address': 'adres',
       'image': user.photoURL,
-      'uid': user.uid,
-      'telephone': '5XXXXXXXXX'});
+      'uid': user.uid,});
     return true;
     
 
@@ -133,12 +131,12 @@ abstract class BaseAuth {
       List<AppUsageInfo> apps ) async {
     try {
 //      if(!itemExists){
-      print('THESE Apps ITEMS ARE: ${apps.toString()}\n');
+     // print('THESE Apps ITEMS ARE: ${apps.toString()}\n');
       _userServices.addToList(userId: _user.uid, appsItem: apps);
 //      }
       return true;
     } catch (e) {
-      print("THE ERROR ${e.toString()}");
+   //   print("THE ERROR ${e.toString()}");
       return false;
     }
   }
@@ -168,9 +166,6 @@ abstract class BaseAuth {
       return false;
     }
   }
-
-
-
 
   @override
   Future<void> reloadUserModel()async{
@@ -217,23 +212,7 @@ abstract class BaseAuth {
     return _auth.sendPasswordResetEmail(email: email);
   }
 
-  // Future <FirebaseUser> signUpWithFacebook() async {
-  //   try{
-  //     _status = Status.Authenticating;
-  //     notifyListeners();
-  //     var facebookLogin = FacebookLogin();
-  //     var  result = await facebookLogin.logIn(['email']);
-  //     if (result.status == FacebookLoginStatus.loggedIn){
-  //       _status = Status.Authenticated;
-  //       notifyListeners();
-  //       final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken:result.accessToken.token);
-  //       final FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-  //       return user;
-  //     }
-  //   }catch(e){
-  //     print(e.message);
-  //   }
-  // }
+
 
   Future<void> _onStateChanged(User user) async {
     if (user == null) {
@@ -270,3 +249,32 @@ class PushNotificationService {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Future <FirebaseUser> signUpWithFacebook() async {
+//   try{
+//     _status = Status.Authenticating;
+//     notifyListeners();
+//     var facebookLogin = FacebookLogin();
+//     var  result = await facebookLogin.logIn(['email']);
+//     if (result.status == FacebookLoginStatus.loggedIn){
+//       _status = Status.Authenticated;
+//       notifyListeners();
+//       final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken:result.accessToken.token);
+//       final FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+//       return user;
+//     }
+//   }catch(e){
+//     print(e.message);
+//   }
+// }
