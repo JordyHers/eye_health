@@ -26,26 +26,10 @@ class UserModel {
 
   DocumentReference reference;
 
-  UserModel(
-      this.name, {this.surname, this.telephone, this.address, this.id, this.email, this.reference,  this.image});
+  UserModel(this.name, {this.surname, this.telephone, this.address, this.id, this.email, this.reference,  this.image,  this.appsUsageModel});
 
+  factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
- // factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
-
-
-  // UserModel _UserModelFromJson (dynamic json) {
-  //   return   UserModel(
-  //     json['name'] as String,
-  //     id: json['id'] as String,
-  //     surname: json['surname'] as String,
-  //     telephone: json['telephone'] as String,
-  //     address: json['address'] as String,
-  //     email: json['email'] as String,
-  //     reference: json['reference'],
-  //     image: json['image'],
-  //     appsUsageModel: _convertModel(json['appsUsageModel']as List),
-  //   );
-  // }
 
   dynamic toJson() =>
       {
@@ -61,9 +45,9 @@ class UserModel {
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
-    //var mod = UserModel.fromJson(snapshot.data());
-    // mod.reference = snapshot.reference;
-    // return mod;
+    var mod = UserModel.fromJson(snapshot.data());
+    mod.reference = snapshot.reference;
+    return mod;
     // id = snapshot.data()[ID];
     // name = snapshot.data()[NAME];
     // surname = snapshot.data()[SURNAME];
@@ -98,32 +82,48 @@ class UserModel {
     };
   }
 
-  List<AppsUsageModel> _convertModel(List<dynamic> appsMod) {
-    if (appsMod == null) {
-      return null;
-    }
-    var apps = <AppsUsageModel>[];
-    appsMod.forEach((value) {
-      apps.add(AppsUsageModel.fromJson(value));
-    });
-    return apps;
-  }
 
-  List<Map<String, dynamic>> appsList(List<AppsUsageModel> apps) {
-    if (apps == null) {
-      return null;
-    }
-    var appsMap = <Map<String, dynamic>>[];
-    apps.forEach((value) {
-      appsMap.add(value.toJson());
-    });
-    return appsMap;
-    // List<AppsUsageModel> _convertAppItems(List apps){
-    //   var convertedApps = <AppsUsageModel>[];
-    //   for(Map _apps in apps){
-    //     convertedApps.add(AppsUsageModel.fromMap(_apps));
-    //   }
-    //   return convertedApps;
-    // }
+
+}
+List<Map<String, dynamic>> appsList(List<AppsUsageModel> apps) {
+  if (apps == null) {
+    return null;
   }
+  var appsMap = <Map<String, dynamic>>[];
+  apps.forEach((value) {
+    appsMap.add(value.toJson());
+  });
+  return appsMap;
+  // List<AppsUsageModel> _convertAppItems(List apps){
+  //   var convertedApps = <AppsUsageModel>[];
+  //   for(Map _apps in apps){
+  //     convertedApps.add(AppsUsageModel.fromMap(_apps));
+  //   }
+  //   return convertedApps;
+  // }
+}
+
+UserModel _UserModelFromJson (dynamic json) {
+  return   UserModel(
+    json['name'] as String,
+    id: json['id'] as String,
+    surname: json['surname'] as String,
+    telephone: json['telephone'] as String,
+    address: json['address'] as String,
+    email: json['email'] as String,
+    reference: json['reference'],
+    image: json['image'],
+    appsUsageModel: _convertModel(json['appsUsageModel']as List),
+  );
+}
+
+List<AppsUsageModel> _convertModel(List<dynamic> appsMod) {
+  if (appsMod == null) {
+    return null;
+  }
+  var apps = <AppsUsageModel>[];
+  appsMod.forEach((value) {
+    apps.add(AppsUsageModel.fromJson(value));
+  });
+  return apps;
 }
