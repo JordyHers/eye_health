@@ -1,8 +1,8 @@
-import 'package:app_usage/app_usage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'apps_model.dart';
-//import 'cart_item.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'appUsageInfos_model.dart';
+
+
 
 class UserModel {
   static const NAME = 'name';
@@ -21,36 +21,60 @@ class UserModel {
   String id;
   String email;
   String image;
-  List<AppUsageInfo> apps;
 
-  UserModel();
+  List<AppsUsageModel> appsUsageModel = <AppsUsageModel>[];
 
-//  getters
-//   String get name => _name;
-//   String get surname => _surname;
-//   String get telephone => _telephone;
-//   String get address => _address;
-//   String get id => _id;
-//   String get email => _email;
-  //String get image => image;
+  DocumentReference reference;
 
-  // public variables
+  UserModel(
+      this.name, {this.surname, this.telephone, this.address, this.id, this.email, this.reference,  this.image});
 
-  // public variables
 
-  //int totalCartPrice;
+ // factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
-  UserModel.fromSnapshot(DocumentSnapshot snapshot) {
-    id = snapshot.data()[ID];
-    name = snapshot.data()[NAME];
-    surname = snapshot.data()[SURNAME];
-    telephone = snapshot.data()[TELEPHONE];
-    address = snapshot.data()[ADDRESS];
-    email = snapshot.data()[EMAIL];
-    image = snapshot.data()[IMAGE];
-    apps = _convertAppItems(snapshot.data()[APPS]?? []);
+
+  // UserModel _UserModelFromJson (dynamic json) {
+  //   return   UserModel(
+  //     json['name'] as String,
+  //     id: json['id'] as String,
+  //     surname: json['surname'] as String,
+  //     telephone: json['telephone'] as String,
+  //     address: json['address'] as String,
+  //     email: json['email'] as String,
+  //     reference: json['reference'],
+  //     image: json['image'],
+  //     appsUsageModel: _convertModel(json['appsUsageModel']as List),
+  //   );
+  // }
+
+  dynamic toJson() =>
+      {
+        'id': id,
+        'name': name,
+        'surname': surname,
+        'telephone': telephone,
+        'email': email,
+        'address': address,
+        'reference': reference,
+        'image': image,
+        'appsUsageModel': appsUsageModel,
+      };
+
+  factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
+    //var mod = UserModel.fromJson(snapshot.data());
+    // mod.reference = snapshot.reference;
+    // return mod;
+    // id = snapshot.data()[ID];
+    // name = snapshot.data()[NAME];
+    // surname = snapshot.data()[SURNAME];
+    // telephone = snapshot.data()[TELEPHONE];
+    // address = snapshot.data()[ADDRESS];
+    // email = snapshot.data()[EMAIL];
+    // image = snapshot.data()[IMAGE];
+    // appsUsageModel = _convertAppItems(snapshot.data()[APPS]?? []);
     //totalCartPrice = snapshot.data[CART] == null ? 0 :getTotalPrice(cart: snapshot.data[CART]);
   }
+
   UserModel.fromMap(Map<String, dynamic> data) {
     id = data['id'];
     name = data['name'];
@@ -58,7 +82,7 @@ class UserModel {
     image = data['image'];
     telephone = data['telephone'];
     email = data['email'];
-    apps = data['apps'];
+    appsUsageModel = data['apps'];
   }
 
   Map<String, dynamic> toMap() {
@@ -70,14 +94,36 @@ class UserModel {
       'telephone': telephone,
       'email': email,
       'address': address,
-      'apps' : apps,
+      'apps': appsUsageModel,
     };
   }
-  List<AppUsageInfo> _convertAppItems(List apps){
-    var convertedApps = <AppUsageInfo>[];
-    for(Map _apps in apps){
-      convertedApps.add(AppUsageInfo.fromMap(_apps));
+
+  List<AppsUsageModel> _convertModel(List<dynamic> appsMod) {
+    if (appsMod == null) {
+      return null;
     }
-    return convertedApps;
+    var apps = <AppsUsageModel>[];
+    appsMod.forEach((value) {
+      apps.add(AppsUsageModel.fromJson(value));
+    });
+    return apps;
+  }
+
+  List<Map<String, dynamic>> appsList(List<AppsUsageModel> apps) {
+    if (apps == null) {
+      return null;
+    }
+    var appsMap = <Map<String, dynamic>>[];
+    apps.forEach((value) {
+      appsMap.add(value.toJson());
+    });
+    return appsMap;
+    // List<AppsUsageModel> _convertAppItems(List apps){
+    //   var convertedApps = <AppsUsageModel>[];
+    //   for(Map _apps in apps){
+    //     convertedApps.add(AppsUsageModel.fromMap(_apps));
+    //   }
+    //   return convertedApps;
+    // }
   }
 }

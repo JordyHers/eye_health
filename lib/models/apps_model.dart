@@ -1,42 +1,40 @@
 
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppsModel {
 
   static const NAME = 'name';
   static const IMAGE = 'image';
-  static const USAGE = 'usage';
-  static const TYPE = 'type';
+  static const USAGE= 'usage';
+  static const TYPE ='type';
 
 
-  String _usage;
-  String _name;
-  String _image;
-  String _type;
 
 
-  String get name => _name;
-  String get image => _image;
-  String get usage => _usage;
-  String get type => _type;
+  String name;
+  String type;
+  String usage;
+  String image;
 
 
 
 
   AppsModel.fromSnapshot(DocumentSnapshot snapshot) {
-    _name = snapshot.data()[NAME];
-    _usage = snapshot.data()[USAGE];
-    _type = snapshot.data()[TYPE];
-    _image = snapshot.data()[IMAGE];
+    name = snapshot.data()[NAME];
+    usage = snapshot.data()[USAGE];
+    type = snapshot.data()[TYPE];
+    image = snapshot.data()[IMAGE];
 
 
   }
   AppsModel.fromMap(Map<String, dynamic> data) {
-    _name = data['name'];
-    _usage = data['usage'];
-    _type = data['type'];
-    _image = data['image'];
+    name = data['name'];
+    usage = data['usage'];
+    type = data['type'];
+    image = data['image'];
 
   }
   Map toMap() => {

@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
-      _currentUser = UserModel();
+      _currentUser = UserModel(_currentUser.name);
     }
     _name = _currentUser.name;
     _email = _currentUser.email;
@@ -150,7 +150,7 @@ class _AvatarImageState extends State<AvatarImage> {
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
-      _currentUser = UserModel();
+     _currentUser = UserModel(_currentUser.name);
     }
     _imageUrl = _currentUser.image;
   }
