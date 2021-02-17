@@ -6,7 +6,6 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/models/appUsageInfos_model.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';

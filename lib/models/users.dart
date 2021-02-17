@@ -4,7 +4,7 @@ import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:provider/provider.dart';
-import 'appUsageInfos_model.dart';
+
 
 class DataRepository {
   // 1
@@ -20,7 +20,6 @@ class DataRepository {
   // 4
   updateMod(UserModel mod, List<AppUsageInfo> apps) async {
      mod.appsUsageModel = apps ;
-
    await collection.doc(mod.reference.id).update(mod.toJson());
   }
 }
@@ -53,7 +52,7 @@ class UserModel {
         'address': address,
         'reference': reference,
         'image': image,
-        'appsUsageModel': appsList(appsUsageModel.toList()),
+        'appsUsageModel': appsList(appsUsageModel),
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
