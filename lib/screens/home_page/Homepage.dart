@@ -6,8 +6,10 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/models/appUsageInfos_model.dart';
 import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
+import 'package:eye_test/models/users.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Api/apps_services.dart';
@@ -45,11 +47,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
-
+  List<AppsUsageModel> list =[];
+  DataRepository _rep =DataRepository();
   void getUsageStats() async {
     final userProvider = Provider.of<Auths>(context, listen: false);
-    //final _appsServices = AppsServices();
-    final _userServices = UserServices();
+   // final _appsServices = AppsServices();
+
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
@@ -57,11 +60,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        userProvider.addAppsToList(_infos.toList());
+        userProvider.addAppsToList(_infos);
+
         // _appsServices.createApps({
         //   'List of Apps': _infos.asMap()
         // });
-        print('THIS LIST IS FROM INFOS\n'
+        print('THIS LIST IS FROM List\n'
         '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         print(_infos);
       });
@@ -86,7 +90,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     Future.delayed(Duration.zero, () {
       getUsageStats();
     });;
-
+    _rep.updateMod(userProvider.currentUser);
     if (userProvider.currentUser != null) {
     } else {
     }

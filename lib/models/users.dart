@@ -1,8 +1,24 @@
 
+import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'appUsageInfos_model.dart';
 
-
+class DataRepository {
+  // 1
+  final CollectionReference collection = FirebaseFirestore.instance.collection('Data');
+  // 2
+  Stream<QuerySnapshot> getStream() {
+    return collection.snapshots();
+  }
+  // 3
+  Future<DocumentReference> addUser(UserModel mod) {
+    return collection.add(mod.toJson());
+  }
+  // 4
+  updateMod(UserModel mod) async {
+    return await collection.doc(mod.reference.id).update(mod.toJson());
+  }
+}
 
 class UserModel {
   static const NAME = 'name';
@@ -22,8 +38,7 @@ class UserModel {
   String email;
   String image;
 
-  List<AppsUsageModel> appsUsageModel = <AppsUsageModel>[];
-
+  List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
   UserModel(this.name, {this.surname, this.telephone, this.address, this.id, this.email, this.reference,  this.image,  this.appsUsageModel});
@@ -117,13 +132,13 @@ UserModel _UserModelFromJson (dynamic json) {
   );
 }
 
-List<AppsUsageModel> _convertModel(List<dynamic> appsMod) {
+List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
   if (appsMod == null) {
     return null;
   }
-  var apps = <AppsUsageModel>[];
+  var apps = <AppUsageInfo>[];
   appsMod.forEach((value) {
-    apps.add(AppsUsageModel.fromJson(value));
+    apps.add(AppUsageInfo.fromJson(value));
   });
   return apps;
 }

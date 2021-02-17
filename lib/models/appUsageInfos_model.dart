@@ -2,6 +2,7 @@
 
 import 'dart:ffi';
 
+import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,9 @@ class AppsUsageModel {
 
   AppsUsageModel  ({
     this.usageInSeconds,this.name,this.startDate,this.endDate
-  });
+  }) : super();
+
+
   factory AppsUsageModel .fromJson(dynamic json) => AppsUsageModel (
     usageInSeconds: json['usageInSeconds'],
     name: json ['name'],
@@ -38,28 +41,30 @@ class AppsUsageModel {
 
 
 
-  AppsUsageModel .fromSnapshot(DocumentSnapshot snapshot) {
-    name = snapshot.data()[NAME];
-    usageInSeconds = snapshot.data()[USAGEINSECONDS];
-    startDate = snapshot.data()[STARTDATE];
-    endDate = snapshot.data()[ENDDATE];
 
 
-  }
-  AppsUsageModel .fromMap(Map<String, dynamic> data) {
-    name = data['name'];
-    usageInSeconds = data['usageInSeconds'];
-    startDate = data['startDate'];
-    endDate = data['endDate'];
-
-  }
-  Map toMap() => {
-    NAME: name,
-    USAGEINSECONDS: usageInSeconds,
-    STARTDATE: startDate,
-    ENDDATE:endDate
-
-  };
+  // AppsUsageModel .fromSnapshot(DocumentSnapshot snapshot) {
+  //   name = snapshot.data()[NAME];
+  //   usageInSeconds = snapshot.data()[USAGEINSECONDS];
+  //   startDate = snapshot.data()[STARTDATE];
+  //   endDate = snapshot.data()[ENDDATE];
+  //
+  //
+  // }
+  // AppsUsageModel .fromMap(Map<String, dynamic> data) {
+  //   name = data['name'];
+  //   usageInSeconds = data['usageInSeconds'];
+  //   startDate = data['startDate'];
+  //   endDate = data['endDate'];
+  //
+  // }
+  // Map toMap() => {
+  //   NAME: name,
+  //   USAGEINSECONDS: usageInSeconds,
+  //   STARTDATE: startDate,
+  //   ENDDATE:endDate
+  //
+  // };
 
 // Map<String, dynamic> toJson() => {
 //   'name': name,
