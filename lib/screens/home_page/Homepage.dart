@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void getUsageStats() async {
     final userProvider = Provider.of<Auths>(context, listen: false);
-   // final _appsServices = AppsServices();
+
 
     try {
       var endDate = DateTime.now();
@@ -59,7 +59,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       setState(()  {
         _infos = infoList;
-        _rep.updateMod(userProvider.currentUser,_infos);
+        Future.delayed(Duration.zero, () {
+          _rep.updateMod(userProvider.currentUser,_infos);
+        });
+
       });
     } on AppUsageException catch (exception) {
       print(exception);

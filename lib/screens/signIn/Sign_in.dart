@@ -213,7 +213,7 @@ class _LoginState extends State<Login> {
                                                 await signInWithGoogle().then((result) {
                                                   // ignore: unawaited_futures
                                                   user.continueSignUp();
-                                                  Navigator.pushReplacementNamed(context, '/HomePage');
+                                                  Navigator.pushReplacementNamed(context, '/Homepage');
                                                 });
                                               },
                                               child: Image.asset(

@@ -28,7 +28,6 @@ class Routes {
       '/update_profile_page': (_) => UpdateProfilePage(),
       '/geo': (_) => Geo(),
       '/installed_apps': (_) => InstalledApps(),
-      '/search_bar_algolia':(_) => SearchBar(),
       '/change_language':(_) => SettingsPage(),
       '/focus_mode':(_) => FocusMode(),
       '/search_algolia':(_) => SearchBar(),
