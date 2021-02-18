@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             color: LightColor.grey,
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/search_bar_algolia');
+            Navigator.pushNamed(context, '/search_algolia');
           },
         ),
         GestureDetector(

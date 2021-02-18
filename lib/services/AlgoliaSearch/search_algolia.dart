@@ -81,10 +81,10 @@ class _SearchBarState extends State<SearchBar> {
                                       ? DisplaySearchResult(
                                           name: currSearchStuff[index]
                                               .data['name'],
-                                          type: currSearchStuff[index]
-                                              .data['type'],
-                                          description: currSearchStuff[index]
-                                              .data['description'],
+                                          // appUsageInfos: currSearchStuff[index]
+                                          //     .data['appsUsageModel'],
+                                         totalDuration: currSearchStuff[index]
+                                              .data['totalDuration'],
                                         )
                                       : Container();
                                 },
@@ -107,10 +107,10 @@ class _SearchBarState extends State<SearchBar> {
 
 class DisplaySearchResult extends StatelessWidget {
   final String name;
-  final String type;
-  final String description;
+  final String appUsageInfos;
+  final int totalDuration;
 
-  DisplaySearchResult({Key key, this.name, this.type, this.description})
+  DisplaySearchResult({Key key, this.name, this.appUsageInfos, this.totalDuration})
       : super(key: key);
 
   @override
@@ -120,12 +120,12 @@ class DisplaySearchResult extends StatelessWidget {
         name ?? '',
         style: TextStyle(color: Colors.black),
       ),
+      // Text(
+      //   appUsageInfos. ?? '',
+      //   style: TextStyle(color: Colors.black),
+      // ),
       Text(
-        type ?? '',
-        style: TextStyle(color: Colors.black),
-      ),
-      Text(
-        description ?? '',
+        totalDuration.toString() ?? '',
         style: TextStyle(color: Colors.black),
       ),
       Divider(
