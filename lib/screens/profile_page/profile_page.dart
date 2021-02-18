@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Stack(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.only(top:18.0,left: 8,bottom: 8),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
@@ -66,32 +66,40 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-                AvatarImage(),
-                SizedBox(
-                  height: 20,
+                SizedBox(height: 20,),
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    AvatarImage(),
+                    Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right:4.0),
+                        child: Text(
+                          _name ?? 'Kullanıcı',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _email ?? '@myemail.com',
+                          style: TextStyle(fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ],)
+
+                  ],
                 ),
-                SocialIcons(),
-                SizedBox(height: 20),
-                Text(
-                  _name ?? 'Kullanıcı',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  _email ?? '@myemail.com',
-                  style: TextStyle(fontWeight: FontWeight.w300),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'Mobil Uygulama Geliştirici ve Açık kaynak sağlayıcı.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
+                SizedBox(height: 25),
                 ProfileListItems(),
+                ListTile(leading: IconButton(icon: Icon(Icons.contact_support_sharp) ,
+                  onPressed: (){
+
+                },),
+                title: Text('Developed by Jordy Hershel',style: TextStyle(color: Colors.deepOrange,fontSize: 15),),)
               ],
             ),
           )
@@ -111,23 +119,19 @@ class AppBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 55,
-      height: 55,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: LightColor.background, boxShadow: [
+      height: 45,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: LightColor.accentBlue, boxShadow: [
         BoxShadow(
-          color: LightColor.black,
+          color: Colors.grey,
           offset: Offset(1, 1),
           blurRadius: 10,
         ),
-        BoxShadow(
-          color: LightColor.black,
-          offset: Offset(-1, -1),
-          blurRadius: 10,
-        ),
+
       ]),
       child: IconButton(
         icon: Icon(icon),
         onPressed: onPressed,
-        color: LightColor.accentBlue,
+        color: Colors.white,
       ),
     );
   }
@@ -158,9 +162,9 @@ class _AvatarImageState extends State<AvatarImage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      height: 150,
-      padding: EdgeInsets.all(8),
+      width: 120,
+      height: 100,
+      padding: EdgeInsets.all(3),
       decoration: avatarDecoration,
       child: Container(
         decoration: avatarDecoration,
@@ -169,7 +173,7 @@ class _AvatarImageState extends State<AvatarImage> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
               image: _imageUrl == null
                   ? AssetImage('assets/images/users.jpg')
                   : NetworkImage(
@@ -183,61 +187,6 @@ class _AvatarImageState extends State<AvatarImage> {
   }
 }
 
-class SocialIcons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SocialIcon(
-          color: Color(0xFF102397),
-          iconData: facebook,
-          onPressed: () {},
-        ),
-        SocialIcon(
-          color: Color(0xFFff4f38),
-          iconData: googlePlus,
-          onPressed: () {},
-        ),
-        SocialIcon(
-          color: Color(0xFF38A1F3),
-          iconData: twitter,
-          onPressed: () {},
-        ),
-        SocialIcon(
-          color: Color(0xFF2867B2),
-          iconData: linkedin,
-          onPressed: () {},
-        )
-      ],
-    );
-  }
-}
-
-class SocialIcon extends StatelessWidget {
-  final Color color;
-  final IconData iconData;
-  final Function onPressed;
-
-  SocialIcon({this.color, this.iconData, this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 20.0),
-      child: Container(
-        width: 45.0,
-        height: 45.0,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: RawMaterialButton(
-          shape: CircleBorder(),
-          onPressed: onPressed,
-          child: Icon(iconData, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
 
 class ProfileListItems extends StatefulWidget {
   @override
@@ -256,11 +205,7 @@ class _ProfileListItemsState extends State<ProfileListItems> {
     return Expanded(
       child: ListView(
         children: <Widget>[
-          ProfileListItem(
-            icon: LineAwesomeIcons.user_shield,
-            onPressed: () {},
-            text: 'contact us'.tr().toString(),
-          ),
+
           ProfileListItem(
             icon: LineAwesomeIcons.history,
             onPressed: () {
@@ -268,12 +213,21 @@ class _ProfileListItemsState extends State<ProfileListItems> {
             },
             text: 'update profile'.tr().toString(),
           ),
+
           ProfileListItem(
-            icon: LineAwesomeIcons.cog,
+            icon: LineAwesomeIcons.language,
             onPressed: () {
               Navigator.pushNamed(context, '/settings');
             },
-            text: 'settings'.tr().toString(),
+            text: 'change language'.tr().toString(),
+          ),
+
+          ProfileListItem(
+            icon: LineAwesomeIcons.moon,
+            onPressed: () {
+
+            },
+            text: 'dark mode'.tr().toString(),
           ),
           ProfileListItem(
             icon: LineAwesomeIcons.alternate_sign_out,
@@ -310,7 +264,7 @@ class _ProfileListItemsState extends State<ProfileListItems> {
                                     'yes'.tr().toString(),
                                     style: TextStyle(color: Colors.white, fontSize: 18),
                                   ),
-                                  color: LightColor.green,
+                                  color: LightColor.accentBlue,
                                 ),
                               ),
                               SizedBox(
@@ -334,6 +288,11 @@ class _ProfileListItemsState extends State<ProfileListItems> {
             },
             text: 'log out'.tr().toString(),
             hasNavigation: false,
+          ),
+          ProfileListItem(
+            icon: LineAwesomeIcons.user_shield,
+            onPressed: () {},
+            text: 'contact us'.tr().toString(),
           ),
         ],
       ),

@@ -172,10 +172,7 @@ class TextStyles {
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
 }
 
-IconData twitter = IconData(0xe900, fontFamily: 'CustomIcons');
-IconData facebook = IconData(0xe901, fontFamily: 'CustomIcons');
-IconData googlePlus = IconData(0xe902, fontFamily: 'CustomIcons');
-IconData linkedin = IconData(0xe903, fontFamily: 'CustomIcons');
+
 
 const kSpacingUnit = 10;
 
@@ -185,7 +182,7 @@ final kTitleTextStyle = TextStyle(
 );
 
 BoxDecoration avatarDecoration =
-    BoxDecoration(shape: BoxShape.circle, color: LightColor.purple, boxShadow: [
+    BoxDecoration(shape: BoxShape.circle, color: LightColor.grey, boxShadow: [
   BoxShadow(
     color: LightColor.background,
     offset: Offset(10, 10),

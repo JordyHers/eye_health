@@ -32,7 +32,7 @@ class ProfileListItem extends StatelessWidget {
           horizontal: 20,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
           color: Colors.grey.shade300,
         ),
         child: Row(
@@ -49,7 +49,7 @@ class ProfileListItem extends StatelessWidget {
             Spacer(),
             if (hasNavigation)
               Icon(
-                LineAwesomeIcons.angle_right,
+                LineAwesomeIcons.alternate_arrow_circle_right,
                 size: 25,
               ),
           ],

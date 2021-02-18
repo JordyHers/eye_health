@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -136,7 +137,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
                   color: Colors.deepOrangeAccent[200],
                   onPressed: () => _getLocalImage(),
                   child: Text(
-                    'Resim ekle',
+                    'add picture'.tr(),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -147,16 +148,15 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
               _buildNameField(),
               _buildSurnameField(),
               _buildEmailField(),
-              _builAddresField(),
-              _buildPhoneField(),
+
 
               Container(
-                margin: EdgeInsets.fromLTRB(8,8,8,8),
+                margin: EdgeInsets.fromLTRB(8,100,8,8),
                 height: getProportionateScreenHeight(63),
                 width: getProportionateScreenWidth(150),
                 decoration: BoxDecoration(
-                    color: LightColor.lightblack,
-                    borderRadius: BorderRadius.circular(20)),
+                    color: LightColor.accentBlue,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Container(
                   //alignment: Alignment.center,
                   child: ListTile(
@@ -170,8 +170,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
                       trailing: Icon(Icons.save),
                       title: Center(
                         child: Text(
-                          'Kaydet',
-                          style: TextStyle(fontSize: 15,color: Colors.white),
+                          'save'.tr(),
+                          style: TextStyle(fontSize: 21,color: Colors.white),
                         ),
                       )),
                 ),
@@ -201,8 +201,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       print('unsuccessful');
     }
     print('name: ${_currentUser.name}');
-    print('category: ${_currentUser.address}');
-    print('experience: ${_currentUser.telephone.toString()}');
     print('_imageFile ${_imageFile.toString()}');
     print('_imageUrl $_imageUrl');
   }
@@ -267,7 +265,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
 
       child: Container(
         child: TextFormField(
-          decoration: InputDecoration(labelText: 'isim'),
+          decoration: InputDecoration(labelText: 'name'.tr()),
           initialValue: _currentUser.name,
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
@@ -298,7 +296,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
         height: 100,
         width: 320,
         child: TextFormField(
-          decoration: InputDecoration(labelText: 'soyisisim'),
+          decoration: InputDecoration(labelText: 'surname'.tr()),
           initialValue: _currentUser.surname,
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
@@ -355,70 +353,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
       ),
     );
   }
-  Widget _buildPhoneField() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      height: getProportionateScreenHeight(60),
-      width: double.infinity,
 
-      child: Container(
-        height: 100,
-        width: 320,
-        child: TextFormField(
-          decoration: InputDecoration(labelText: '5XXXXXXXXX'),
-          initialValue: _currentUser.telephone,
-          keyboardType: TextInputType.text,
-          style: TextStyle(fontSize: 15),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Hata oldu';
-            }
 
-            if (value.length < 10 || value.length > 10) {
-              return 'Numara  ile başlamalıdır';
-            }
-
-            return null;
-          },
-          onSaved: (String value) {
-            _currentUser.telephone = value;
-          },
-
-        ),
-      ),
-    );
-  }
-  Widget _builAddresField() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      height: getProportionateScreenHeight(60),
-      width: double.infinity,
-
-      child: Container(
-
-        height: 70,
-        width: 320,
-        child: TextFormField(
-          decoration: InputDecoration(labelText: 'Açık adres'),
-          initialValue: _currentUser.address,
-          keyboardType: TextInputType.text,
-          style: TextStyle(fontSize: 15),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Adres gerekli';
-            }
-
-            if (value.length < 3 || value.length > 100) {
-              return "Eposta, 20'den az karakter içermelidir";
-            }
-            return null;
-          },
-          onSaved: (String value) {
-            _currentUser.address = value;
-          },
-
-        ),
-      ),
-    );
-  }
 }

@@ -24,20 +24,25 @@ class DataRepository {
   }
 }
 
+
+
 class UserModel {
 
   String name;
   String surname;
-  String telephone;
-  String address;
   String id;
   String email;
   String image;
 
+  int totalDuration;
+
+
+  String get displayName => [name, surname].join(' ').trim();
+
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
-  UserModel(this.name, {this.surname, this.telephone, this.address, this.id, this.email, this.reference,  this.image,  this.appsUsageModel});
+  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.image,  this.appsUsageModel, this.totalDuration});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
@@ -47,27 +52,19 @@ class UserModel {
         'id': id,
         'name': name,
         'surname': surname,
-        'telephone': telephone,
         'email': email,
-        'address': address,
         'reference': reference,
         'image': image,
         'appsUsageModel': appsList(appsUsageModel),
+        'totalDuration': totalDuration
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
+   // totalDuration = snapshot.data()['usage'] == null ? 0 :getFullUsage(apps: snapshot.data()['usage']);
     var mod = UserModel.fromJson(snapshot.data());
     mod.reference = snapshot.reference;
     return mod;
-    // id = snapshot.data()[ID];
-    // name = snapshot.data()[NAME];
-    // surname = snapshot.data()[SURNAME];
-    // telephone = snapshot.data()[TELEPHONE];
-    // address = snapshot.data()[ADDRESS];
-    // email = snapshot.data()[EMAIL];
-    // image = snapshot.data()[IMAGE];
-    // appsUsageModel = _convertAppItems(snapshot.data()[APPS]?? []);
-    //totalCartPrice = snapshot.data[CART] == null ? 0 :getTotalPrice(cart: snapshot.data[CART]);
+
   }
 
   UserModel.fromMap(Map<String, dynamic> data) {
@@ -75,7 +72,6 @@ class UserModel {
     name = data['name'];
     surname = data['surname'];
     image = data['image'];
-    telephone = data['telephone'];
     email = data['email'];
     appsUsageModel = data['apps'];
   }
@@ -86,16 +82,29 @@ class UserModel {
       'name': name,
       'image': image,
       'surname': surname,
-      'telephone': telephone,
       'email': email,
-      'address': address,
       'apps': appsUsageModel,
     };
   }
 
 
 
+
 }
+UserModel _UserModelFromJson (dynamic json) {
+  return   UserModel(
+    json['name'] as String,
+    id: json['id'] as String,
+    surname: json['surname'] as String ,
+    email: json['email'] as String,
+    reference: json['reference'],
+    image: json['image'],
+    appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
+    totalDuration : json['totalDuration'] == null ? 0 : getFullUsage(json['appUsageModel']),
+
+  );
+}
+
 List<Map<String, dynamic>> appsList(List<AppUsageInfo> apps) {
   if (apps == null) {
     return null;
@@ -107,27 +116,7 @@ List<Map<String, dynamic>> appsList(List<AppUsageInfo> apps) {
   return appsMap;
 
 }
-// List<AppsUsageModel> _convertAppItems(List apps){
-//   var convertedApps = <AppsUsageModel>[];
-//   for(Map _apps in apps){
-//     convertedApps.add(AppUsageInfo.fromMap(_apps));
-//   }
-//   return convertedApps;
-// }
 
-UserModel _UserModelFromJson (dynamic json) {
-  return   UserModel(
-    json['name'] as String,
-    id: json['id'] as String,
-    surname: json['surname'] as String,
-    telephone: json['telephone'] as String,
-    address: json['address'] as String,
-    email: json['email'] as String,
-    reference: json['reference'],
-    image: json['image'],
-    appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
-  );
-}
 
 List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
   if (appsMod == null) {
@@ -139,4 +128,20 @@ List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
   });
   return apps;
 }
+int getFullUsage(List<dynamic> apps){
+  var Sum =0;
+  if(apps == null){
+    return 0;
+  }
+  for(Map appsItem in apps){
+     Sum += appsItem['usage'] + appsItem['usage'] ;
+     print('Sum-----------------');
+     print(Sum);
+  }
+  var total = Sum;
+  return total;
+}
+
+
+
 
