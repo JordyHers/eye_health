@@ -1,6 +1,4 @@
-import 'package:app_usage/app_usage.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:eye_test/services/Api/apps_services.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +10,8 @@ class InstalledApps extends StatefulWidget {
 class _InstalledAppsState extends State<InstalledApps> {
 
   final bool _showSystemApps = false;
-  bool _onlyLaunchableApps = false;
-  bool _usageApps = false;
+  final bool _onlyLaunchableApps = false;
+  final bool _usageApps = false;
 
 
 

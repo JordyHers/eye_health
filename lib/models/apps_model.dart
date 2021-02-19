@@ -1,7 +1,5 @@
 
 
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppsModel {
@@ -12,13 +10,10 @@ class AppsModel {
   static const TYPE ='type';
 
 
-
-
   String name;
   String type;
   String usage;
   String image;
-
 
 
 

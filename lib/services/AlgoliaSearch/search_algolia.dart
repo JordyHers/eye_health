@@ -107,7 +107,7 @@ class _SearchBarState extends State<SearchBar> {
 
 class DisplaySearchResult extends StatelessWidget {
   final String name;
-  final String appUsageInfos;
+  final List appUsageInfos;
   final int totalDuration;
 
   DisplaySearchResult({Key key, this.name, this.appUsageInfos, this.totalDuration})
@@ -120,10 +120,16 @@ class DisplaySearchResult extends StatelessWidget {
         name ?? '',
         style: TextStyle(color: Colors.black),
       ),
-      // Text(
-      //   appUsageInfos. ?? '',
-      //   style: TextStyle(color: Colors.black),
-      // ),
+      ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: appUsageInfos.length,
+          itemBuilder: (context,index){
+        return ListTile(
+          leading: appUsageInfos[index],
+        );
+
+      }),
       Text(
         totalDuration.toString() ?? '',
         style: TextStyle(color: Colors.black),

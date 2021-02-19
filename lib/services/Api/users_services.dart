@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:flutter/cupertino.dart';
 
 class UserServices{
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

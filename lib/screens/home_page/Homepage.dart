@@ -1,18 +1,13 @@
-import 'dart:convert';
-import 'dart:math';
 
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/models/apps_data.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/services/Api/apps_services.dart';
-import 'package:eye_test/services/Api/users_services.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 import 'package:eye_test/size_config.dart';
@@ -45,7 +40,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
-  DataRepository _rep =DataRepository();
+  final DataRepository _rep =DataRepository();
 
   void getUsageStats() async {
     final userProvider = Provider.of<Auths>(context, listen: false);
@@ -412,7 +407,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   //   }).toList());
   // }
 
-  Widget _appsTile(AppsModel model) {
+  Widget appsTile(AppsModel model) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(

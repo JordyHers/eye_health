@@ -2,8 +2,7 @@
 
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eye_test/services/Api/Auths.dart';
-import 'package:provider/provider.dart';
+
 
 
 class DataRepository {
@@ -18,6 +17,7 @@ class DataRepository {
     return collection.add(mod.toJson());
   }
   // 4
+  // ignore: always_declare_return_types
   updateMod(UserModel mod, List<AppUsageInfo> apps) async {
      mod.appsUsageModel = apps ;
    await collection.doc(mod.reference.id).update(mod.toJson());

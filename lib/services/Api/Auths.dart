@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_usage/app_usage.dart';
-import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:uuid/uuid.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:uuid/uuid.dart';
 
