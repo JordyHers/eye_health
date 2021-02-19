@@ -32,7 +32,7 @@ class UserModel {
       {
         'id': id,
         'name': name,
-        'token': token.toString()?? 'No Token Available',
+        'token': token.toString() ?? 'No Token Available',
         'surname': surname,
         'email': email,
         'reference': reference,
