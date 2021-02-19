@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/users.dart';
+import 'package:eye_test/repository/data_repository.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
@@ -17,6 +18,7 @@ import 'package:eye_test/theme/theme.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_graph.dart';
 import 'package:eye_test/widgets/bar_charts/bar_charts_model.dart';
 import 'package:device_apps/device_apps.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Status get status => _status;
@@ -41,20 +43,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
   final DataRepository _rep =DataRepository();
+  String _token;
 
   void getUsageStats() async {
     final userProvider = Provider.of<Auths>(context, listen: false);
-
 
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
+      await _firebaseMessaging.getToken().then((token) {
+        _token = token;
+        print('Device Token: $_token');
 
+      });
       setState(()  {
         _infos = infoList;
         Future.delayed(Duration.zero, () {
-          _rep.updateMod(userProvider.currentUser,_infos);
+          _rep.updateMod(userProvider.currentUser,_infos,_token);
         });
 
       });
@@ -78,7 +84,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     Future.delayed(Duration.zero, () {
       getUsageStats();
     });
-
     if (userProvider.currentUser != null) {
     } else {
     }

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_usage/app_usage.dart';
 import 'package:eye_test/models/users.dart';
+import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -35,6 +36,8 @@ abstract class BaseAuth {
 }
 
  class Auths with ChangeNotifier implements BaseAuth {
+
+
   List<UserModel> _userList = [];
   String order;
 
@@ -125,30 +128,6 @@ abstract class BaseAuth {
     }
 
   }
-  Future<bool> addAppsToList(
-      List<AppUsageInfo> apps ) async {
-    try {
-//      if(!itemExists){
-     // print('THESE Apps ITEMS ARE: ${apps.toString()}\n');
-      _userServices.addToList(userId: _user.uid, appsItem: apps);
-//      }
-      return true;
-    } catch (e) {
-   //   print("THE ERROR ${e.toString()}");
-      return false;
-    }
-  }
-  // getIdOrders() async{
-  //   order = await _orderServices.getNumOrders(_user.uid);
-  //   notifyListeners();
-  // }
-
-
-  // getOrders()  async{
-  //   _orders = await _orderServices.getUserOrders(userId: _user.uid);
-  //   notifyListeners();
-  // }
-
 
   @override
   Future<bool> signUp(String email, String password) async {
@@ -223,7 +202,6 @@ abstract class BaseAuth {
     notifyListeners();
   }
 }
-
 
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();

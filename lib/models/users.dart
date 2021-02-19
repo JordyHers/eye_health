@@ -1,28 +1,8 @@
 
-
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
-
-
-class DataRepository {
-  // 1
-  final CollectionReference collection = FirebaseFirestore.instance.collection('Data');
-  // 2
-  Stream<QuerySnapshot> getStream() {
-    return collection.snapshots();
-  }
-  // 3
-  Future<DocumentReference> addUser(UserModel mod) {
-    return collection.add(mod.toJson());
-  }
-  // 4
-  // ignore: always_declare_return_types
-  updateMod(UserModel mod, List<AppUsageInfo> apps) async {
-     mod.appsUsageModel = apps ;
-   await collection.doc(mod.reference.id).update(mod.toJson());
-  }
-}
 
 
 
@@ -33,6 +13,7 @@ class UserModel {
   String id;
   String email;
   String image;
+  String token;
 
   int totalDuration;
 
@@ -42,7 +23,7 @@ class UserModel {
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
-  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.image,  this.appsUsageModel, this.totalDuration});
+  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
@@ -51,6 +32,7 @@ class UserModel {
       {
         'id': id,
         'name': name,
+        'token': token.toString()?? 'No Token Available',
         'surname': surname,
         'email': email,
         'reference': reference,
@@ -95,6 +77,7 @@ UserModel _UserModelFromJson (dynamic json) {
   return   UserModel(
     json['name'] as String,
     id: json['id'] as String,
+    token: json['token'] as String,
     surname: json['surname'] as String ,
     email: json['email'] as String,
     reference: json['reference'],
