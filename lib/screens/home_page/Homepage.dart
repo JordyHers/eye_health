@@ -163,14 +163,16 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         SizedBox(
-          height: AppTheme.fullHeight(context) * .28,
+          height: 100,
           width: AppTheme.fullWidth(context),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
+              SizedBox(height: 20,width: 20,),
               _categoryCardFocus(
                   'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
+              SizedBox(height: 20,width: 20,),
               _categoryCardFindOnMap('Find on Map'.tr().toString(),
                   color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
             ],
@@ -193,50 +195,30 @@ class _HomePageState extends State<HomePage>
     //   subtitleStyle = TextStyles.bodySm.bold.white;
     // }
     return Container(
-      height: 20,
-      width: AppTheme.fullWidth(context) * 0.5,
-      margin: EdgeInsets.only(left: 10, right: 5, bottom: 20, top: 10),
+      height: 40,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/Meditation-rafiki.png'),
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            offset: Offset(4, 4),
-            blurRadius: 10,
-            color: lightColor.withOpacity(.4),
-          )
-        ],
+
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(title, style: titleStyle).hP8,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Flexible(
-                    child: Text(
-                      subtitle,
-                      style: subtitleStyle,
-                    ).hP8,
-                  ),
-                ],
-              ).p16
-            ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          SizedBox(
+            height: 10,
           ),
-        ),
-      ).ripple(() {
+          Flexible(
+            child: Text(
+              subtitle,
+              style: TextStyles.titleNormal,
+            ).hP8,
+          ),
+        ],
+      ).p16.ripple(() {
         Navigator.pushNamed(context, '/focus_mode');
       }, borderRadius: BorderRadius.all(Radius.circular(20))),
     );
@@ -252,60 +234,32 @@ class _HomePageState extends State<HomePage>
     //   subtitleStyle = TextStyles.bodySm.bold.grey;
     // }
     return Container(
-      height: 50,
-      width: AppTheme.fullWidth(context) * 0.5,
-      margin: EdgeInsets.only(left: 5, right: 10, bottom: 20, top: 10),
+      height: 40,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/Navigation-pana.png'),
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            offset: Offset(4, 4),
-            blurRadius: 10,
-            color: lightColor.withOpacity(.4),
-          )
-        ],
+
       ),
-      child: AspectRatio(
-        aspectRatio: 6.5 / 9,
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-                // Positioned(
-                //   top: -20,
-                //   left: -20,
-                //   child: CircleAvatar(
-                //     backgroundColor: lightColor,
-                //     radius: 60,
-                //   ),
-                // ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Flexible(
-                      child: Text(
-                        subtitle,
-                        style: subtitleStyle,
-                      ).hP8,
-                    ),
-                  ],
-                ).p16
-              ],
-            ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          SizedBox(
+            height: 10,
           ),
-        ).ripple(() {
-          Navigator.pushNamed(context, '/geo');
-        }, borderRadius: BorderRadius.all(Radius.circular(20))),
-      ),
+          Flexible(
+            child: Text(
+              subtitle,
+              style: TextStyles.titleNormal,
+            ).hP8,
+          ),
+        ],
+      ).p16.ripple(() {
+        Navigator.pushNamed(context, '/geo');
+      }, borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 
@@ -496,27 +450,29 @@ class _HomePageState extends State<HomePage>
                                           data: data,
                                         ),
                                         _category(),
-
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                           children: <Widget>[
                                             Text(
                                                 'Installed Apps'
                                                     .tr()
                                                     .toString(),
-                                                style: TextStyles.titleNormal),
+                                                style:
+                                                    TextStyles.titleNormal),
                                             IconButton(
                                                     icon: Icon(
                                                       Icons.sort,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
+                                                      color:
+                                                          Theme.of(context)
+                                                              .primaryColor,
                                                     ),
                                                     onPressed: () {})
                                                 .p(12)
                                                 .ripple(() {
-                                              Navigator.pushNamed(
-                                                  context, '/installed_apps');
+                                              Navigator.pushNamed(context,
+                                                  '/installed_apps');
                                             },
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -524,142 +480,114 @@ class _HomePageState extends State<HomePage>
                                                                 20))),
                                           ],
                                         ).hP16,
-                                            SizedBox(
-                                              child: FutureBuilder<List<Application>>(
-                                                future: DeviceApps
-                                                    .getInstalledApplications(
-                                                        includeAppIcons: true,
-                                                        includeSystemApps: false,
-                                                        onlyAppsWithLaunchIntent:
-                                                            true,
-                                                        usageApps: false),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<List<Application>>
-                                                        data) {
-                                                  if (data.data == null) {
-                                                    return const Center(
-                                                        child:
-                                                            CircularProgressIndicator());
-                                                  } else {
-                                                    var apps = data.data;
-                                                    print(apps);
-                                                    return ListView.builder(
-                                                        scrollDirection:
-                                                            Axis.vertical,
-                                                        shrinkWrap: true,
-                                                        itemBuilder:
-                                                            (BuildContext context,
-                                                                int position) {
-                                                          var app = apps[position];
-                                                          return Container(
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 8,
-                                                                    horizontal: 16),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors.white,
+                                        SizedBox(
+                                          child: FutureBuilder<
+                                                  List<Application>>(
+                                              future: DeviceApps
+                                                  .getInstalledApplications(
+                                                      includeAppIcons: true,
+                                                      includeSystemApps:
+                                                          false,
+                                                      onlyAppsWithLaunchIntent:
+                                                          true,
+                                                      usageApps: false),
+                                              builder: (BuildContext
+                                                      context,
+                                                  AsyncSnapshot<
+                                                          List<Application>>
+                                                      data) {
+                                                if (data.data == null) {
+                                                  return const Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                } else {
+                                                  var apps = data.data;
+                                                  print(apps);
+                                                  return ListView.builder(
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      shrinkWrap: true,
+                                                      itemBuilder:
+                                                          (BuildContext
+                                                                  context,
+                                                              int position) {
+                                                        var app =
+                                                            apps[position];
+                                                        return Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      18,
+                                                                  vertical:
+                                                                      8),
+                                                          child: ListTile(
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .all(0),
+                                                            leading:
+                                                                ClipRRect(
                                                               borderRadius:
                                                                   BorderRadius.all(
-                                                                      Radius
-                                                                          .circular(
-                                                                              20)),
-                                                              boxShadow: <
-                                                                  BoxShadow>[
-                                                                BoxShadow(
-                                                                  offset:
-                                                                      Offset(4, 4),
-                                                                  blurRadius: 10,
-                                                                  color: LightColor
-                                                                      .grey
-                                                                      .withOpacity(
-                                                                          .2),
+                                                                      Radius.circular(
+                                                                          13)),
+                                                              child:
+                                                                  Container(
+                                                                height: 45,
+                                                                width: 45,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          15),
+                                                                  color: Colors
+                                                                      .transparent,
                                                                 ),
-                                                                BoxShadow(
-                                                                  offset:
-                                                                      Offset(-3, 0),
-                                                                  blurRadius: 15,
-                                                                  color: LightColor
-                                                                      .grey
-                                                                      .withOpacity(
-                                                                          .1),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          18,
-                                                                      vertical: 8),
-                                                              child: ListTile(
-                                                                contentPadding:
-                                                                    EdgeInsets.all(
-                                                                        0),
-                                                                leading: ClipRRect(
-                                                                  borderRadius: BorderRadius
-                                                                      .all(Radius
-                                                                          .circular(
-                                                                              13)),
-                                                                  child: Container(
-                                                                    height: 45,
-                                                                    width: 45,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                                  15),
-                                                                      color: Colors
-                                                                          .transparent,
-                                                                    ),
-                                                                    child: app
-                                                                            is ApplicationWithIcon
-                                                                        ? Image
-                                                                            .memory(
-                                                                            app.icon,
-                                                                          )
-                                                                        : null,
-                                                                  ),
-                                                                ),
-                                                                title: Text(
-                                                                    app.appName,
-                                                                    style: TextStyles
-                                                                        .titleSize15),
-                                                                subtitle:
-                                                                    LinearPercentIndicator(
-                                                                  width: 150.0,
-                                                                  lineHeight: 8.0,
-                                                                  percent:
-                                                                      getRandom(),
-                                                                  progressColor:
-                                                                      Colors.blue,
-                                                                ),
-                                                                trailing: Icon(
-                                                                  Icons
-                                                                      .keyboard_arrow_right,
-                                                                  size: 30,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColor,
-                                                                ),
+                                                                child: app
+                                                                        is ApplicationWithIcon
+                                                                    ? Image
+                                                                        .memory(
+                                                                        app.icon,
+                                                                      )
+                                                                    : null,
                                                               ),
-                                                            ).ripple(() {
-                                                              DeviceApps.openApp(
-                                                                  app.packageName);
-                                                            },
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .all(Radius
-                                                                            .circular(
-                                                                                20))),
-                                                          );
+                                                            ),
+                                                            title: Text(
+                                                                app.appName,
+                                                                style: TextStyles
+                                                                    .titleSize15),
+                                                            subtitle:
+                                                                LinearPercentIndicator(
+                                                              width: 180.0,
+                                                              lineHeight:
+                                                                  8.0,
+                                                              percent:
+                                                                  getRandom(),
+                                                              progressColor:
+                                                                  Colors
+                                                                      .blue,
+                                                            ),
+                                                            trailing: Icon(
+                                                              Icons
+                                                                  .keyboard_arrow_right,
+                                                              size: 30,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                            ),
+                                                          ),
+                                                        ).ripple(() {
+                                                          DeviceApps.openApp(
+                                                              app.packageName);
                                                         },
-                                                        itemCount: 7);
-                                                  }
-                                                }),
-                                            ),
-
+                                                            borderRadius: BorderRadius
+                                                                .all(Radius
+                                                                    .circular(
+                                                                        20)));
+                                                      },
+                                                      itemCount: 4);
+                                                }
+                                              }),
+                                        ),
                                       ],
                                     ),
                                   ),
