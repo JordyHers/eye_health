@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,17 +7,22 @@ class Geo extends StatefulWidget {
 }
 
 class _GeoState extends State<Geo> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Container(),
+      body: Container(
+        child: Center(
+            child: Text(
+          'TEXT FOR GEO',
+          style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent),
+        )),
+      ),
     );
   }
 }
-
-
 
 //
 //
