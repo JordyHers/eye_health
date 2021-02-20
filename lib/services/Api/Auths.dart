@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:app_usage/app_usage.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

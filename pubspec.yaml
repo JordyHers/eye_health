@@ -82,6 +82,7 @@ flutter:
     - assets/images/
     - assets/png/
     - assets/
+    - assets/children/
     - assets/Apps/
     - assets/Social/
     - assets/fonts/

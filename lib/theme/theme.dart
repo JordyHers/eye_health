@@ -49,6 +49,7 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get bold => copyWith(fontWeight: FontWeight.bold);
   TextStyle get white => copyWith(color: Colors.white);
   TextStyle get black => copyWith(color: Colors.black);
+  TextStyle get bl_ac => copyWith(color: Colors.blueAccent);
   TextStyle get grey => copyWith(color: Colors.grey);
   TextStyle get subTitleColor => copyWith(color: LightColor.subTitleTextColor);
 }

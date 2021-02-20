@@ -3,7 +3,7 @@ import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'bar_charts_model.dart';
+import '../models/bar_charts_model.dart';
 
 class BarChartGraph extends StatefulWidget {
   final List<BarChartModel> data;

@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_model.dart';
-import 'package:eye_test/models/users.dart';
+import 'package:eye_test/models/bar_charts_model.dart';
 import 'package:eye_test/repository/data_repository.dart';
 
 import 'package:eye_test/services/Api/Auths.dart';
@@ -15,9 +15,9 @@ import 'package:eye_test/size_config.dart';
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
-import 'package:eye_test/widgets/bar_charts/bar_charts_graph.dart';
-import 'package:eye_test/widgets/bar_charts/bar_charts_model.dart';
 import 'package:device_apps/device_apps.dart';
+import 'package:eye_test/widgets/bar_charts_graph.dart';
+import 'package:eye_test/widgets/horizontal_ListView.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -474,37 +474,37 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   final List<BarChartModel> data = [
     BarChartModel(
       days: 'Mon'.tr(),
-      time:  45 ,
+      time:  2 ,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Tues'.tr(),
-      time: 20,
+      time: 2,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Wed'.tr(),
-      time: 18,
+      time: 3,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Thurs'.tr(),
-      time: 24,
+      time: 4,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Fri'.tr(),
-      time: 50,
+      time: 7,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlueAccent),
     ),
     BarChartModel(
       days: 'Sat'.tr(),
-      time: 41,
+      time: 6,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
       days: 'Sun'.tr(),
-      time: 23,
+      time: 5,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
   ];
@@ -575,6 +575,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   SliverList(
                                     delegate: SliverChildListDelegate(
                                       [
+                                       SizedBox(height: 20,),
+                                        HorizontalList(),
                                         _header(),
                                         BarChartGraph(
                                           data: data,
