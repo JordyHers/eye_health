@@ -23,14 +23,15 @@ class HorizontalList extends StatelessWidget {
           ),
 
           Kids(
+            image_location: 'assets/children/Mira.jpg',
+            image_caption: 'Mira',
+          ),
+
+          Kids(
             image_location: 'assets/children/Lenny.jpg',
             image_caption: 'Lenny',
           ),
 
-          Kids(
-            image_location: 'assets/children/Mira.jpg',
-            image_caption: 'Mira',
-          ),
 
           Kids(
             image_location: 'assets/children/Kyle.jpg',

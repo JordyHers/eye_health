@@ -1,29 +1,26 @@
-
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:device_apps/device_apps.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/bar_charts_model.dart';
 import 'package:eye_test/repository/data_repository.dart';
-
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
-import 'package:eye_test/size_config.dart';
+
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
-import 'package:device_apps/device_apps.dart';
 import 'package:eye_test/widgets/bar_charts_graph.dart';
 import 'package:eye_test/widgets/horizontal_ListView.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,18 +28,19 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Status get status => _status;
 
   TabController _tabController;
   List<AppUsageInfo> _infos = [];
-  final DataRepository _rep =DataRepository();
+  final DataRepository _rep = DataRepository();
   String _token;
 
   void getUsageStats() async {
@@ -55,14 +53,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       await _firebaseMessaging.getToken().then((token) {
         _token = token;
         print('Device Token: $_token');
-
       });
-      setState(()  {
+      setState(() {
         _infos = infoList;
         Future.delayed(Duration.zero, () {
-          _rep.updateMod(userProvider.currentUser,_infos,_token);
+          _rep.updateMod(userProvider.currentUser, _infos, _token);
         });
-
       });
     } on AppUsageException catch (exception) {
       print(exception);
@@ -78,15 +74,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-   // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
+    // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
     Future.delayed(Duration.zero, () {
       getUsageStats();
     });
     if (userProvider.currentUser != null) {
-    } else {
-    }
+    } else {}
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -126,9 +121,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 color: Theme.of(context).backgroundColor,
               ),
               child: Hero(
-                      tag: 'profile',
-                      child: Icon(Icons.settings,color: LightColor.grey,size: 25,),
-                    ),
+                tag: 'profile',
+                child: Icon(
+                  Icons.settings,
+                  color: LightColor.grey,
+                  size: 25,
+                ),
+              ),
             ),
           ).p(8),
         ),
@@ -142,9 +141,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: Text('2 Hours 30 mins'.tr().toString(), style: TextStyles.titleM),
+          child:
+              Text('2 Hours 30 mins'.tr().toString(), style: TextStyles.titleM),
         ),
-        Text('16 mins more than the previous day'.tr().toString(), style: TextStyles.bodySm.subTitleColor),
+        Text('16 mins more than the previous day'.tr().toString(),
+            style: TextStyles.bodySm.subTitleColor),
       ],
     ).p16;
   }
@@ -167,9 +168,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              _categoryCardFocus('focus mode'.tr().toString(), 'concentrate'.tr().toString(),
+              _categoryCardFocus(
+                  'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
-              _categoryCardFindOnMap('Find on Map'.tr().toString(), color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
+              _categoryCardFindOnMap('Find on Map'.tr().toString(),
+                  color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
             ],
           ),
         ),
@@ -181,7 +184,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET FOCUS MODE _________________________________________________________
 
-  Widget _categoryCardFocus(String title, String subtitle, {Color color, Color lightColor}) {
+  Widget _categoryCardFocus(String title, String subtitle,
+      {Color color, Color lightColor}) {
     var titleStyle = TextStyles.title.bold.white;
     var subtitleStyle = TextStyles.body.bold.white;
     // if (AppTheme.fullWidth(context) < 392) {
@@ -190,7 +194,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     // }
     return Container(
       height: 20,
-      width: AppTheme.fullWidth(context) * 0.5 ,
+      width: AppTheme.fullWidth(context) * 0.5,
       margin: EdgeInsets.only(left: 10, right: 5, bottom: 20, top: 10),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -212,7 +216,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Container(
           child: Stack(
             children: <Widget>[
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -242,7 +245,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   ///+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET SCREEN TIME _________________________________________________________
-  Widget _categoryCardFindOnMap(String subtitle, {Color color, Color lightColor}) {
+  Widget _categoryCardFindOnMap(String subtitle,
+      {Color color, Color lightColor}) {
     var subtitleStyle = TextStyles.body.bold.black;
     // if (AppTheme.fullWidth(context) < 392) {
     //   subtitleStyle = TextStyles.bodySm.bold.grey;
@@ -299,110 +303,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
         ).ripple(() {
-           Navigator.pushNamed(context, '/geo');
+          Navigator.pushNamed(context, '/geo');
         }, borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );
   }
 
-  Widget _appsList() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Installed Apps'.tr().toString(), style: TextStyles.titleNormal),
-              IconButton(
-                  icon: Icon(
-                    Icons.sort,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {
-
-                  })
-               .p(12).ripple(() {
-                Navigator.pushNamed(context, '/installed_apps');
-              }, borderRadius: BorderRadius.all(Radius.circular(20))),
-            ],
-          ).hP16,
-          //getMostUsedApps(),
-          getInstalledApps(),
-        ],
-      ),
-    );
-  }
-
-  Widget getInstalledApps() {
-    return Container(
-      height: getProportionateScreenHeight(305),
-      child: FutureBuilder<List<Application>>(
-          future:
-              DeviceApps.getInstalledApplications(includeAppIcons: true, includeSystemApps: false, onlyAppsWithLaunchIntent: true, usageApps: false),
-          builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
-            if (data.data == null) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              var apps = data.data;
-              print(apps);
-              return ListView.builder(
-                  itemBuilder: (BuildContext context, int position) {
-                    var app = apps[position];
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            offset: Offset(4, 4),
-                            blurRadius: 10,
-                            color: LightColor.grey.withOpacity(.2),
-                          ),
-                          BoxShadow(
-                            offset: Offset(-3, 0),
-                            blurRadius: 15,
-                            color: LightColor.grey.withOpacity(.1),
-                          )
-                        ],
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(13)),
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.transparent,
-                              ),
-                              child: app is ApplicationWithIcon
-                                  ? Image.memory(
-                                      app.icon,
-                                    )
-                                  : null,
-                            ),
-                          ),
-                          title: Text(app.appName, style: TextStyles.title.bold),
-                          subtitle: Text(' ${app.versionName}\n'),
-                          trailing: Icon(
-                            Icons.keyboard_arrow_right,
-                            size: 30,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ).ripple(() {
-                        DeviceApps.openApp(app.packageName);
-                      }, borderRadius: BorderRadius.all(Radius.circular(20))),
-                    );
-                  },
-                  itemCount: 3);
-            }
-          }),
-    );
+  double getRandom() {
+    var list = [0.1, 0.3, 0.7, 0.4, 0.6, 0.9, 0.65, 0.85];
+    var rn = (list..shuffle()).first;
+    return rn;
   }
 
   // Widget getMostUsedApps() {
@@ -469,12 +379,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-
-
   final List<BarChartModel> data = [
     BarChartModel(
       days: 'Mon'.tr(),
-      time:  2 ,
+      time: 2,
       color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
     ),
     BarChartModel(
@@ -518,7 +426,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           create: (context) => NetworkBloc()..add(ListenConnection()),
           child: BlocBuilder<NetworkBloc, NetworkState>(
             builder: (context, state) {
-              if (state is ConnectionFailure) return Scaffold(body: Center(child: Image.asset('assets/png/no-internet-.jpg')));
+              if (state is ConnectionFailure)
+                return Scaffold(
+                    body: Center(
+                        child: Image.asset('assets/png/no-internet-.jpg')));
               if (state is ConnectionSuccess) {
                 return Scaffold(
                   key: _scaffoldKey,
@@ -564,7 +475,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             ),
                           ),
                         ),
-                       /// Tab bar view here
+
+                        /// Tab bar view here
                         Expanded(
                           child: TabBarView(
                             controller: _tabController,
@@ -575,27 +487,193 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   SliverList(
                                     delegate: SliverChildListDelegate(
                                       [
-                                       SizedBox(height: 20,),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         HorizontalList(),
                                         _header(),
                                         BarChartGraph(
                                           data: data,
                                         ),
                                         _category(),
+
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(
+                                                'Installed Apps'
+                                                    .tr()
+                                                    .toString(),
+                                                style: TextStyles.titleNormal),
+                                            IconButton(
+                                                    icon: Icon(
+                                                      Icons.sort,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    ),
+                                                    onPressed: () {})
+                                                .p(12)
+                                                .ripple(() {
+                                              Navigator.pushNamed(
+                                                  context, '/installed_apps');
+                                            },
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20))),
+                                          ],
+                                        ).hP16,
+                                            SizedBox(
+                                              child: FutureBuilder<List<Application>>(
+                                                future: DeviceApps
+                                                    .getInstalledApplications(
+                                                        includeAppIcons: true,
+                                                        includeSystemApps: false,
+                                                        onlyAppsWithLaunchIntent:
+                                                            true,
+                                                        usageApps: false),
+                                                builder: (BuildContext context,
+                                                    AsyncSnapshot<List<Application>>
+                                                        data) {
+                                                  if (data.data == null) {
+                                                    return const Center(
+                                                        child:
+                                                            CircularProgressIndicator());
+                                                  } else {
+                                                    var apps = data.data;
+                                                    print(apps);
+                                                    return ListView.builder(
+                                                        scrollDirection:
+                                                            Axis.vertical,
+                                                        shrinkWrap: true,
+                                                        itemBuilder:
+                                                            (BuildContext context,
+                                                                int position) {
+                                                          var app = apps[position];
+                                                          return Container(
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical: 8,
+                                                                    horizontal: 16),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                      Radius
+                                                                          .circular(
+                                                                              20)),
+                                                              boxShadow: <
+                                                                  BoxShadow>[
+                                                                BoxShadow(
+                                                                  offset:
+                                                                      Offset(4, 4),
+                                                                  blurRadius: 10,
+                                                                  color: LightColor
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          .2),
+                                                                ),
+                                                                BoxShadow(
+                                                                  offset:
+                                                                      Offset(-3, 0),
+                                                                  blurRadius: 15,
+                                                                  color: LightColor
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          .1),
+                                                                )
+                                                              ],
+                                                            ),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          18,
+                                                                      vertical: 8),
+                                                              child: ListTile(
+                                                                contentPadding:
+                                                                    EdgeInsets.all(
+                                                                        0),
+                                                                leading: ClipRRect(
+                                                                  borderRadius: BorderRadius
+                                                                      .all(Radius
+                                                                          .circular(
+                                                                              13)),
+                                                                  child: Container(
+                                                                    height: 45,
+                                                                    width: 45,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  15),
+                                                                      color: Colors
+                                                                          .transparent,
+                                                                    ),
+                                                                    child: app
+                                                                            is ApplicationWithIcon
+                                                                        ? Image
+                                                                            .memory(
+                                                                            app.icon,
+                                                                          )
+                                                                        : null,
+                                                                  ),
+                                                                ),
+                                                                title: Text(
+                                                                    app.appName,
+                                                                    style: TextStyles
+                                                                        .titleSize15),
+                                                                subtitle:
+                                                                    LinearPercentIndicator(
+                                                                  width: 150.0,
+                                                                  lineHeight: 8.0,
+                                                                  percent:
+                                                                      getRandom(),
+                                                                  progressColor:
+                                                                      Colors.blue,
+                                                                ),
+                                                                trailing: Icon(
+                                                                  Icons
+                                                                      .keyboard_arrow_right,
+                                                                  size: 30,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor,
+                                                                ),
+                                                              ),
+                                                            ).ripple(() {
+                                                              DeviceApps.openApp(
+                                                                  app.packageName);
+                                                            },
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .all(Radius
+                                                                            .circular(
+                                                                                20))),
+                                                          );
+                                                        },
+                                                        itemCount: 7);
+                                                  }
+                                                }),
+                                            ),
+
                                       ],
                                     ),
                                   ),
-                                  _appsList()
                                 ],
                               ),
 
                               /// Second tab bar view widget
                               ListView.builder(
-
                                   itemCount: _infos.length,
                                   itemBuilder: (context, index) {
-
-                                    return ListTile(title: Text(_infos[index].appName), trailing: Text(_infos[index].usage.toString()));
+                                    return ListTile(
+                                        title: Text(_infos[index].appName),
+                                        trailing: Text(
+                                            _infos[index].usage.toString()));
                                   }),
                             ],
                           ),
@@ -612,4 +690,3 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 }
-
