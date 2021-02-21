@@ -164,7 +164,7 @@ class TextStyles {
   static TextStyle get title =>TextStyle(fontSize: FontSizes.title);
   static TextStyle get titleM =>TextStyle(fontSize: FontSizes.titleM);
   static TextStyle get titleSize15 => title.copyWith(fontWeight: FontWeight.w500,fontSize: 15);
-  static TextStyle get titleNormal => title.copyWith(fontWeight: FontWeight.w500);
+  static TextStyle get titleNormal => title.copyWith(fontWeight: FontWeight.w500,fontSize: FontSizes.titleSmall);
   static TextStyle get titleMedium => titleM.copyWith(fontWeight: FontWeight.w300);
   static TextStyle get h1Style => TextStyle(fontSize: FontSizes.sizeXXl, fontWeight: FontWeight.bold);
   static TextStyle get h2Style => TextStyle(fontSize: FontSizes.sizeXl, fontWeight: FontWeight.bold,color: Colors.black);

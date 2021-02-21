@@ -103,13 +103,12 @@ abstract class BaseAuth {
     _userServices.createUser({
       'name': user.displayName,
       'email': user.email,
-      'address': 'adres',
       'image': user.photoURL,
       'uid': user.uid,});
     return true;
-    
 
   }
+
 
   @override
   Future<bool> signIn(String email, String password) async {

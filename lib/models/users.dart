@@ -1,6 +1,7 @@
 
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_test/models/child_model.dart';
 
 
 
@@ -13,16 +14,15 @@ class UserModel {
   String email;
   String image;
   String token;
-
   int totalDuration;
 
 
   String get displayName => [name, surname].join(' ').trim();
-
+  List<ChildModel> childMod = <ChildModel>[];
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
-  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration});
+  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration,this.childMod});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
@@ -37,7 +37,8 @@ class UserModel {
         'reference': reference,
         'image': image,
         'appsUsageModel': appsList(appsUsageModel),
-        'totalDuration': totalDuration
+        'totalDuration': totalDuration,
+        'childModel' : childMod,
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -82,6 +83,7 @@ UserModel _UserModelFromJson (dynamic json) {
     reference: json['reference'],
     image: json['image'],
     appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
+    childMod: _convertChildren(json['childMod'] as List ) ?? [],
     totalDuration : json['totalDuration'] == null ? 0 : getFullUsage(json['appUsageModel']),
 
   );
@@ -110,6 +112,18 @@ List<AppUsageInfo> _convertModel(List<dynamic> appsMod) {
   });
   return apps;
 }
+List<ChildModel> _convertChildren(List<dynamic> childMod) {
+  if (childMod == null) {
+    return null;
+  }
+  var kids = <ChildModel>[];
+  childMod.forEach((value) {
+    kids.add(ChildModel.fromJson(value));
+  });
+  return kids;
+}
+
+
 int getFullUsage(List<dynamic> apps){
   var Sum =0;
   if(apps == null){

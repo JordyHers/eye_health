@@ -11,6 +11,10 @@ class OpeningPage extends StatefulWidget {
 }
 
 class _OpeningPageState extends State<OpeningPage> {
+  bool _isParent = false;
+  bool _isChild = false;
+  var color  = Colors.green.withOpacity(0.5);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,17 +42,28 @@ class _OpeningPageState extends State<OpeningPage> {
               children: [
                 Column(
                   children: [
-                    Card(
-                      margin: EdgeInsets.only(
-                          left: 45, right: 45, bottom: 20, top: 10),
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/parents.png',
-                            fit: BoxFit.contain,
+                    InkWell(onTap: (){
+                      setState(() {
+                        _isParent =true;
+                        _isChild =false;
+
+                       print('isTap activated Parents');
+                      });
+                    },
+                      child: Card(
+                        margin: EdgeInsets.only(
+                            left: 45, right: 45, bottom: 20, top: 10),
+                        child: Container(
+
+                          color: _isParent ? color: Colors.transparent,
+                          height: 80,
+                          width: 80,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/parents.png',
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
@@ -61,17 +76,28 @@ class _OpeningPageState extends State<OpeningPage> {
                 ),
                 Column(
                   children: [
-                    Card(
-                      margin: EdgeInsets.only(
-                          left: 45, right: 40, bottom: 20, top: 10),
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/sister-and-brother.png',
-                            fit: BoxFit.contain,
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                         _isParent =false;
+                         _isChild = true;
+
+                          print('isTap  kids activated');
+                        });
+                      },
+                      child: Card(
+                        margin: EdgeInsets.only(
+                            left: 45, right: 40, bottom: 20, top: 10),
+                        child: Container(
+                          color: _isChild ? color: Colors.transparent,
+                          height: 80,
+                          width: 80,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/images/sister-and-brother.png',
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
@@ -99,7 +125,7 @@ class _OpeningPageState extends State<OpeningPage> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: LightColor.accentBlue,
             onPressed: () {
-              Navigator.pushNamed(context, '/Sign_in');
+              _isParent ? Navigator.pushNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home') ;
             },
             child: Text(
               'Next'.tr(),

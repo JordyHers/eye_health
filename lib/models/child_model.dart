@@ -3,12 +3,14 @@
 
 import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ChildModel {
 
   String name;
   String surname;
   String id;
+  Position position;
   String image;
   String token;
 
@@ -21,7 +23,7 @@ class ChildModel {
   DocumentReference reference;
 
   ChildModel(this.name,
-      {this.surname, this.id, this.reference, this.token, this.image, this.appsUsageModel, this.totalDuration});
+      {this.surname, this.id, this.reference, this.token, this.image, this.appsUsageModel, this.totalDuration,this.position});
 
   factory ChildModel.fromJson(Map<String, dynamic> json) =>
       _ChildModelFromJson(json);
@@ -35,6 +37,7 @@ class ChildModel {
         'surname': surname,
         'reference': reference,
         'image': image,
+        'position':position,
         'appsUsageModel': appsList(appsUsageModel),
         'totalDuration': totalDuration
       };
@@ -54,6 +57,7 @@ class ChildModel {
       surname: json['surname'] as String ,
       reference: json['reference'],
       image: json['image'],
+      position: json['position'],
       appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
       totalDuration : json['totalDuration'] == null ? 0 : getFullUsage(json['appUsageModel']),
 

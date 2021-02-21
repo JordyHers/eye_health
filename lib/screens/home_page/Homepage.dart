@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage>
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child:
-              Text('Follow your children location'.tr().toString(), style: TextStyles.titleM.bl_ac),
+              Text("Follow your child's location ".tr().toString(), style: TextStyles.titleNormal.bl_ac),
         ),
         Text('This is your location- Monitor '.tr().toString(),
             style: TextStyles.bodySm.subTitleColor),
