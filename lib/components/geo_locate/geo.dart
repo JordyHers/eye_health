@@ -1,26 +1,56 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+
+import 'package:eye_test/services/Geo_locator/geo_locator_service.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class Geo extends StatefulWidget {
+  final Position initialPosition;
+
+  Geo(this.initialPosition);
+
   @override
-  _GeoState createState() => _GeoState();
+  State<StatefulWidget> createState() => _GeoState();
 }
 
 class _GeoState extends State<Geo> {
+  final GeoLocatorService geoService = GeoLocatorService();
+  Completer<GoogleMapController> _controller = Completer();
+
+  @override
+  void initState() {
+    geoService.getCurrentLocation().listen((position) {
+      centerScreen(position);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-            child: Text(
-          'TEXT FOR GEO',
-          style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueAccent),
-        )),
+    return  Container(
+      height: 250,
+      child: Center(
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(
+                target: LatLng(widget.initialPosition.latitude,
+                    widget.initialPosition.longitude),
+                zoom: 10),
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+          ),
       ),
     );
+  }
+
+  Future<void> centerScreen(Position position) async {
+    final controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(position.latitude, position.longitude), zoom: 12.0)));
   }
 }
 

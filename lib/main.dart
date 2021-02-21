@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/config/routes.dart';
 import 'package:eye_test/provider/app_provider.dart';
 import 'package:eye_test/services/Api/Auths.dart';
+import 'package:eye_test/services/Geo_locator/geo_locator_service.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,21 +34,25 @@ void main() async {
   ));
 }
 class MyApp extends StatelessWidget {
+  final geoService = GeoLocatorService();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Time's Up",
-      theme: AppTheme.lightTheme,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
+    return FutureProvider(
+      create: (context) => geoService.getInitialLocation(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Time's Up",
+        theme: AppTheme.lightTheme,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+        ),
+        routes: Routes.getRoute(),
+        initialRoute: 'OpeningPage',
+         //home: ScreensController(),
       ),
-      routes: Routes.getRoute(),
-      initialRoute: 'OpeningPage',
-       //home: ScreensController(),
     );
   }
 }

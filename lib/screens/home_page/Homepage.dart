@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/components/geo_locate/geo.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/bar_charts_model.dart';
 import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
+import 'package:eye_test/services/Geo_locator/geo_locator_service.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 
@@ -19,6 +23,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +36,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GeoLocatorService geoService = GeoLocatorService();
+  // Completer<GoogleMapController> _controller = Completer();
 
   Status get status => _status;
 
@@ -64,7 +73,11 @@ class _HomePageState extends State<HomePage>
       print(exception);
     }
   }
-
+  // Future<void> centerScreen(Position position) async {
+  //   final controller = await _controller.future;
+  //   await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+  //       target: LatLng(position.latitude, position.longitude), zoom: 18.0)));
+  // }
   @override
   void dispose() {
     super.dispose();
@@ -74,6 +87,10 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
+
+    // geoService.getCurrentLocation().listen((position) {
+    //   centerScreen(position);
+    // });
     // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
@@ -142,9 +159,9 @@ class _HomePageState extends State<HomePage>
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
           child:
-              Text('2 Hours 30 mins'.tr().toString(), style: TextStyles.titleM),
+              Text('Follow your children location'.tr().toString(), style: TextStyles.titleM.bl_ac),
         ),
-        Text('16 mins more than the previous day'.tr().toString(),
+        Text('This is your location- Monitor '.tr().toString(),
             style: TextStyles.bodySm.subTitleColor),
       ],
     ).p16;
@@ -173,8 +190,8 @@ class _HomePageState extends State<HomePage>
                   'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
               SizedBox(height: 20,width: 20,),
-              _categoryCardFindOnMap('Find on Map'.tr().toString(),
-                  color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
+              // _categoryCardFindOnMap('Find on Map'.tr().toString(),
+              //     color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
             ],
           ),
         ),
@@ -220,45 +237,6 @@ class _HomePageState extends State<HomePage>
         ],
       ).p16.ripple(() {
         Navigator.pushNamed(context, '/focus_mode');
-      }, borderRadius: BorderRadius.all(Radius.circular(20))),
-    );
-  }
-
-  ///+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  ///_______________________-WIDGET SCREEN TIME _________________________________________________________
-  Widget _categoryCardFindOnMap(String subtitle,
-      {Color color, Color lightColor}) {
-    var subtitleStyle = TextStyles.body.bold.black;
-    // if (AppTheme.fullWidth(context) < 392) {
-    //   subtitleStyle = TextStyles.bodySm.bold.grey;
-    // }
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/Navigation-pana.png'),
-          fit: BoxFit.contain,
-        ),
-        color: color,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          SizedBox(
-            height: 10,
-          ),
-          Flexible(
-            child: Text(
-              subtitle,
-              style: TextStyles.titleNormal,
-            ).hP8,
-          ),
-        ],
-      ).p16.ripple(() {
-        Navigator.pushNamed(context, '/geo');
       }, borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
@@ -446,10 +424,16 @@ class _HomePageState extends State<HomePage>
                                         ),
                                         HorizontalList(),
                                         _header(),
-                                        BarChartGraph(
-                                          data: data,
-                                        ),
-                                        _category(),
+                                        Consumer<Position>(builder: (context, position, widget) {
+                                          return (position != null)
+                                              ? Geo(position)
+                                              : Center(child: CircularProgressIndicator());
+                                        }),
+
+                                        // BarChartGraph(
+                                        //   data: data,
+                                        // ),
+                                        //_category(),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment
