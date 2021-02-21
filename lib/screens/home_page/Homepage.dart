@@ -10,21 +10,18 @@ import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/bar_charts_model.dart';
 import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/services/Geo_locator/geo_locator_service.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
-import 'package:eye_test/widgets/bar_charts_graph.dart';
 import 'package:eye_test/widgets/horizontal_ListView.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -36,12 +33,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // final GeoLocatorService geoService = GeoLocatorService();
   // Completer<GoogleMapController> _controller = Completer();
 
@@ -65,14 +62,13 @@ class _HomePageState extends State<HomePage>
       });
       setState(() {
         _infos = infoList;
-        Future.delayed(Duration.zero, () {
-          _rep.updateMod(userProvider.currentUser, _infos, _token);
-        });
+        _rep.updateMod(userProvider.currentUser, _infos, _token);
       });
     } on AppUsageException catch (exception) {
       print(exception);
     }
   }
+
   // Future<void> centerScreen(Position position) async {
   //   final controller = await _controller.future;
   //   await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -158,8 +154,8 @@ class _HomePageState extends State<HomePage>
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child:
-              Text("Follow your child's location ".tr().toString(), style: TextStyles.titleNormal.bl_ac),
+          child: Text("Follow your child's location ".tr().toString(),
+              style: TextStyles.titleNormal.bl_ac),
         ),
         Text('This is your location- Monitor '.tr().toString(),
             style: TextStyles.bodySm.subTitleColor),
@@ -185,11 +181,17 @@ class _HomePageState extends State<HomePage>
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              SizedBox(height: 20,width: 20,),
+              SizedBox(
+                height: 20,
+                width: 20,
+              ),
               _categoryCardFocus(
                   'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
-              SizedBox(height: 20,width: 20,),
+              SizedBox(
+                height: 20,
+                width: 20,
+              ),
               // _categoryCardFindOnMap('Find on Map'.tr().toString(),
               //     color: LightColor.skyBlue, lightColor: LightColor.lightBlue),
             ],
@@ -220,7 +222,6 @@ class _HomePageState extends State<HomePage>
         ),
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -391,6 +392,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                                 color: Colors.white,
                               ),
+
                               labelColor: Colors.black,
                               unselectedLabelColor: Colors.white,
                               tabs: [
@@ -420,14 +422,24 @@ class _HomePageState extends State<HomePage>
                                     delegate: SliverChildListDelegate(
                                       [
                                         SizedBox(
-                                          height: 20,
+                                          height: 40,
                                         ),
+                                        Text(
+                                            'My Children'.tr().toString(),
+                                            style:
+                                                TextStyles.titleNormal.bl_ac).p8,
+                                        Divider(height: 5,color: Colors.grey.withOpacity(0.1),thickness:3,),
+                                        SizedBox(height: 3,),
                                         HorizontalList(),
+                                        Divider(height: 5,color: Colors.grey.withOpacity(0.1),thickness: 3,),
                                         _header(),
-                                        Consumer<Position>(builder: (context, position, widget) {
+                                        Consumer<Position>(builder:
+                                            (context, position, widget) {
                                           return (position != null)
                                               ? Geo(position)
-                                              : Center(child: CircularProgressIndicator());
+                                              : Center(
+                                                  child:
+                                                      CircularProgressIndicator());
                                         }),
 
                                         // BarChartGraph(
@@ -436,27 +448,23 @@ class _HomePageState extends State<HomePage>
                                         //_category(),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Text(
                                                 'Installed Apps'
                                                     .tr()
                                                     .toString(),
-                                                style:
-                                                    TextStyles.titleNormal),
+                                                style: TextStyles.titleNormal.bl_ac),
                                             IconButton(
                                                     icon: Icon(
                                                       Icons.sort,
-                                                      color:
-                                                          Theme.of(context)
-                                                              .primaryColor,
+                                                      color: LightColor.accentBlue,
                                                     ),
                                                     onPressed: () {})
                                                 .p(12)
                                                 .ripple(() {
-                                              Navigator.pushNamed(context,
-                                                  '/installed_apps');
+                                              Navigator.pushNamed(
+                                                  context, '/installed_apps');
                                             },
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -470,13 +478,11 @@ class _HomePageState extends State<HomePage>
                                               future: DeviceApps
                                                   .getInstalledApplications(
                                                       includeAppIcons: true,
-                                                      includeSystemApps:
-                                                          false,
+                                                      includeSystemApps: false,
                                                       onlyAppsWithLaunchIntent:
                                                           true,
                                                       usageApps: false),
-                                              builder: (BuildContext
-                                                      context,
+                                              builder: (BuildContext context,
                                                   AsyncSnapshot<
                                                           List<Application>>
                                                       data) {
@@ -492,8 +498,7 @@ class _HomePageState extends State<HomePage>
                                                           Axis.vertical,
                                                       shrinkWrap: true,
                                                       itemBuilder:
-                                                          (BuildContext
-                                                                  context,
+                                                          (BuildContext context,
                                                               int position) {
                                                         var app =
                                                             apps[position];
@@ -502,27 +507,25 @@ class _HomePageState extends State<HomePage>
                                                               .symmetric(
                                                                   horizontal:
                                                                       18,
-                                                                  vertical:
-                                                                      8),
+                                                                  vertical: 8),
                                                           child: ListTile(
                                                             contentPadding:
-                                                                EdgeInsets
-                                                                    .all(0),
-                                                            leading:
-                                                                ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius.all(
-                                                                      Radius.circular(
+                                                                EdgeInsets.all(
+                                                                    0),
+                                                            leading: ClipRRect(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
                                                                           13)),
-                                                              child:
-                                                                  Container(
+                                                              child: Container(
                                                                 height: 45,
                                                                 width: 45,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          15),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
                                                                   color: Colors
                                                                       .transparent,
                                                                 ),
@@ -542,31 +545,28 @@ class _HomePageState extends State<HomePage>
                                                             subtitle:
                                                                 LinearPercentIndicator(
                                                               width: 180.0,
-                                                              lineHeight:
-                                                                  8.0,
+                                                              lineHeight: 8.0,
                                                               percent:
                                                                   getRandom(),
                                                               progressColor:
-                                                                  Colors
-                                                                      .blue,
+                                                                  Colors.blue,
                                                             ),
                                                             trailing: Icon(
                                                               Icons
                                                                   .keyboard_arrow_right,
                                                               size: 30,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColor,
+                                                              color: LightColor.accentBlue,
                                                             ),
                                                           ),
                                                         ).ripple(() {
                                                           DeviceApps.openApp(
                                                               app.packageName);
                                                         },
-                                                            borderRadius: BorderRadius
-                                                                .all(Radius
-                                                                    .circular(
-                                                                        20)));
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            20)));
                                                       },
                                                       itemCount: 4);
                                                 }

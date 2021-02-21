@@ -36,7 +36,7 @@ class UserModel {
         'email': email,
         'reference': reference,
         'image': image,
-        'appsUsageModel': appsList(appsUsageModel),
+        'appsUsageModel': appsList(appsUsageModel ?? []) ,
         'totalDuration': totalDuration,
         'childModel' : childMod,
       };
@@ -82,8 +82,8 @@ UserModel _UserModelFromJson (dynamic json) {
     email: json['email'] as String,
     reference: json['reference'],
     image: json['image'],
-    appsUsageModel: _convertModel(json['appsUsageModel'] as List ) ?? [],
-    childMod: _convertChildren(json['childMod'] as List ) ?? [],
+    appsUsageModel: _convertModel(json['appsUsageModel'] as List ?? []) ,
+    childMod: _convertChildren(json['childMod'] as List ?? [] ) ,
     totalDuration : json['totalDuration'] == null ? 0 : getFullUsage(json['appUsageModel']),
 
   );

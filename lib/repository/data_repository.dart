@@ -17,7 +17,10 @@ class DataRepository {
   // 4
   // ignore: always_declare_return_types
   updateMod(UserModel mod, List<AppUsageInfo> apps, String Token) async {
-    mod.appsUsageModel = apps ;
+    if(mod.appsUsageModel != null){
+      mod.appsUsageModel  = apps ;
+    }
+
     mod.token = Token;
     await collection.doc(mod.reference.id).update(mod.toJson());
   }

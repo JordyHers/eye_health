@@ -229,6 +229,14 @@ class _ProfileListItemsState extends State<ProfileListItems> {
             },
             text: 'dark mode'.tr().toString(),
           ),
+
+          ProfileListItem(
+            icon: LineAwesomeIcons.mobile_phone,
+            onPressed: () {
+           Navigator.pushNamed(context, '/register_kids');
+            }, text: "Add a Child's device".tr().toString(),
+          ),
+
           ProfileListItem(
             icon: LineAwesomeIcons.alternate_sign_out,
             onPressed: () async {

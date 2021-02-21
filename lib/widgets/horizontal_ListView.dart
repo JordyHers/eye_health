@@ -7,7 +7,7 @@ class HorizontalList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color:  Colors.grey.withOpacity(0.1),
           borderRadius:  BorderRadius.all(Radius.circular(8))
       ),
       //color: Colors.grey,
@@ -16,7 +16,10 @@ class HorizontalList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-
+          Kids(
+            image_location: 'assets/children/Kyle.jpg',
+            image_caption: 'Kyle',
+          ),
           Kids(
             image_location: 'assets/children/Carla.jpg',
             image_caption: 'Carla',
@@ -33,10 +36,7 @@ class HorizontalList extends StatelessWidget {
           ),
 
 
-          Kids(
-            image_location: 'assets/children/Kyle.jpg',
-            image_caption: 'Kyle',
-          ),
+
 
 
 

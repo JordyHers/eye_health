@@ -56,6 +56,8 @@ extension TextStyleHelpers on TextStyle {
 
 extension PaddingHelper on Widget {
   Padding get p16 => Padding(padding: EdgeInsets.all(16), child: this);
+  Padding get p8 => Padding(padding: EdgeInsets.all(8), child: this);
+  Padding get p4 => Padding(padding: EdgeInsets.all(8), child: this);
 
   /// Set padding according to `value`
   Padding p(double value) =>
