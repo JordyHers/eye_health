@@ -424,10 +424,12 @@ class _HomePageState extends State<HomePage>
                                         SizedBox(
                                           height: 40,
                                         ),
-                                        Text(
-                                            'My Children'.tr().toString(),
-                                            style:
-                                                TextStyles.titleNormal.bl_ac).p8,
+                                        ListTile(title: Text('My Children'.tr().toString(),
+                                          style:
+                                          TextStyles.titleNormal.bl_ac,
+                                            ),
+                                          subtitle: Text('Choose child to get more infos ',style: TextStyles.bodySm.subTitleColor,),
+                                        trailing: Icon(Icons.info_outline_rounded),).p8,
                                         Divider(height: 5,color: Colors.grey.withOpacity(0.1),thickness:3,),
                                         SizedBox(height: 3,),
                                         HorizontalList(),
