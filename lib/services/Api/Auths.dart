@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_usage/app_usage.dart';
 import 'package:eye_test/models/users.dart';
+import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:uuid/uuid.dart';
 
@@ -37,29 +40,25 @@ abstract class BaseAuth {
 
 
   List<UserModel> _userList = [];
-  String order;
+
+  List<AppUsageInfo> _infos = [];
 
   final FirebaseAuth _auth;
   User _user;
   Status _status = Status.Uninitialized;
   Status get status => _status;
   User get user => _user;
+
   final UserServices _userServices = UserServices();
 
-  // OrderServices _orderServices = OrderServices();
-  // List<OrderModel> _orders = [];
-  //UnmodifiableListView <OrderModel> get orders => UnmodifiableListView(_orders);
-
   UserModel get currentUser => _userModel;
-  //OrderModel get currentOrder => _orderModel;
-
-  //OrderModel _orderModel;
+  List<AppUsageInfo> get infos => _infos;
   UserModel _userModel;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-
-  //FacebookLogin facebookLogin = FacebookLogin();
   UserModel get userModel => _userModel;
-  //OrderModel get orderModel => _orderModel;
+  final DataRepository _rep = DataRepository();
+  String _token;
   bool isLogged = false;
 
   Auths.initialize(): _auth = FirebaseAuth.instance{
@@ -67,12 +66,41 @@ abstract class BaseAuth {
 
   }
 
+  void getUsageStats() async {
+
+    try {
+      var endDate = DateTime.now();
+      var startDate = endDate.subtract(Duration(hours: 1));
+      var infoList = await AppUsage.getAppUsage(startDate, endDate);
+      await _firebaseMessaging.getToken().then((token) {
+        _token = token;
+        print('Device Token: $_token');
+      });
+
+        _infos = infoList;
+
+      _userModel.appsUsageModel = _infos;
+      _userModel.token =_token;
+      print('Home Page _currentUser and appsUsageModel ________________________');
+      print(_userModel.appsUsageModel);
+      await  _rep.updateMod(_userModel);
 
 
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
+  }
+
+
+   set infos(List<AppUsageInfo> infos){
+    _infos =infos;
+    notifyListeners();
+   }
   set userList(List<UserModel> userList) {
     _userList = userList;
     notifyListeners();
   }
+
 
   set currentUser(UserModel userModel) {
     _userModel= userModel;

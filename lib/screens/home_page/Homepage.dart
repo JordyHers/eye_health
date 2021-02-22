@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/components/geo_locate/geo.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/bar_charts_model.dart';
+import 'package:eye_test/models/users.dart';
 import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
@@ -33,47 +34,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // final GeoLocatorService geoService = GeoLocatorService();
-  // Completer<GoogleMapController> _controller = Completer();
-
   Status get status => _status;
-
   TabController _tabController;
-  List<AppUsageInfo> _infos = [];
-  final DataRepository _rep = DataRepository();
-  String _token;
+  UserModel _currentUser;
 
-  void getUsageStats() async {
-    final userProvider = Provider.of<Auths>(context, listen: false);
 
-    try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList = await AppUsage.getAppUsage(startDate, endDate);
-      await _firebaseMessaging.getToken().then((token) {
-        _token = token;
-        print('Device Token: $_token');
-      });
-      setState(() {
-        _infos = infoList;
-        _rep.updateMod(userProvider.currentUser, _infos, _token);
-      });
-    } on AppUsageException catch (exception) {
-      print(exception);
-    }
-  }
 
-  // Future<void> centerScreen(Position position) async {
-  //   final controller = await _controller.future;
-  //   await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-  //       target: LatLng(position.latitude, position.longitude), zoom: 18.0)));
-  // }
+
+
   @override
   void dispose() {
     super.dispose();
@@ -84,17 +58,18 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
-    // geoService.getCurrentLocation().listen((position) {
-    //   centerScreen(position);
-    // });
-    // appsDataList = appsMapList.map((k) => AppsModel.fromJson(k)).toList();
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
     Future.delayed(Duration.zero, () {
-      getUsageStats();
+      userProvider.getUsageStats();
     });
     if (userProvider.currentUser != null) {
-    } else {}
+      _currentUser = userProvider.currentUser;
+    } else {
+      _currentUser = UserModel(_currentUser.name);
+    }
+
+
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -582,12 +557,12 @@ class _HomePageState extends State<HomePage>
 
                               /// Second tab bar view widget
                               ListView.builder(
-                                  itemCount: _infos.length,
+                                  itemCount: userProvider.infos.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
-                                        title: Text(_infos[index].appName),
+                                        title: Text(userProvider.infos[index].appName),
                                         trailing: Text(
-                                            _infos[index].usage.toString()));
+                                            userProvider.infos[index].usage.toString()));
                                   }),
                             ],
                           ),

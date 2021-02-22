@@ -36,7 +36,7 @@ class UserModel {
         'email': email,
         'reference': reference,
         'image': image,
-        'appsUsageModel': appsList(appsUsageModel ?? []) ,
+        'appsUsageModel': appsList(appsUsageModel ) ?? [] ,
         'totalDuration': totalDuration,
         'childModel' : childMod,
       };

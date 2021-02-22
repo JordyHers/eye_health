@@ -1,3 +1,4 @@
+import 'package:app_usage/app_usage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,25 @@ class OpeningPage extends StatefulWidget {
 class _OpeningPageState extends State<OpeningPage> {
   bool _isParent = false;
   bool _isChild = false;
+  List<AppUsageInfo> _infos = [];
   var color  = Colors.green.withOpacity(0.5);
+
+
+  void getUsageStats() async {
+    try {
+      var endDate = DateTime.now();
+      var startDate = endDate.subtract(Duration(hours: 1));
+      var infoList = await AppUsage.getAppUsage(startDate, endDate);
+
+      setState(() {
+        _infos = infoList;
+      });
+
+
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,14 +137,15 @@ class _OpeningPageState extends State<OpeningPage> {
               'way for this device. The Parent device will\n'
               'manage the child device.'),
           SizedBox(
-            height: 200,
+            height: 100,
           ),
           RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: LightColor.accentBlue,
             onPressed: () {
-              _isParent ? Navigator.pushNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home') ;
+              _isParent ? Navigator.pushNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home');
+
             },
             child: Text(
               'Next'.tr(),
