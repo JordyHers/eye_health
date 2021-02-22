@@ -22,7 +22,7 @@ class UserModel {
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
-  UserModel(this.name, {this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration,this.childMod});
+  UserModel({this.name, this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration,this.childMod});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>_UserModelFromJson(json);
 
@@ -75,7 +75,7 @@ class UserModel {
 }
 UserModel _UserModelFromJson (dynamic json) {
   return   UserModel(
-    json['name'] as String,
+    name:json['name'] as String,
     id: json['id'] as String,
     token: json['token'] as String,
     surname: json['surname'] as String ,

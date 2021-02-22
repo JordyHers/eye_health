@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage>
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
-      _currentUser = UserModel(_currentUser.name);
+      _currentUser = UserModel();
     }
 
     _tabController = TabController(length: 2, vsync: this);

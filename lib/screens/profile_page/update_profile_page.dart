@@ -42,7 +42,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> with ChangeNotifi
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
-      _currentUser = UserModel(_currentUser.name);
+      _currentUser = UserModel();
     }
     _imageUrl = _currentUser.image;
 

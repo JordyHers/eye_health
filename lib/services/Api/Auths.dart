@@ -53,10 +53,9 @@ abstract class BaseAuth {
 
   UserModel get currentUser => _userModel;
   List<AppUsageInfo> get infos => _infos;
-  UserModel _userModel;
+  UserModel _userModel = UserModel();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-  UserModel get userModel => _userModel;
   final DataRepository _rep = DataRepository();
   String _token;
   bool isLogged = false;
@@ -79,7 +78,8 @@ abstract class BaseAuth {
 
         _infos = infoList;
 
-      _userModel.appsUsageModel = _infos;
+        _userModel.appsUsageModel =_infos;
+
       _userModel.token =_token;
       print('Home Page _currentUser and appsUsageModel ________________________');
       print(_userModel.appsUsageModel);
