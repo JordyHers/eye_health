@@ -8,7 +8,6 @@ import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:uuid/uuid.dart';
 
@@ -41,7 +40,7 @@ abstract class BaseAuth {
 
   List<UserModel> _userList = [];
 
-  List<AppUsageInfo> _infos = [];
+  List<AppUsageInfo> _infos = <AppUsageInfo> [];
 
   final FirebaseAuth _auth;
   User _user;
@@ -66,31 +65,34 @@ abstract class BaseAuth {
   }
 
   void getUsageStats() async {
-
     try {
       var endDate = DateTime.now();
       var startDate = endDate.subtract(Duration(hours: 1));
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
-      await _firebaseMessaging.getToken().then((token) {
-        _token = token;
-        print('Device Token: $_token');
-      });
-
         _infos = infoList;
-
-        _userModel.appsUsageModel =_infos;
-
-      _userModel.token =_token;
-      print('Home Page _currentUser and appsUsageModel ________________________');
-      print(_userModel.appsUsageModel);
-      await  _rep.updateMod(_userModel);
-
 
     } on AppUsageException catch (exception) {
       print(exception);
     }
   }
 
+  void setTokenAndAppList() async {
+    try {
+    await _firebaseMessaging.getToken().then((token) {
+      _token = token;
+      print('Device Token: $_token');
+    });
+    _userModel.appsUsageModel =_infos;
+    _userModel.token =_token;
+    print('Home Page _currentUser and appsUsageModel ________________________');
+    print(_userModel.appsUsageModel);
+    await  _rep.updateMod(_userModel);
+
+    }
+    catch(e){
+      print(e);
+    }
+  }
 
    set infos(List<AppUsageInfo> infos){
     _infos =infos;

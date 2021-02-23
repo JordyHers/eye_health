@@ -1,8 +1,10 @@
 import 'package:app_usage/app_usage.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../size_config.dart';
 
@@ -14,28 +16,15 @@ class OpeningPage extends StatefulWidget {
 class _OpeningPageState extends State<OpeningPage> {
   bool _isParent = false;
   bool _isChild = false;
-  List<AppUsageInfo> _infos = [];
+
   var color  = Colors.green.withOpacity(0.5);
 
 
-  void getUsageStats() async {
-    try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList = await AppUsage.getAppUsage(startDate, endDate);
 
-      setState(() {
-        _infos = infoList;
-      });
-
-
-    } on AppUsageException catch (exception) {
-      print(exception);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<Auths> (context);
     return SafeArea(
       child: Scaffold(
           body: Column(
@@ -144,6 +133,7 @@ class _OpeningPageState extends State<OpeningPage> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: LightColor.accentBlue,
             onPressed: () {
+              userProvider.getUsageStats();
               _isParent ? Navigator.pushNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home');
 
             },

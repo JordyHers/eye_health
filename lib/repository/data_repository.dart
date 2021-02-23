@@ -1,5 +1,5 @@
-import 'package:app_usage/app_usage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
 
 
@@ -11,12 +11,11 @@ class DataRepository {
     return collection.snapshots();
   }
   // 3
-  Future<DocumentReference> addUser(UserModel mod) {
+  Future<DocumentReference> addChild(ChildModel mod) {
     return collection.add(mod.toJson());
   }
   // 4
-
-  Future <void> updateMod(UserModel mod) async {
+   updateMod(UserModel mod) async {
     await collection.doc(mod.reference.id).update(mod.toJson());
   }
 

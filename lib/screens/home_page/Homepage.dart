@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:app_usage/app_usage.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_apps/device_apps.dart';
@@ -9,7 +6,6 @@ import 'package:eye_test/components/geo_locate/geo.dart';
 import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/bar_charts_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Internet_Connection/bloc.dart';
 import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
@@ -18,7 +14,6 @@ import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
 import 'package:eye_test/widgets/horizontal_ListView.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,21 +27,16 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
 
   final Status _status = Status.Uninitialized;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Status get status => _status;
   TabController _tabController;
   UserModel _currentUser;
-
-
-
-
 
   @override
   void dispose() {
@@ -57,19 +47,17 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
     final userProvider = Provider.of<Auths>(context, listen: false);
     userProvider.reloadUserModel();
-    Future.delayed(Duration.zero, () {
-      userProvider.getUsageStats();
-    });
+    userProvider.getUsageStats();
+    userProvider.setTokenAndAppList();
+
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
       _currentUser = UserModel();
-    };
-
-
+    }
+    ;
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -129,11 +117,9 @@ class _HomePageState extends State<HomePage>
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: Text("Follow your child's location ".tr().toString(),
-              style: TextStyles.titleNormal.bl_ac),
+          child: Text("Follow your child's location ".tr().toString(), style: TextStyles.titleNormal.bl_ac),
         ),
-        Text('This is your location- Monitor '.tr().toString(),
-            style: TextStyles.bodySm.subTitleColor),
+        Text('This is your location- Monitor '.tr().toString(), style: TextStyles.bodySm.subTitleColor),
       ],
     ).p16;
   }
@@ -160,8 +146,7 @@ class _HomePageState extends State<HomePage>
                 height: 20,
                 width: 20,
               ),
-              _categoryCardFocus(
-                  'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
+              _categoryCardFocus('focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
               SizedBox(
                 height: 20,
@@ -180,8 +165,7 @@ class _HomePageState extends State<HomePage>
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET FOCUS MODE _________________________________________________________
 
-  Widget _categoryCardFocus(String title, String subtitle,
-      {Color color, Color lightColor}) {
+  Widget _categoryCardFocus(String title, String subtitle, {Color color, Color lightColor}) {
     var titleStyle = TextStyles.title.bold.white;
     var subtitleStyle = TextStyles.body.bold.white;
     // if (AppTheme.fullWidth(context) < 392) {
@@ -335,9 +319,7 @@ class _HomePageState extends State<HomePage>
           child: BlocBuilder<NetworkBloc, NetworkState>(
             builder: (context, state) {
               if (state is ConnectionFailure)
-                return Scaffold(
-                    body: Center(
-                        child: Image.asset('assets/png/no-internet-.jpg')));
+                return Scaffold(body: Center(child: Image.asset('assets/png/no-internet-.jpg')));
               if (state is ConnectionSuccess) {
                 return Scaffold(
                   key: _scaffoldKey,
@@ -399,24 +381,36 @@ class _HomePageState extends State<HomePage>
                                         SizedBox(
                                           height: 40,
                                         ),
-                                        ListTile(title: Text('My Children'.tr().toString(),
-                                          style:
-                                          TextStyles.titleNormal.bl_ac,
-                                            ),
-                                          subtitle: Text('Choose child to get more infos ',style: TextStyles.bodySm.subTitleColor,),
-                                        trailing: Icon(Icons.info_outline_rounded),).p8,
-                                        Divider(height: 5,color: Colors.grey.withOpacity(0.1),thickness:3,),
-                                        SizedBox(height: 3,),
+                                        ListTile(
+                                          title: Text(
+                                            'My Children'.tr().toString(),
+                                            style: TextStyles.titleNormal.bl_ac,
+                                          ),
+                                          subtitle: Text(
+                                            'Choose child to get more infos ',
+                                            style: TextStyles.bodySm.subTitleColor,
+                                          ),
+                                          trailing: Icon(Icons.info_outline_rounded),
+                                        ).p8,
+                                        Divider(
+                                          height: 5,
+                                          color: Colors.grey.withOpacity(0.1),
+                                          thickness: 3,
+                                        ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
                                         HorizontalList(),
-                                        Divider(height: 5,color: Colors.grey.withOpacity(0.1),thickness: 3,),
+                                        Divider(
+                                          height: 5,
+                                          color: Colors.grey.withOpacity(0.1),
+                                          thickness: 3,
+                                        ),
                                         _header(),
-                                        Consumer<Position>(builder:
-                                            (context, position, widget) {
+                                        Consumer<Position>(builder: (context, position, widget) {
                                           return (position != null)
                                               ? Geo(position)
-                                              : Center(
-                                                  child:
-                                                      CircularProgressIndicator());
+                                              : Center(child: CircularProgressIndicator());
                                         }),
 
                                         // BarChartGraph(
@@ -424,14 +418,9 @@ class _HomePageState extends State<HomePage>
                                         // ),
                                         //_category(),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Text(
-                                                'Installed Apps'
-                                                    .tr()
-                                                    .toString(),
-                                                style: TextStyles.titleNormal.bl_ac),
+                                            Text('Installed Apps'.tr().toString(), style: TextStyles.titleNormal.bl_ac),
                                             IconButton(
                                                     icon: Icon(
                                                       Icons.sort,
@@ -440,110 +429,64 @@ class _HomePageState extends State<HomePage>
                                                     onPressed: () {})
                                                 .p(12)
                                                 .ripple(() {
-                                              Navigator.pushNamed(
-                                                  context, '/installed_apps');
-                                            },
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                20))),
+                                              Navigator.pushNamed(context, '/installed_apps');
+                                            }, borderRadius: BorderRadius.all(Radius.circular(20))),
                                           ],
                                         ).hP16,
                                         SizedBox(
-                                          child: FutureBuilder<
-                                                  List<Application>>(
-                                              future: DeviceApps
-                                                  .getInstalledApplications(
-                                                      includeAppIcons: true,
-                                                      includeSystemApps: false,
-                                                      onlyAppsWithLaunchIntent:
-                                                          true,
-                                                      usageApps: false),
-                                              builder: (BuildContext context,
-                                                  AsyncSnapshot<
-                                                          List<Application>>
-                                                      data) {
+                                          child: FutureBuilder<List<Application>>(
+                                              future: DeviceApps.getInstalledApplications(
+                                                  includeAppIcons: true,
+                                                  includeSystemApps: false,
+                                                  onlyAppsWithLaunchIntent: true,
+                                                  usageApps: false),
+                                              builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
                                                 if (data.data == null) {
-                                                  return const Center(
-                                                      child:
-                                                          CircularProgressIndicator());
+                                                  return const Center(child: CircularProgressIndicator());
                                                 } else {
                                                   var apps = data.data;
                                                   print(apps);
                                                   return ListView.builder(
-                                                      scrollDirection:
-                                                          Axis.vertical,
+                                                      scrollDirection: Axis.vertical,
                                                       shrinkWrap: true,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                              int position) {
-                                                        var app =
-                                                            apps[position];
+                                                      itemBuilder: (BuildContext context, int position) {
+                                                        var app = apps[position];
                                                         return Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      18,
-                                                                  vertical: 8),
+                                                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                                                           child: ListTile(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    0),
+                                                            contentPadding: EdgeInsets.all(0),
                                                             leading: ClipRRect(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          13)),
+                                                              borderRadius: BorderRadius.all(Radius.circular(13)),
                                                               child: Container(
                                                                 height: 45,
                                                                 width: 45,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15),
-                                                                  color: Colors
-                                                                      .transparent,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(15),
+                                                                  color: Colors.transparent,
                                                                 ),
-                                                                child: app
-                                                                        is ApplicationWithIcon
-                                                                    ? Image
-                                                                        .memory(
+                                                                child: app is ApplicationWithIcon
+                                                                    ? Image.memory(
                                                                         app.icon,
                                                                       )
                                                                     : null,
                                                               ),
                                                             ),
-                                                            title: Text(
-                                                                app.appName,
-                                                                style: TextStyles
-                                                                    .titleSize15),
-                                                            subtitle:
-                                                                LinearPercentIndicator(
+                                                            title: Text(app.appName, style: TextStyles.titleSize15),
+                                                            subtitle: LinearPercentIndicator(
                                                               width: 180.0,
                                                               lineHeight: 8.0,
-                                                              percent:
-                                                                  getRandom(),
-                                                              progressColor:
-                                                                  Colors.blue,
+                                                              percent: getRandom(),
+                                                              progressColor: Colors.blue,
                                                             ),
                                                             trailing: Icon(
-                                                              Icons
-                                                                  .keyboard_arrow_right,
+                                                              Icons.keyboard_arrow_right,
                                                               size: 30,
                                                               color: LightColor.accentBlue,
                                                             ),
                                                           ),
                                                         ).ripple(() {
-                                                          DeviceApps.openApp(
-                                                              app.packageName);
-                                                        },
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            20)));
+                                                          DeviceApps.openApp(app.packageName);
+                                                        }, borderRadius: BorderRadius.all(Radius.circular(20)));
                                                       },
                                                       itemCount: 4);
                                                 }
@@ -561,8 +504,7 @@ class _HomePageState extends State<HomePage>
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                         title: Text(userProvider.infos[index].appName),
-                                        trailing: Text(
-                                            userProvider.infos[index].usage.toString()));
+                                        trailing: Text(userProvider.infos[index].usage.toString()));
                                   }),
                             ],
                           ),

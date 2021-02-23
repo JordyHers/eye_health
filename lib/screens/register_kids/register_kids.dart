@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import  'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
+import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -29,6 +30,7 @@ class _RegisterChildState extends State<RegisterChild> {
   String _imageUrl;
   File _imageFile;
 
+  DataRepository _rep = DataRepository();
 
   final TextEditingController _name = TextEditingController();
   final TextEditingController _surname = TextEditingController();
@@ -207,6 +209,7 @@ class _RegisterChildState extends State<RegisterChild> {
                             child: MaterialButton(
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
+
                                   // if (!await user.signUp(_email.text, _password.text)) {
                                   //   _key.currentState.showSnackBar(SnackBar(content: Text('Bir hata oldu')));
                                   //   return;
@@ -273,6 +276,7 @@ class _RegisterChildState extends State<RegisterChild> {
   // ignore: always_declare_return_types
   uploadUser(UserModel user, bool isUpdating, {String imageUrl}) async {
     var userRef = FirebaseFirestore.instance.collection('Users');
+
 
 
     if (imageUrl != null) {

@@ -13,9 +13,7 @@ class ChildModel {
   Position position;
   String image;
   String token;
-
   int totalDuration;
-
 
   String get displayName => [name, surname].join(' ').trim();
 
