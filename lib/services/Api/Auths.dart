@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:app_usage/app_usage.dart';
+import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/repository/data_repository.dart';
+import 'package:eye_test/services/Api/child_services.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -36,6 +39,12 @@ abstract class BaseAuth {
 
   List<UserModel> _userList = [];
   List<AppUsageInfo> _infos = <AppUsageInfo> [];
+  List<AppUsageInfo> get infos => _infos;
+
+    final ChildServices _childServices = ChildServices();
+    List<ChildModel> _childModel = [];
+  UnmodifiableListView <ChildModel> get child => UnmodifiableListView(_childModel);
+
 
   final FirebaseAuth _auth;
   User _user;
@@ -46,7 +55,7 @@ abstract class BaseAuth {
   final UserServices _userServices = UserServices();
 
   UserModel get currentUser => _userModel;
-  List<AppUsageInfo> get infos => _infos;
+
   UserModel _userModel = UserModel();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -65,7 +74,6 @@ abstract class BaseAuth {
       var startDate = endDate.subtract(Duration(hours: 1));
       var infoList = await AppUsage.getAppUsage(startDate, endDate);
         _infos = infoList;
-
     } on AppUsageException catch (exception) {
       print(exception);
     }
@@ -79,8 +87,9 @@ abstract class BaseAuth {
     });
     _userModel.appsUsageModel =_infos;
     _userModel.token =_token;
-    print('Home Page _currentUser and appsUsageModel ________________________');
+    print('Auths.dart  ________________________');
     print(_userModel.appsUsageModel);
+    print(_userModel.childMod);
     await  _rep.updateMod(_userModel);
 
     }
@@ -134,6 +143,10 @@ abstract class BaseAuth {
 
   }
 
+  // getChild()  async{
+  //   _childModel = await _childServices.getUserChild(userId: _user.uid);
+  //   notifyListeners();
+  // }
 
   @override
   Future<bool> signIn(String email, String password) async {

@@ -19,9 +19,6 @@ class _OpeningPageState extends State<OpeningPage> {
 
   var color  = Colors.green.withOpacity(0.5);
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<Auths> (context);

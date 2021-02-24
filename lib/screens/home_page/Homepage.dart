@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void dispose() {
     super.dispose();
     _tabController.dispose();
+    HorizontalList();
   }
 
   @override
@@ -56,8 +57,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       _currentUser = userProvider.currentUser;
     } else {
       _currentUser = UserModel();
-    }
-    ;
+    };
     _tabController = TabController(length: 2, vsync: this);
   }
 
