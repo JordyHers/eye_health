@@ -45,8 +45,10 @@ class _RegisterChildState extends State<RegisterChild> {
     final userProvider = Provider.of<Auths>(context, listen: false);
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
+    }else {
+      _currentUser = UserModel();
     }
-
+     print (_currentUser.reference.id);
   }
   StatelessWidget _showImage() {
     if (_imageFile == null && _imageUrl == null) {
@@ -193,7 +195,7 @@ class _RegisterChildState extends State<RegisterChild> {
                                   if (value.isEmpty) {
                                     return 'Please make sure your email address is valid';
                                   }
-                                  return ' Successful';
+                                  return null;
                                 },
                               ),
                             ),
@@ -207,22 +209,25 @@ class _RegisterChildState extends State<RegisterChild> {
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.blueAccent,
                             elevation: 0.0,
-                            child: MaterialButton(
+                            child: RaisedButton(
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
+                                   _formKey.currentState.save();
                                   _childModel.name =_name.text;
                                   _childModel.surname =_surname.text;
-                                  var isUpdating = true;
+                                  var isUpdating = false;
                                   uploadUserChild(_childModel, isUpdating, _imageFile);
-                                _rep.addChild(_childModel);
-                                _formKey.currentState.save();
+                                  print('register_kids.dart / Register kids------------');
+                                  print(_childModel);
+
+
                                 }
                               },
-                              minWidth: MediaQuery.of(context).size.width,
+
                               child: Text(
                                 'Register Kid',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.0),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15.0),
                               ),
                             )),
                       ),
@@ -249,7 +254,7 @@ class _RegisterChildState extends State<RegisterChild> {
       print(fileExtension);
       var uuid = Uuid().v4();
       final firebaseStorageRef =
-      FirebaseStorage.instance.ref().child('Child/$_currentUser$_name/$uuid$fileExtension');
+      FirebaseStorage.instance.ref().child('Child/"${_currentUser.reference.id}"/$uuid$fileExtension');
 
       await firebaseStorageRef.putFile(localFile).onComplete.catchError((onError) {
         print(onError);
@@ -267,7 +272,8 @@ class _RegisterChildState extends State<RegisterChild> {
 
   // ignore: always_declare_return_types
   uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
-    var childRef = FirebaseFirestore.instance.collection('Data');
+
+    var childRef = FirebaseFirestore.instance.collection('Data/${_currentUser.reference.id}');
 
     if (imageUrl != null) {
       child.image = imageUrl;
@@ -275,11 +281,12 @@ class _RegisterChildState extends State<RegisterChild> {
 
     if (isUpdating) {
       await childRef.doc(child.id).update(child.toJson());
-      print('updated user with id: ${child.id}');
+      print('updated User child with id: ${child.id}');
     } else {
+
       var documentRef = await childRef.add(child.toJson());
       //_userModel.id = documentRef.documentID;
-      print('uploaded doctor successfully: ${child.toString()}');
+      print('uploaded child successfully: ${child.toString()}');
       await documentRef.set(child.toJson());
 
     }
