@@ -11,7 +11,7 @@ class DataRepository {
     return collection.snapshots();
   }
   // 3
-  Future<DocumentReference> addChild(ChildModel mod) {
+  Future<void> addChild(ChildModel mod) {
     return collection.add(mod.toJson());
   }
   // 4

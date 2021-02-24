@@ -20,8 +20,8 @@ class ChildModel {
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
 
-  ChildModel(this.name,
-      {this.surname, this.id, this.reference, this.token, this.image, this.appsUsageModel, this.totalDuration,this.position});
+  ChildModel(
+      {this.name,this.surname, this.id, this.reference, this.token, this.image, this.appsUsageModel, this.totalDuration,this.position});
 
   factory ChildModel.fromJson(Map<String, dynamic> json) =>
       _ChildModelFromJson(json);
@@ -49,7 +49,7 @@ class ChildModel {
 }
   ChildModel _ChildModelFromJson (dynamic json) {
     return   ChildModel(
-      json['name'] as String,
+      name:json['name'] as String,
       id: json['id'] as String,
       token: json['token'] as String,
       surname: json['surname'] as String ,

@@ -18,6 +18,7 @@ class UserModel {
 
 
   String get displayName => [name, surname].join(' ').trim();
+
   List<ChildModel> childMod = <ChildModel>[];
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
   DocumentReference reference;
@@ -38,7 +39,7 @@ class UserModel {
         'image': image,
         'appsUsageModel': appsList(appsUsageModel ) ?? [] ,
         'totalDuration': totalDuration,
-        'childModel' : childMod,
+        'childModel' : childList(childMod) ?? [],
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -98,7 +99,16 @@ List<Map<String, dynamic>> appsList(List<AppUsageInfo> apps) {
     appsMap.add(value.toJson());
   });
   return appsMap;
-
+}
+List<Map<String, dynamic>> childList(List<ChildModel> child) {
+  if (child == null) {
+    return null;
+  }
+  var childMap = <Map<String, dynamic>>[];
+  child.forEach((value) {
+    childMap.add(value.toJson());
+  });
+  return childMap;
 }
 
 

@@ -29,6 +29,7 @@ class _RegisterChildState extends State<RegisterChild> {
   final _key = GlobalKey<ScaffoldState>();
   String _imageUrl;
   File _imageFile;
+  ChildModel _childModel = ChildModel();
 
   DataRepository _rep = DataRepository();
 
@@ -209,13 +210,12 @@ class _RegisterChildState extends State<RegisterChild> {
                             child: MaterialButton(
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-
-                                  // if (!await user.signUp(_email.text, _password.text)) {
-                                  //   _key.currentState.showSnackBar(SnackBar(content: Text('Bir hata oldu')));
-                                  //   return;
-                                  // }
-                                  // await user.continueSignUp();
-                                  // await Navigator.pushNamed(context, '/Homepage');
+                                  _childModel.name =_name.text;
+                                  _childModel.surname =_surname.text;
+                                  var isUpdating = true;
+                                  uploadUserChild(_childModel, isUpdating, _imageFile);
+                                _rep.addChild(_childModel);
+                                _formKey.currentState.save();
                                 }
                               },
                               minWidth: MediaQuery.of(context).size.width,
@@ -237,18 +237,10 @@ class _RegisterChildState extends State<RegisterChild> {
     );
   }
 
-  void _registerKid() {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
-    _formKey.currentState.save();
-    var isUpdating = true;
-    bool success = uploadUserChild(_currentUser, isUpdating, _imageFile);
 
-  }
 
   // ignore: always_declare_return_types
-  uploadUserChild( UserModel user , bool isUpdating, File localFile) async {
+  uploadUserChild( ChildModel child , bool isUpdating, File localFile) async {
     //var reference = FirebaseFirestore.instance.collection('Users');
 
     if (localFile != null) {
@@ -257,7 +249,7 @@ class _RegisterChildState extends State<RegisterChild> {
       print(fileExtension);
       var uuid = Uuid().v4();
       final firebaseStorageRef =
-      FirebaseStorage.instance.ref().child('Users/ProfilePictures/$uuid$fileExtension');
+      FirebaseStorage.instance.ref().child('Child/$_currentUser$_name/$uuid$fileExtension');
 
       await firebaseStorageRef.putFile(localFile).onComplete.catchError((onError) {
         print(onError);
@@ -266,33 +258,29 @@ class _RegisterChildState extends State<RegisterChild> {
 
       String url = await firebaseStorageRef.getDownloadURL();
       print('download url: $url');
-      uploadUser(user, isUpdating, imageUrl: url);
+      uploadChild(child, isUpdating, imageUrl: url);
     } else {
       print('...skipping image upload');
-      uploadUser(user, isUpdating);
+      uploadChild(child, isUpdating);
     }
   }
 
   // ignore: always_declare_return_types
-  uploadUser(UserModel user, bool isUpdating, {String imageUrl}) async {
-    var userRef = FirebaseFirestore.instance.collection('Users');
-
-
+  uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
+    var childRef = FirebaseFirestore.instance.collection('Data');
 
     if (imageUrl != null) {
-      user.image = imageUrl;
+      child.image = imageUrl;
     }
 
     if (isUpdating) {
-      await userRef.doc(user.id).update(user.toMap());
-      print('updated user with id: ${user.id}');
+      await childRef.doc(child.id).update(child.toJson());
+      print('updated user with id: ${child.id}');
     } else {
-
-      var documentRef = await userRef.add(user.toMap());
-
+      var documentRef = await childRef.add(child.toJson());
       //_userModel.id = documentRef.documentID;
-      print('uploaded doctor successfully: ${user.toString()}');
-      await documentRef.set(user.toMap());
+      print('uploaded doctor successfully: ${child.toString()}');
+      await documentRef.set(child.toJson());
 
     }
   }
