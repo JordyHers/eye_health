@@ -2,12 +2,14 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import  'package:easy_localization/easy_localization.dart';
+import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -272,22 +274,26 @@ class _RegisterChildState extends State<RegisterChild> {
 
   // ignore: always_declare_return_types
   uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
-
-    var childRef = FirebaseFirestore.instance.collection('Data/${_currentUser.reference.id}');
+    var collection = FirebaseFirestore.instance.collection('Data');
+    var uid = Uuid().v4();
 
     if (imageUrl != null) {
       child.image = imageUrl;
+      child.id = uid;
     }
+    child.token = 'This is just an example';
+    child.position = null;
+    child.appsUsageModel =null;
 
     if (isUpdating) {
-      await childRef.doc(child.id).update(child.toJson());
-      print('updated User child with id: ${child.id}');
+      await collection.doc(_currentUser.reference.id).update(child.toJson());
+      print('updated User child with id: ${child.reference.id}');
     } else {
-
-      var documentRef = await childRef.add(child.toJson());
-      //_userModel.id = documentRef.documentID;
-      print('uploaded child successfully: ${child.toString()}');
-      await documentRef.set(child.toJson());
+      await collection.doc(_currentUser.reference.id).update({'childModel':FieldValue.arrayUnion([child.toJson()])});
+      // var documentRef = await collection.add(child.toJson());
+      // //_userModel.id = documentRef.documentID;
+      print('uploaded child successfully: ${child.toJson()}');
+      // await documentRef.set(child.toJson());
 
     }
   }
