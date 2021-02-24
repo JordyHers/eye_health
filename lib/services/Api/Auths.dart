@@ -8,8 +8,7 @@ import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:uuid/uuid.dart';
+
 
 
 enum Status{Uninitialized, Authenticated, Authenticating, Unauthenticated}
@@ -19,12 +18,9 @@ abstract class BaseAuth {
 
   Future<bool> signUp(String email, String password);
 
-
   Future<bool> sendEmailVerification();
 
   Future <bool> continueSignUp();
-
-  //Future <FirebaseUser>signUpWithFacebook();
 
   Future<void> signOut();
 
@@ -39,7 +35,6 @@ abstract class BaseAuth {
 
 
   List<UserModel> _userList = [];
-
   List<AppUsageInfo> _infos = <AppUsageInfo> [];
 
   final FirebaseAuth _auth;

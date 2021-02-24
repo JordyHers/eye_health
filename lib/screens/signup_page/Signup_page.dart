@@ -3,12 +3,9 @@ import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import '../db/users.dart';
-// import 'home.dart';
+
 
 class SignUp extends StatefulWidget {
-  static String routeName = '/signup_page';
-
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -72,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                                   child: ListTile(
                                     title: TextFormField(
                                       controller: _name,
-                                      decoration: InputDecoration(hintText: 'Isim', icon: Icon(Icons.person_outline), border: InputBorder.none),
+                                      decoration: InputDecoration(hintText: 'Name', icon: Icon(Icons.person_outline), border: InputBorder.none),
                                       validator: (value) {
                                         if (value.isEmpty) {
                                           return "Can't be empty";
@@ -162,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                                           return;
                                         }
                                         await user.continueSignUp();
-                                        await Navigator.pushNamed(context, '/Homepage');
+                                        await Navigator.pushReplacementNamed(context, '/Homepage');
                                       }
                                     },
                                     minWidth: MediaQuery.of(context).size.width,

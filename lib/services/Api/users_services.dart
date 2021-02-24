@@ -12,7 +12,6 @@ class UserServices{
     _firestore.collection(collection).doc(data['uid']).set(data);
   }
 
-
   Future<UserModel> getUserById(String id)=> _firestore.collection(collection).doc(id).get().then((doc){
     return UserModel.fromSnapshot(doc);
   });

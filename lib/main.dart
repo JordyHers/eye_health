@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/config/routes.dart';
 import 'package:eye_test/provider/app_provider.dart';

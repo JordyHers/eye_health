@@ -33,32 +33,7 @@ class _LoginState extends State<Login> {
     final user = Provider.of<Auths>(context);
     return Scaffold(
       key: _key,
-      body: BlocProvider(
-          create: (context) => NetworkBloc()..add(ListenConnection()),
-          child: BlocBuilder<NetworkBloc, NetworkState>(
-            builder: (context, state) {
-              if (state is ConnectionFailure) {
-                return Scaffold(
-                    backgroundColor: Colors.white,
-                    body: Center(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 200, 8.0, 8.0),
-                      child: Column(
-                        children: [
-                          Center(child: Image.asset('assets/png/no-disconnect.png')),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'İnternet bağlantısı yok',
-                            style: TextStyle(fontSize: 23),
-                          )
-                        ],
-                      ),
-                    )));
-              }
-              if (state is ConnectionSuccess) {
-                return Stack(
+      body: Stack(
                   children: <Widget>[
                     Container(
                       child: Padding(
@@ -161,9 +136,9 @@ class _LoginState extends State<Login> {
                                         child: MaterialButton(
                                           onPressed: () async {
                                             if (_formKey.currentState.validate()) {
-                                              await user
-                                                  .signIn(_email.text, _password.text)
-                                                  .then((value) => Navigator.pushReplacementNamed(context, '/Homepage'));
+                                              if (await user.signIn(_email.text, _password.text)){
+                                                Navigator.pushReplacementNamed(context, '/Homepage');
+                                              }
 
                                               if (!await user.signIn(_email.text, _password.text)) {
                                                 _key.currentState.showSnackBar(SnackBar(content: Text('A mistake occured')));
@@ -230,12 +205,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ],
-                );
-              } else {
-                return Text('');
-              }
-            },
-          )),
+                ),
     );
   }
 

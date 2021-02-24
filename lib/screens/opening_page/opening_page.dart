@@ -132,9 +132,10 @@ class _OpeningPageState extends State<OpeningPage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: LightColor.accentBlue,
-            onPressed: () {
+            onPressed: () async {
+
               userProvider.getUsageStats();
-              _isParent ? Navigator.pushNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home');
+              _isParent ? await Navigator.pushReplacementNamed(context, '/Sign_in') : Navigator.pushNamed(context, '/child_home');
 
             },
             child: Text(
