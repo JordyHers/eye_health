@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/config/routes.dart';
-import 'package:eye_test/provider/app_provider.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Geo_locator/geo_locator_service.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -22,7 +21,6 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => Auths.initialize(),
       ),
-      ChangeNotifierProvider.value(value: AppProvider()),
 
     ],
     child: EasyLocalization(child: MyApp(),path: 'resources/langs',saveLocale: true,supportedLocales: [

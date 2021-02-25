@@ -11,8 +11,8 @@ class DataRepository {
     return collection.snapshots();
   }
   // 3
-  Future<void> addChild(ChildModel mod) {
-    return collection.add(mod.toJson());
+  Future<void> addUserToData(UserModel mod) {
+    return collection.doc(mod.reference.id).set(mod.toJson());
   }
   // 4
    updateMod(UserModel mod) async {

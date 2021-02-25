@@ -1,3 +1,4 @@
+import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -13,7 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
-
+  DataRepository _rep =DataRepository();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _name = TextEditingController();
@@ -92,7 +93,7 @@ class _SignUpState extends State<SignUp> {
                                   child: ListTile(
                                     title: TextFormField(
                                       controller: _email,
-                                      decoration: InputDecoration(hintText: 'E posta', icon: Icon(Icons.alternate_email), border: InputBorder.none),
+                                      decoration: InputDecoration(hintText: 'E mail', icon: Icon(Icons.alternate_email), border: InputBorder.none),
                                       validator: (value) {
                                         if (value.isEmpty) {
                                           Pattern pattern =
@@ -105,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                                           }
                                   
                                         }
-                                          return ' Successful';
+                                          return null;
                                       },
                                     ),
                                   ),
@@ -124,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                                     title: TextFormField(
                                       controller: _password,
                                       obscureText: hidePass,
-                                      decoration: InputDecoration(hintText: 'parola', icon: Icon(Icons.lock_outline), border: InputBorder.none),
+                                      decoration: InputDecoration(hintText: 'password', icon: Icon(Icons.lock_outline), border: InputBorder.none),
                                       validator: (value) {
                                         if (value.isEmpty) {
                                           return "This field can't be empty";
@@ -159,12 +160,12 @@ class _SignUpState extends State<SignUp> {
                                           return;
                                         }
                                         await user.continueSignUp();
-                                        await Navigator.pushReplacementNamed(context, '/Homepage');
+                                        Navigator.pushReplacementNamed(context, '/Homepage');
                                       }
                                     },
                                     minWidth: MediaQuery.of(context).size.width,
                                     child: Text(
-                                      'Kaydol',
+                                      'Sign up',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
                                     ),
@@ -177,9 +178,9 @@ class _SignUpState extends State<SignUp> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(
-                                      'Zaten hesabınız var mı',
+                                      'Already have an account',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: TextStyle(color: Colors.deepOrangeAccent, fontSize: 16, fontWeight: FontWeight.bold),
                                     ))),
                             Padding(
                               padding: const EdgeInsets.all(16.0),

@@ -264,8 +264,7 @@ class _ProfileListItemsState extends State<ProfileListItems> {
                                 width: 280.0,
                                 child: RaisedButton(
                                   onPressed: () async {
-                                    await _auths.signOut().then((value) =>  Navigator.pushReplacementNamed(context, '/Sign_in'));
-                                    
+                                    await _auths.signOut().whenComplete(() => Navigator.pushReplacementNamed(context, '/Sign_in'));
                                     _status = Status.Unauthenticated;
                                   },
                                   child: Text(

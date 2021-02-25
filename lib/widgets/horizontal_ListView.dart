@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 
 class HorizontalList extends StatefulWidget {
 
-
   // const HorizontalList ({Key key, this.user}) : super(key: key);
   @override
   _HorizontalListState createState() => _HorizontalListState();

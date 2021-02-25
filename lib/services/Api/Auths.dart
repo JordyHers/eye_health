@@ -37,11 +37,10 @@ abstract class BaseAuth {
  class Auths with ChangeNotifier implements BaseAuth {
 
 
-  List<UserModel> _userList = [];
   List<AppUsageInfo> _infos = <AppUsageInfo> [];
   List<AppUsageInfo> get infos => _infos;
 
-    final ChildServices _childServices = ChildServices();
+
     List<ChildModel> _childModel = [];
   UnmodifiableListView <ChildModel> get child => UnmodifiableListView(_childModel);
 
@@ -91,7 +90,6 @@ abstract class BaseAuth {
     print(_userModel.appsUsageModel);
     print(_userModel.childMod);
     await  _rep.updateMod(_userModel);
-
     }
     catch(e){
       print(e);
@@ -102,11 +100,6 @@ abstract class BaseAuth {
     _infos =infos;
     notifyListeners();
    }
-  set userList(List<UserModel> userList) {
-    _userList = userList;
-    notifyListeners();
-  }
-
 
   set currentUser(UserModel userModel) {
     _userModel= userModel;
@@ -119,16 +112,16 @@ abstract class BaseAuth {
   // }
 
   // ignore: always_declare_return_types
-  addUser(UserModel model) async {
-    _userList.insert(0, model);
-    notifyListeners();
-  }
-
-  // ignore: always_declare_return_types
-  deleteUser(UserModel model) async {
-    _userList.removeWhere((_user) => _user.id == user.uid);
-    notifyListeners();
-  }
+  // addUser(UserModel model) async {
+  //   _userList.insert(0, model);
+  //   notifyListeners();
+  // }
+  //
+  // // ignore: always_declare_return_types
+  // deleteUser(UserModel model) async {
+  //   _userList.removeWhere((_user) => _user.id == user.uid);
+  //   notifyListeners();
+  // }
 
   @override
   Future<bool> continueSignUp() async {
@@ -139,6 +132,10 @@ abstract class BaseAuth {
       'email': user.email,
       'image': user.photoURL,
       'uid': user.uid,});
+
+    _userModel.token = _token;
+    _userModel.id = user.uid;
+    await _rep.addUserToData(_userModel);
     return true;
 
   }

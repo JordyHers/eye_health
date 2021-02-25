@@ -488,7 +488,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                                           DeviceApps.openApp(app.packageName);
                                                         }, borderRadius: BorderRadius.all(Radius.circular(20)));
                                                       },
-                                                      itemCount: 4);
+                                                      itemCount: apps.length < 2 ? 1 : 4);
                                                 }
                                               }),
                                         ),
