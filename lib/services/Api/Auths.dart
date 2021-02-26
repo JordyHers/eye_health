@@ -89,6 +89,7 @@ abstract class BaseAuth {
     print('Auths.dart  ________________________');
     print(_userModel.appsUsageModel);
     print(_userModel.childMod);
+   // await _rep.addUserToData(_userModel);
     await  _rep.updateMod(_userModel);
     }
     catch(e){
@@ -132,9 +133,7 @@ abstract class BaseAuth {
       'email': user.email,
       'image': user.photoURL,
       'uid': user.uid,});
-
     _userModel.token = _token;
-    _userModel.id = user.uid;
     await _rep.addUserToData(_userModel);
     return true;
 

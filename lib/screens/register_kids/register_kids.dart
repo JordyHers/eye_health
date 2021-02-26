@@ -275,11 +275,11 @@ class _RegisterChildState extends State<RegisterChild> {
   // ignore: always_declare_return_types
   uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
     var collection = FirebaseFirestore.instance.collection('Data');
-    var uid = Uuid().v4();
+    // var uid = Uuid().v4();
 
     if (imageUrl != null) {
       child.image = imageUrl;
-      child.id = uid;
+
     }
     child.token = 'This is just an example';
     child.position = null;
