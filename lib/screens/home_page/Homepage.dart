@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage>
       _currentUser = UserModel();
     };
     _tabController = TabController(length: 2, vsync: this);
+    HorizontalList();
   }
 
   Widget _appBar() {
@@ -319,7 +320,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final userProvider = Provider.of<Auths>(context);
+    final userProvider = Provider.of<Auths>(context,listen: false);
     return Scaffold(
       body: BlocProvider(
           create: (context) =>
@@ -410,50 +411,8 @@ class _HomePageState extends State<HomePage>
                       SizedBox(
                         height: 3,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.1),
-                            borderRadius: BorderRadius.all(Radius.circular(8))
-                        ),
-                        //color: Colors.grey,
-                        height: 150.0,
-                        width: double.infinity,
-                        child: ListView.builder(
-                            itemCount: _currentUser.childMod.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              print('----------HOME PAGE.dart current user lenght ------------');
-                              print(_currentUser.childMod.length);
-                              return Padding(
-                                padding: const EdgeInsets.only(top:3.0),
-                                child: InkWell(
-                                  onTap: (){
+                      HorizontalList(),
 
-                                  },
-                                  child: Container(
-                                    height: 200,
-                                    width: 150.0,
-                                    child: ListTile(
-                                        title: ClipOval(
-                                          child: Image.network(
-                                           _currentUser.childMod[index].image,
-                                            fit: BoxFit.fitHeight,
-                                            width: 120,
-                                            height: 120,
-                                          ),
-                                        ),
-                                        subtitle: Container(
-                                          alignment: Alignment.topCenter,
-                                          child: Text(_currentUser.childMod[index].name, style: TextStyles.body.bold.grey,),
-                                        )
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-
-                        ),
-                      ),
                       Divider(
                         height: 5,
                         color: Colors.grey.withOpacity(0.1),

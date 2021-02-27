@@ -20,7 +20,29 @@ class _HorizontalListState extends State<HorizontalList> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<Auths>(context);
-    return null;
+    return  Container(
+      decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.1),
+          borderRadius: BorderRadius.all(Radius.circular(8))
+      ),
+      //color: Colors.grey,
+      height: 150.0,
+      width: double.infinity,
+      child: ListView.builder(
+          itemCount: userProvider.currentUser.childMod.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            print('----------HOME PAGE.dart current user length ------------');
+            print(userProvider.currentUser.childMod.length);
+            return Kids(
+              image_caption: userProvider.currentUser.childMod[index].name,
+              image_location: userProvider.currentUser.childMod[index].image,
+              onPressed: null,
+            );
+          }
+
+      ),
+    );
   }
 }
 
