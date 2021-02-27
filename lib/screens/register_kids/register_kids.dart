@@ -218,10 +218,10 @@ class _RegisterChildState extends State<RegisterChild> {
                                   _childModel.name =_name.text;
                                   _childModel.surname =_surname.text;
                                   var isUpdating = false;
-                                  uploadUserChild(_childModel, isUpdating, _imageFile);
-                                  print('register_kids.dart / Register kids------------');
-                                  print(_childModel);
 
+                                   print('register_kids.dart / Register kids------------');
+                                   print(_childModel);
+                                  uploadUserChild(_childModel, isUpdating, _imageFile);
 
                                 }
                               },
@@ -275,6 +275,7 @@ class _RegisterChildState extends State<RegisterChild> {
   // ignore: always_declare_return_types
   uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
     var collection = FirebaseFirestore.instance.collection('Data');
+    final userProvider = Provider.of<Auths>(context, listen: false);
     // var uid = Uuid().v4();
 
     if (imageUrl != null) {
@@ -289,10 +290,13 @@ class _RegisterChildState extends State<RegisterChild> {
       await collection.doc(_currentUser.reference.id).update(child.toJson());
       print('updated User child with id: ${child.reference.id}');
     } else {
-      await collection.doc(_currentUser.reference.id).update({'childModel':FieldValue.arrayUnion([child.toJson()])});
+      await collection.doc(_currentUser.reference.id).update({
+        'childModel':FieldValue.arrayUnion([child.toJson()])});
       // var documentRef = await collection.add(child.toJson());
       // //_userModel.id = documentRef.documentID;
       print('uploaded child successfully: ${child.toJson()}');
+      await userProvider.reloadUserModel();
+     // userProvider.updateMod(_currentUser);
       // await documentRef.set(child.toJson());
 
     }

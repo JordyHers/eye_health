@@ -7,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HorizontalList extends StatefulWidget {
-
-  // const HorizontalList ({Key key, this.user}) : super(key: key);
+  final UserModel user;
+   const HorizontalList ({Key key, this.user}) : super(key: key);
   @override
   _HorizontalListState createState() => _HorizontalListState();
 }
@@ -20,28 +20,7 @@ class _HorizontalListState extends State<HorizontalList> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<Auths>(context);
-    return Container(
-      decoration: BoxDecoration(
-        color:  Colors.grey.withOpacity(0.1),
-          borderRadius:  BorderRadius.all(Radius.circular(8))
-      ),
-      //color: Colors.grey,
-      height: 150.0,
-      width: double.infinity,
-      child:  ListView.builder(
-         itemCount: userProvider.currentUser.childMod.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context,index){
-          return Kids(
-            // image_location: 'assets/children/Carla.jpg',
-            image_location: userProvider.currentUser.childMod[index].image,
-            image_caption: userProvider.currentUser.childMod[index].name,
-            //image_caption: 'Carla',
-          );
-        }
-
-      ),
-    );
+    return null;
   }
 }
 

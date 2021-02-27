@@ -6,7 +6,6 @@ import 'package:app_usage/app_usage.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/repository/data_repository.dart';
-import 'package:eye_test/services/Api/child_services.dart';
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -77,6 +76,10 @@ abstract class BaseAuth {
       print(exception);
     }
   }
+ void updateMod (UserModel user) async {
+   await  _rep.updateMod(_userModel);
+ }
+
 
   void setTokenAndAppList() async {
     try {
@@ -88,9 +91,8 @@ abstract class BaseAuth {
     _userModel.token =_token;
     print('Auths.dart  ________________________');
     print(_userModel.appsUsageModel);
-    print(_userModel.childMod);
    // await _rep.addUserToData(_userModel);
-    await  _rep.updateMod(_userModel);
+
     }
     catch(e){
       print(e);
@@ -140,7 +142,7 @@ abstract class BaseAuth {
   }
 
   // getChild()  async{
-  //   _childModel = await _childServices.getUserChild(userId: _user.uid);
+  //   _childModel = await _userServices.getUserChild(userId: _user.uid);
   //   notifyListeners();
   // }
 

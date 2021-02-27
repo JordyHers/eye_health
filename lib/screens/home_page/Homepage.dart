@@ -27,7 +27,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];
 
@@ -42,17 +43,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void dispose() {
     super.dispose();
     _tabController.dispose();
-    HorizontalList();
   }
 
   @override
   void initState() {
     super.initState();
     final userProvider = Provider.of<Auths>(context, listen: false);
-    userProvider.reloadUserModel();
     userProvider.getUsageStats();
     userProvider.setTokenAndAppList();
-
+    userProvider.reloadUserModel();
     if (userProvider.currentUser != null) {
       _currentUser = userProvider.currentUser;
     } else {
@@ -94,7 +93,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               // height: 40,
               // width: 40,
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme
+                    .of(context)
+                    .backgroundColor,
               ),
               child: Hero(
                 tag: 'profile',
@@ -117,9 +118,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0),
-          child: Text("Follow your child's location ".tr().toString(), style: TextStyles.titleNormal.bl_ac),
+          child: Text("Follow your child's location ".tr().toString(),
+              style: TextStyles.titleNormal.bl_ac),
         ),
-        Text('This is your location- Monitor '.tr().toString(), style: TextStyles.bodySm.subTitleColor),
+        Text('This is your location- Monitor '.tr().toString(),
+            style: TextStyles.bodySm.subTitleColor),
       ],
     ).p16;
   }
@@ -146,7 +149,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 height: 20,
                 width: 20,
               ),
-              _categoryCardFocus('focus mode'.tr().toString(), 'concentrate'.tr().toString(),
+              _categoryCardFocus(
+                  'focus mode'.tr().toString(), 'concentrate'.tr().toString(),
                   color: LightColor.purple, lightColor: LightColor.purpleLight),
               SizedBox(
                 height: 20,
@@ -165,7 +169,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   ///++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ///_______________________-WIDGET FOCUS MODE _________________________________________________________
 
-  Widget _categoryCardFocus(String title, String subtitle, {Color color, Color lightColor}) {
+  Widget _categoryCardFocus(String title, String subtitle,
+      {Color color, Color lightColor}) {
     var titleStyle = TextStyles.title.bold.white;
     var subtitleStyle = TextStyles.body.bold.white;
     // if (AppTheme.fullWidth(context) < 392) {
@@ -262,7 +267,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           trailing: Icon(
             Icons.keyboard_arrow_right,
             size: 30,
-            color: Theme.of(context).primaryColor,
+            color: Theme
+                .of(context)
+                .primaryColor,
           ),
         ),
       ).ripple(() {
@@ -315,11 +322,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final userProvider = Provider.of<Auths>(context);
     return Scaffold(
       body: BlocProvider(
-          create: (context) => NetworkBloc()..add(ListenConnection()),
+          create: (context) =>
+          NetworkBloc()
+            ..add(ListenConnection()),
           child: BlocBuilder<NetworkBloc, NetworkState>(
             builder: (context, state) {
               if (state is ConnectionFailure)
-                return Scaffold(body: Center(child: Image.asset('assets/png/no-internet-.jpg')));
+                return Scaffold(body: Center(
+                    child: Image.asset('assets/png/no-internet-.jpg')));
               if (state is ConnectionSuccess) {
                 return Scaffold(
                   key: _scaffoldKey,
@@ -329,192 +339,245 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     padding: const EdgeInsets.fromLTRB(8.0, 22, 12, 10),
                     child: Column(
                       children: [
-                        // give the tab bar a height [can change height to preferred height]
-                        Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(
-                              20.0,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(.03),
-                            child: TabBar(
-                              controller: _tabController,
-                              // give the indicator a decoration (color and border radius)
-                              indicator: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  15.0,
-                                ),
-                                color: Colors.white,
-                              ),
-
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.white,
-                              tabs: [
-                                // first tab [you can add an icon using the icon property]
-                                Tab(
-                                  text: 'DashBoard',
-                                ),
-
-                                // second tab [you can add an icon using the icon property]
-                                Tab(
-                                  text: 'Usage',
-                                ),
-                              ],
-                            ),
-                          ),
+                      // give the tab bar a height [can change height to preferred height]
+                      Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(
+                          20.0,
                         ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(.03),
+                        child: TabBar(
+                          controller: _tabController,
+                          // give the indicator a decoration (color and border radius)
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              15.0,
+                            ),
+                            color: Colors.white,
+                          ),
 
-                        /// Tab bar view here
-                        Expanded(
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              // first tab bar view widget
-                              CustomScrollView(
-                                slivers: <Widget>[
-                                  SliverList(
-                                    delegate: SliverChildListDelegate(
-                                      [
-                                        SizedBox(
-                                          height: 40,
-                                        ),
-                                        ListTile(
-                                          title: Text(
-                                            'My Children'.tr().toString(),
-                                            style: TextStyles.titleNormal.bl_ac,
-                                          ),
-                                          subtitle: Text(
-                                            'Choose child to get more infos ',
-                                            style: TextStyles.bodySm.subTitleColor,
-                                          ),
-                                          trailing: Icon(Icons.info_outline_rounded),
-                                        ).p8,
-                                        Divider(
-                                          height: 5,
-                                          color: Colors.grey.withOpacity(0.1),
-                                          thickness: 3,
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        HorizontalList(),
-                                        Divider(
-                                          height: 5,
-                                          color: Colors.grey.withOpacity(0.1),
-                                          thickness: 3,
-                                        ),
-                                        _header(),
-                                        Consumer<Position>(builder: (context, position, widget) {
-                                          return (position != null)
-                                              ? Geo(position)
-                                              : Center(child: CircularProgressIndicator());
-                                        }),
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.white,
+                          tabs: [
+                            // first tab [you can add an icon using the icon property]
+                            Tab(
+                              text: 'DashBoard',
+                            ),
 
-                                        // BarChartGraph(
-                                        //   data: data,
-                                        // ),
-                                        //_category(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text('Installed Apps'.tr().toString(), style: TextStyles.titleNormal.bl_ac),
-                                            IconButton(
-                                                    icon: Icon(
-                                                      Icons.sort,
-                                                      color: LightColor.accentBlue,
-                                                    ),
-                                                    onPressed: () {})
-                                                .p(12)
-                                                .ripple(() {
-                                              Navigator.pushNamed(context, '/installed_apps');
-                                            }, borderRadius: BorderRadius.all(Radius.circular(20))),
-                                          ],
-                                        ).hP16,
-                                        SizedBox(
-                                          child: FutureBuilder<List<Application>>(
-                                              future: DeviceApps.getInstalledApplications(
-                                                  includeAppIcons: true,
-                                                  includeSystemApps: false,
-                                                  onlyAppsWithLaunchIntent: true,
-                                                  usageApps: false),
-                                              builder: (BuildContext context, AsyncSnapshot<List<Application>> data) {
-                                                if (data.data == null) {
-                                                  return const Center(child: CircularProgressIndicator());
-                                                } else {
-                                                  var apps = data.data;
-                                                  print(apps);
-                                                  return ListView.builder(
-                                                      scrollDirection: Axis.vertical,
-                                                      shrinkWrap: true,
-                                                      itemBuilder: (BuildContext context, int position) {
-                                                        var app = apps[position];
-                                                        return Container(
-                                                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                                                          child: ListTile(
-                                                            contentPadding: EdgeInsets.all(0),
-                                                            leading: ClipRRect(
-                                                              borderRadius: BorderRadius.all(Radius.circular(13)),
-                                                              child: Container(
-                                                                height: 45,
-                                                                width: 45,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(15),
-                                                                  color: Colors.transparent,
-                                                                ),
-                                                                child: app is ApplicationWithIcon
-                                                                    ? Image.memory(
-                                                                        app.icon,
-                                                                      )
-                                                                    : null,
-                                                              ),
-                                                            ),
-                                                            title: Text(app.appName, style: TextStyles.titleSize15),
-                                                            subtitle: LinearPercentIndicator(
-                                                              width: 180.0,
-                                                              lineHeight: 8.0,
-                                                              percent: getRandom(),
-                                                              progressColor: Colors.blue,
-                                                            ),
-                                                            trailing: Icon(
-                                                              Icons.keyboard_arrow_right,
-                                                              size: 30,
-                                                              color: LightColor.accentBlue,
-                                                            ),
-                                                          ),
-                                                        ).ripple(() {
-                                                          DeviceApps.openApp(app.packageName);
-                                                        }, borderRadius: BorderRadius.all(Radius.circular(20)));
-                                                      },
-                                                      itemCount: apps.length < 2 ? 1 : 4);
-                                                }
-                                              }),
+                            // second tab [you can add an icon using the icon property]
+                            Tab(
+                              text: 'Usage',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    /// Tab bar view here
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                      // first tab bar view widget
+                      CustomScrollView(
+                      slivers: <Widget>[
+                      SliverList(
+                      delegate: SliverChildListDelegate(
+                      [
+                      SizedBox(
+                      height: 40,
+                      ),
+                      ListTile(
+                        title: Text(
+                          'My Children'.tr().toString(),
+                          style: TextStyles.titleNormal.bl_ac,
+                        ),
+                        subtitle: Text(
+                          'Choose child to get more infos ',
+                          style: TextStyles.bodySm.subTitleColor,
+                        ),
+                        trailing: Icon(Icons.info_outline_rounded),
+                      ).p8,
+                      Divider(
+                        height: 5,
+                        color: Colors.grey.withOpacity(0.1),
+                        thickness: 3,
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            borderRadius: BorderRadius.all(Radius.circular(8))
+                        ),
+                        //color: Colors.grey,
+                        height: 150.0,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            itemCount: _currentUser.childMod.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              print('----------HOME PAGE.dart current user lenght ------------');
+                              print(_currentUser.childMod.length);
+                              return Padding(
+                                padding: const EdgeInsets.only(top:3.0),
+                                child: InkWell(
+                                  onTap: (){
+
+                                  },
+                                  child: Container(
+                                    height: 200,
+                                    width: 150.0,
+                                    child: ListTile(
+                                        title: ClipOval(
+                                          child: Image.network(
+                                           _currentUser.childMod[index].image,
+                                            fit: BoxFit.fitHeight,
+                                            width: 120,
+                                            height: 120,
+                                          ),
                                         ),
-                                      ],
+                                        subtitle: Container(
+                                          alignment: Alignment.topCenter,
+                                          child: Text(_currentUser.childMod[index].name, style: TextStyles.body.bold.grey,),
+                                        )
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              );
+                            }
 
-                              /// Second tab bar view widget
-                              ListView.builder(
-                                  itemCount: userProvider.infos.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                        title: Text(userProvider.infos[index].appName),
-                                        trailing: Text(userProvider.infos[index].usage.toString()));
-                                  }),
-                            ],
-                          ),
                         ),
+                      ),
+                      Divider(
+                        height: 5,
+                        color: Colors.grey.withOpacity(0.1),
+                        thickness: 3,
+                      ),
+                      _header(),
+                      Consumer<Position>(builder: (context, position, widget) {
+                        return (position != null)
+                            ? Geo(position)
+                            : Center(child: CircularProgressIndicator());
+                      }),
+
+                      // BarChartGraph(
+                      //   data: data,
+                      // ),
+                      //_category(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Installed Apps'.tr().toString(),
+                              style: TextStyles.titleNormal.bl_ac),
+                          IconButton(
+                              icon: Icon(
+                                Icons.sort,
+                                color: LightColor.accentBlue,
+                              ),
+                              onPressed: () {})
+                              .p(12)
+                              .ripple(() {
+                            Navigator.pushNamed(context, '/installed_apps');
+                          }, borderRadius: BorderRadius.all(
+                              Radius.circular(20))),
+                        ],
+                      ).hP16,
+                      SizedBox(
+                        child: FutureBuilder<List<Application>>(
+                            future: DeviceApps.getInstalledApplications(
+                                includeAppIcons: true,
+                                includeSystemApps: false,
+                                onlyAppsWithLaunchIntent: true,
+                                usageApps: false),
+                            builder: (BuildContext context, AsyncSnapshot<
+                                List<Application>> data) {
+                              if (data.data == null) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                var apps = data.data;
+                                print(apps);
+                                return ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemBuilder: (BuildContext context,
+                                        int position) {
+                                      var app = apps[position];
+                                      return Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 18, vertical: 8),
+                                        child: ListTile(
+                                          contentPadding: EdgeInsets.all(0),
+                                          leading: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(13)),
+                                            child: Container(
+                                              height: 45,
+                                              width: 45,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius
+                                                    .circular(15),
+                                                color: Colors.transparent,
+                                              ),
+                                              child: app is ApplicationWithIcon
+                                                  ? Image.memory(
+                                                app.icon,
+                                              )
+                                                  : null,
+                                            ),
+                                          ),
+                                          title: Text(app.appName,
+                                              style: TextStyles.titleSize15),
+                                          subtitle: LinearPercentIndicator(
+                                            width: 180.0,
+                                            lineHeight: 8.0,
+                                            percent: getRandom(),
+                                            progressColor: Colors.blue,
+                                          ),
+                                          trailing: Icon(
+                                            Icons.keyboard_arrow_right,
+                                            size: 30,
+                                            color: LightColor.accentBlue,
+                                          ),
+                                        ),
+                                      ).ripple(() {
+                                        DeviceApps.openApp(app.packageName);
+                                      }, borderRadius: BorderRadius.all(
+                                          Radius.circular(20)));
+                                    },
+                                    itemCount: apps.length < 3 ? 2 : 3);
+                              }
+                            }),
+                      ),
                       ],
                     ),
                   ),
-                );
+                  ],
+                ),
+
+              /// Second tab bar view widget
+              ListView.builder(
+              itemCount: userProvider.infos.length,
+              itemBuilder: (context, index) {
+              return ListTile(
+              title: Text(userProvider.infos[index].appName),
+              trailing: Text(userProvider.infos[index].usage.toString()));
+              }),
+              ],
+              ),
+              ),
+              ],
+              ),
+              ),
+              );
               } else {
-                return Text('');
+              return Text('');
               }
             },
           )),

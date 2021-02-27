@@ -17,4 +17,14 @@ class UserServices{
   });
 
 
+  // Future<UserModel> getUserChild(UserModel model){
+  //
+  //   _firestore.collection(collection).doc(model.reference.id).get().then((doc){
+  //     Map<String, Object> child=  doc.get('ChildModel');
+  //     return ChildModel.fromSnapshot(doc);
+  // });
+  //
+  // }
+
+
 }
