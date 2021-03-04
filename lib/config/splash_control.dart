@@ -3,7 +3,7 @@
 import 'package:eye_test/config/screens_controller.dart';
 import 'package:flutter/material.dart';
 
-import '../size_config.dart';
+import 'size_config.dart';
 class SplashControl extends StatelessWidget {
 
   @override

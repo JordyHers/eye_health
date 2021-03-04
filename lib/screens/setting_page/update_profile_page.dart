@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/size_config.dart';
+import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/config/size_config.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';

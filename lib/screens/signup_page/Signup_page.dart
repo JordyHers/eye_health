@@ -1,4 +1,4 @@
-import 'package:eye_test/repository/data_repository.dart';
+
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
@@ -14,7 +14,6 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
-  DataRepository _rep =DataRepository();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _name = TextEditingController();

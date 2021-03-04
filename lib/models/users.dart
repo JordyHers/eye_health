@@ -37,9 +37,9 @@ class UserModel {
         'email': email,
         'reference': reference,
         'image': image,
-        'appsUsageModel': appsList(appsUsageModel ) ?? [] ,
+        'appsUsageModel': appsList(appsUsageModel) ,
         'totalDuration': totalDuration,
-        'childModel' : childList(childMod) ?? [],
+        'childModel' : childList(childMod) ,
       };
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -49,6 +49,7 @@ class UserModel {
     return mod;
 
   }
+
 
   UserModel.fromMap(Map<String, dynamic> data) {
     id = data['id'];

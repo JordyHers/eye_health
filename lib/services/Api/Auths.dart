@@ -5,11 +5,12 @@ import 'dart:io';
 import 'package:app_usage/app_usage.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/repository/data_repository.dart';
+
 import 'package:eye_test/services/Api/users_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 
@@ -35,29 +36,33 @@ abstract class BaseAuth {
 
  class Auths with ChangeNotifier implements BaseAuth {
 
-
+   final _firebaseAuth = FirebaseAuth.instance;
   List<AppUsageInfo> _infos = <AppUsageInfo> [];
   List<AppUsageInfo> get infos => _infos;
 
+StreamController <User> _stream = StreamController();
 
-    List<ChildModel> _childModel = [];
-  UnmodifiableListView <ChildModel> get child => UnmodifiableListView(_childModel);
+  @override
+  Stream<User> authStateChanges() => _firebaseAuth.authStateChanges();
+
+  //UnmodifiableListView <ChildModel> get child => UnmodifiableListView(_childModel);
 
 
   final FirebaseAuth _auth;
   User _user;
   Status _status = Status.Uninitialized;
   Status get status => _status;
-  User get user => _user;
+  User get user => _firebaseAuth.currentUser;
 
   final UserServices _userServices = UserServices();
 
+  UserModel get userModel => _userModel;
   UserModel get currentUser => _userModel;
 
-  UserModel _userModel = UserModel();
+  UserModel _userModel ;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-  final DataRepository _rep = DataRepository();
+
   String _token;
   bool isLogged = false;
 
@@ -66,65 +71,15 @@ abstract class BaseAuth {
 
   }
 
-  void getUsageStats() async {
-    try {
-      var endDate = DateTime.now();
-      var startDate = endDate.subtract(Duration(hours: 1));
-      var infoList = await AppUsage.getAppUsage(startDate, endDate);
-        _infos = infoList;
-    } on AppUsageException catch (exception) {
-      print(exception);
-    }
-  }
- void updateMod (UserModel user) async {
-   await  _rep.updateMod(_userModel);
- }
 
-
-  void setTokenAndAppList() async {
-    try {
-    await _firebaseMessaging.getToken().then((token) {
-      _token = token;
-      print('Device Token: $_token');
-    });
-    _userModel.appsUsageModel =_infos;
-    _userModel.token =_token;
-    print('Auths.dart  ________________________');
-    print(_userModel.appsUsageModel);
-   // await _rep.addUserToData(_userModel);
-
-    }
-    catch(e){
-      print(e);
-    }
-  }
 
    set infos(List<AppUsageInfo> infos){
     _infos =infos;
     notifyListeners();
    }
 
-  set currentUser(UserModel userModel) {
-    _userModel= userModel;
-    notifyListeners();
-  }
 
-  // set currentOrder(OrderModel orderModel) {
-  //   _orderModel= orderModel;
-  //   notifyListeners();
-  // }
 
-  // ignore: always_declare_return_types
-  // addUser(UserModel model) async {
-  //   _userList.insert(0, model);
-  //   notifyListeners();
-  // }
-  //
-  // // ignore: always_declare_return_types
-  // deleteUser(UserModel model) async {
-  //   _userList.removeWhere((_user) => _user.id == user.uid);
-  //   notifyListeners();
-  // }
 
   @override
   Future<bool> continueSignUp() async {
@@ -135,16 +90,13 @@ abstract class BaseAuth {
       'email': user.email,
       'image': user.photoURL,
       'uid': user.uid,});
-    _userModel.token = _token;
-    await _rep.addUserToData(_userModel);
+
+    print('continue From SignUp called  in Auths.dart file\n'
+        '----------------------------------------------------');
+    print(_userModel.toJson());
     return true;
 
   }
-
-  // getChild()  async{
-  //   _childModel = await _userServices.getUserChild(userId: _user.uid);
-  //   notifyListeners();
-  // }
 
   @override
   Future<bool> signIn(String email, String password) async {
@@ -190,12 +142,51 @@ abstract class BaseAuth {
 
   @override
   Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
     await _auth.signOut();
+    await googleSignIn.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
 
+
+  void getUsageStats() async {
+    try {
+      var endDate = DateTime.now();
+      var startDate = endDate.subtract(Duration(hours: 1));
+      var infoList = await AppUsage.getAppUsage(startDate, endDate);
+      _infos = infoList;
+    } on AppUsageException catch (exception) {
+      print(exception);
+    }
+  }
+
+  void VerifyInfoscurrentUser(){
+    try {
+      print('Verify user infos called \n'
+          '-----------------------------------');
+      print(currentUser.toJson());
+    } on Exception catch (e) {
+      print(' ---------------- COULD NT COMPLETE VERIFY USER INFOS');
+    }
+
+  }
+
+  void setTokenAndAppList() async {
+    try {
+      await _firebaseMessaging.getToken().then((token) {
+        _token = token;
+        print('Device Token: $_token');
+      });
+
+      print('Auths.dart  ________________________');
+      print(_userModel.appsUsageModel);
+    }
+    catch(e){
+      print(e);
+    }
+  }
 
   @override
   // ignore: missing_return

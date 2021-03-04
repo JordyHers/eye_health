@@ -1,22 +1,20 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/components/geo_locate/geo.dart';
 import 'package:eye_test/models/apps_model.dart';
-import 'package:eye_test/models/bar_charts_model.dart';
+
 import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/services/Internet_Connection/bloc.dart';
-import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
+
 
 //_++++++++++++++++++++++++++++++   MY IMPORTS ++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import 'package:eye_test/theme/theme.dart';
-import 'package:eye_test/widgets/horizontal_ListView.dart';
+import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/components/horizontal_ListView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -56,9 +54,10 @@ class _HomePageState extends State<HomePage>
       _currentUser = userProvider.currentUser;
     } else {
       _currentUser = UserModel();
-    };
+    }
+    ;
     _tabController = TabController(length: 2, vsync: this);
-    HorizontalList();
+    userProvider.VerifyInfoscurrentUser();
   }
 
   Widget _appBar() {
@@ -94,9 +93,7 @@ class _HomePageState extends State<HomePage>
               // height: 40,
               // width: 40,
               decoration: BoxDecoration(
-                color: Theme
-                    .of(context)
-                    .backgroundColor,
+                color: Theme.of(context).backgroundColor,
               ),
               child: Hero(
                 tag: 'profile',
@@ -268,9 +265,7 @@ class _HomePageState extends State<HomePage>
           trailing: Icon(
             Icons.keyboard_arrow_right,
             size: 30,
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
           ),
         ),
       ).ripple(() {
@@ -279,69 +274,21 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  final List<BarChartModel> data = [
-    BarChartModel(
-      days: 'Mon'.tr(),
-      time: 2,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-    BarChartModel(
-      days: 'Tues'.tr(),
-      time: 2,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-    BarChartModel(
-      days: 'Wed'.tr(),
-      time: 3,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-    BarChartModel(
-      days: 'Thurs'.tr(),
-      time: 4,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-    BarChartModel(
-      days: 'Fri'.tr(),
-      time: 7,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlueAccent),
-    ),
-    BarChartModel(
-      days: 'Sat'.tr(),
-      time: 6,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-    BarChartModel(
-      days: 'Sun'.tr(),
-      time: 5,
-      color: charts.ColorUtil.fromDartColor(Colors.lightBlue),
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
-    final userProvider = Provider.of<Auths>(context,listen: false);
+    final userProvider = Provider.of<Auths>(context, listen: false);
     return Scaffold(
-      body: BlocProvider(
-          create: (context) =>
-          NetworkBloc()
-            ..add(ListenConnection()),
-          child: BlocBuilder<NetworkBloc, NetworkState>(
-            builder: (context, state) {
-              if (state is ConnectionFailure)
-                return Scaffold(body: Center(
-                    child: Image.asset('assets/png/no-internet-.jpg')));
-              if (state is ConnectionSuccess) {
-                return Scaffold(
-                  key: _scaffoldKey,
-                  appBar: _appBar(),
-                  backgroundColor: LightColor.background,
-                  body: Padding(
-                    padding: const EdgeInsets.fromLTRB(8.0, 22, 12, 10),
-                    child: Column(
-                      children: [
-                      // give the tab bar a height [can change height to preferred height]
-                      Container(
+      body: Scaffold(
+              key: _scaffoldKey,
+              appBar: _appBar(),
+              backgroundColor: LightColor.background,
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 22, 12, 10),
+                child: Column(
+                  children: [
+                    // give the tab bar a height [can change height to preferred height]
+                    Container(
                       height: 45,
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
@@ -383,163 +330,213 @@ class _HomePageState extends State<HomePage>
                       child: TabBarView(
                         controller: _tabController,
                         children: [
-                      // first tab bar view widget
-                      CustomScrollView(
-                      slivers: <Widget>[
-                      SliverList(
-                      delegate: SliverChildListDelegate(
-                      [
-                      SizedBox(
-                      height: 40,
-                      ),
-                      ListTile(
-                        title: Text(
-                          'My Children'.tr().toString(),
-                          style: TextStyles.titleNormal.bl_ac,
-                        ),
-                        subtitle: Text(
-                          'Choose child to get more infos ',
-                          style: TextStyles.bodySm.subTitleColor,
-                        ),
-                        trailing: Icon(Icons.info_outline_rounded),
-                      ).p8,
-                      Divider(
-                        height: 5,
-                        color: Colors.grey.withOpacity(0.1),
-                        thickness: 3,
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      HorizontalList(),
+                          // first tab bar view widget
+                          CustomScrollView(
+                            slivers: <Widget>[
+                              SliverList(
+                                delegate: SliverChildListDelegate(
+                                  [
+                                    SizedBox(
+                                      height: 40,
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        '  My Children'.tr().toString(),
+                                        style: TextStyles.titleNormal.bl_ac,
+                                      ),
+                                      subtitle: Text(
+                                        'Choose child to get more infos ',
+                                        style:
+                                            TextStyles.bodySm.subTitleColor,
+                                      ),
+                                      trailing:
+                                          Icon(Icons.info_outline_rounded),
+                                    ).p8,
+                                    Divider(
+                                      height: 5,
+                                      color: Colors.grey.withOpacity(0.1),
+                                      thickness: 3,
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    HorizontalList(),
+                                    Divider(
+                                      height: 5,
+                                      color: Colors.grey.withOpacity(0.1),
+                                      thickness: 3,
+                                    ),
+                                    _header(),
+                                    Consumer<Position>(builder:
+                                        (context, position, widget) {
+                                      return (position != null)
+                                          ? Geo(position)
+                                          : Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                    }),
 
-                      Divider(
-                        height: 5,
-                        color: Colors.grey.withOpacity(0.1),
-                        thickness: 3,
-                      ),
-                      _header(),
-                      Consumer<Position>(builder: (context, position, widget) {
-                        return (position != null)
-                            ? Geo(position)
-                            : Center(child: CircularProgressIndicator());
-                      }),
-
-                      // BarChartGraph(
-                      //   data: data,
-                      // ),
-                      //_category(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text('Installed Apps'.tr().toString(),
-                              style: TextStyles.titleNormal.bl_ac),
-                          IconButton(
-                              icon: Icon(
-                                Icons.sort,
-                                color: LightColor.accentBlue,
+                                    // BarChartGraph(
+                                    //   data: data,
+                                    // ),
+                                    //_category(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                            'Installed Apps'
+                                                .tr()
+                                                .toString(),
+                                            style: TextStyles
+                                                .titleNormal.bl_ac),
+                                        IconButton(
+                                                icon: Icon(
+                                                  Icons.sort,
+                                                  color:
+                                                      LightColor.accentBlue,
+                                                ),
+                                                onPressed: () {})
+                                            .p(12)
+                                            .ripple(() {
+                                          Navigator.pushNamed(
+                                              context, '/installed_apps');
+                                        },
+                                                borderRadius:
+                                                    BorderRadius.all(
+                                                        Radius.circular(
+                                                            20))),
+                                      ],
+                                    ).hP16,
+                                    SizedBox(
+                                      child: FutureBuilder<
+                                              List<Application>>(
+                                          future: DeviceApps
+                                              .getInstalledApplications(
+                                                  includeAppIcons: true,
+                                                  includeSystemApps: false,
+                                                  onlyAppsWithLaunchIntent:
+                                                      true,
+                                                  usageApps: false),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<
+                                                      List<Application>>
+                                                  data) {
+                                            if (data.data == null) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            } else {
+                                              var apps = data.data;
+                                              print(apps);
+                                              return ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  shrinkWrap: true,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int position) {
+                                                    var app =
+                                                        apps[position];
+                                                    return Container(
+                                                      padding: EdgeInsets
+                                                          .symmetric(
+                                                              horizontal:
+                                                                  18,
+                                                              vertical: 8),
+                                                      child: ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.all(
+                                                                0),
+                                                        leading: ClipRRect(
+                                                          borderRadius: BorderRadius
+                                                              .all(Radius
+                                                                  .circular(
+                                                                      13)),
+                                                          child: Container(
+                                                            height: 45,
+                                                            width: 45,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                              color: Colors
+                                                                  .transparent,
+                                                            ),
+                                                            child: app
+                                                                    is ApplicationWithIcon
+                                                                ? Image
+                                                                    .memory(
+                                                                    app.icon,
+                                                                  )
+                                                                : null,
+                                                          ),
+                                                        ),
+                                                        title: Text(
+                                                            app.appName,
+                                                            style: TextStyles
+                                                                .titleSize15),
+                                                        subtitle:
+                                                            LinearPercentIndicator(
+                                                          width: 180.0,
+                                                          lineHeight: 8.0,
+                                                          percent:
+                                                              getRandom(),
+                                                          progressColor:
+                                                              Colors.blue,
+                                                        ),
+                                                        trailing: Icon(
+                                                          Icons
+                                                              .keyboard_arrow_right,
+                                                          size: 30,
+                                                          color: LightColor
+                                                              .accentBlue,
+                                                        ),
+                                                      ),
+                                                    ).ripple(() {
+                                                      DeviceApps.openApp(
+                                                          app.packageName);
+                                                    },
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .all(Radius
+                                                                    .circular(
+                                                                        20)));
+                                                  },
+                                                  itemCount: apps.length < 3
+                                                      ? 2
+                                                      : 3);
+                                            }
+                                          }),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              onPressed: () {})
-                              .p(12)
-                              .ripple(() {
-                            Navigator.pushNamed(context, '/installed_apps');
-                          }, borderRadius: BorderRadius.all(
-                              Radius.circular(20))),
+                            ],
+                          ),
+
+                          /// Second tab bar view widget
+                          ListView.builder(
+                              itemCount: userProvider.infos.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                    title: Text(
+                                        userProvider.infos[index].appName),
+                                    trailing: Text(userProvider
+                                        .infos[index].usage
+                                        .toString()));
+                              }),
                         ],
-                      ).hP16,
-                      SizedBox(
-                        child: FutureBuilder<List<Application>>(
-                            future: DeviceApps.getInstalledApplications(
-                                includeAppIcons: true,
-                                includeSystemApps: false,
-                                onlyAppsWithLaunchIntent: true,
-                                usageApps: false),
-                            builder: (BuildContext context, AsyncSnapshot<
-                                List<Application>> data) {
-                              if (data.data == null) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              } else {
-                                var apps = data.data;
-                                print(apps);
-                                return ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemBuilder: (BuildContext context,
-                                        int position) {
-                                      var app = apps[position];
-                                      return Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 18, vertical: 8),
-                                        child: ListTile(
-                                          contentPadding: EdgeInsets.all(0),
-                                          leading: ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(13)),
-                                            child: Container(
-                                              height: 45,
-                                              width: 45,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius
-                                                    .circular(15),
-                                                color: Colors.transparent,
-                                              ),
-                                              child: app is ApplicationWithIcon
-                                                  ? Image.memory(
-                                                app.icon,
-                                              )
-                                                  : null,
-                                            ),
-                                          ),
-                                          title: Text(app.appName,
-                                              style: TextStyles.titleSize15),
-                                          subtitle: LinearPercentIndicator(
-                                            width: 180.0,
-                                            lineHeight: 8.0,
-                                            percent: getRandom(),
-                                            progressColor: Colors.blue,
-                                          ),
-                                          trailing: Icon(
-                                            Icons.keyboard_arrow_right,
-                                            size: 30,
-                                            color: LightColor.accentBlue,
-                                          ),
-                                        ),
-                                      ).ripple(() {
-                                        DeviceApps.openApp(app.packageName);
-                                      }, borderRadius: BorderRadius.all(
-                                          Radius.circular(20)));
-                                    },
-                                    itemCount: apps.length < 3 ? 2 : 3);
-                              }
-                            }),
                       ),
-                      ],
                     ),
-                  ),
                   ],
                 ),
+              ),
+            ),
 
-              /// Second tab bar view widget
-              ListView.builder(
-              itemCount: userProvider.infos.length,
-              itemBuilder: (context, index) {
-              return ListTile(
-              title: Text(userProvider.infos[index].appName),
-              trailing: Text(userProvider.infos[index].usage.toString()));
-              }),
-              ],
-              ),
-              ),
-              ],
-              ),
-              ),
-              );
-              } else {
-              return Text('');
-              }
-            },
-          )),
+
     );
   }
 }

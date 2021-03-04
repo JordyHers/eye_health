@@ -2,14 +2,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import  'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/models/apps_model.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
-import 'package:eye_test/repository/data_repository.dart';
 import 'package:eye_test/services/Api/Auths.dart';
-import 'package:eye_test/services/Google_Service/google_signin.dart';
-import 'package:eye_test/theme/theme.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +28,6 @@ class _RegisterChildState extends State<RegisterChild> {
   File _imageFile;
   ChildModel _childModel = ChildModel();
 
-  DataRepository _rep = DataRepository();
 
   final TextEditingController _name = TextEditingController();
   final TextEditingController _surname = TextEditingController();
@@ -285,6 +279,8 @@ class _RegisterChildState extends State<RegisterChild> {
     child.token = 'This is just an example';
     child.position = null;
     child.appsUsageModel =null;
+    child.totalDuration =0;
+    child.reference = null;
 
     if (isUpdating) {
       await collection.doc(_currentUser.reference.id).update(child.toJson());
@@ -292,12 +288,10 @@ class _RegisterChildState extends State<RegisterChild> {
     } else {
       await collection.doc(_currentUser.reference.id).update({
         'childModel':FieldValue.arrayUnion([child.toJson()])});
-      // var documentRef = await collection.add(child.toJson());
-      // //_userModel.id = documentRef.documentID;
+
       print('uploaded child successfully: ${child.toJson()}');
       await userProvider.reloadUserModel();
-     // userProvider.updateMod(_currentUser);
-      // await documentRef.set(child.toJson());
+
 
     }
   }

@@ -7,10 +7,8 @@ import 'package:provider/provider.dart';
 
 
 
-
-
 class ScreensController extends StatefulWidget {
-  //static String routeName = "/";
+
 
   @override
   _ScreensControllerState createState() => _ScreensControllerState();

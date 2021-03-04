@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:eye_test/screens/splash/splash_content.dart';
-import 'package:eye_test/size_config.dart';
+import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/config/size_config.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       color: LightColor.accentBlue,
                       onPressed: (){
-                      Navigator.pushReplacementNamed(context, '/opening_page');
+                      Navigator.pushReplacementNamed(context, '/Sign_in');
                       },
                       child: Text(
                         'continue'.tr(),

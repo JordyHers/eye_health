@@ -6,7 +6,7 @@ import 'package:eye_test/models/users.dart';
 class UserServices{
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String collection = 'Users';
-  String data = 'Data';
+
 
   void createUser(Map<String, dynamic> data) {
     _firestore.collection(collection).doc(data['uid']).set(data);

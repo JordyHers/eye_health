@@ -3,12 +3,9 @@ import 'package:eye_test/models/users.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HorizontalList extends StatefulWidget {
-  final UserModel user;
-   const HorizontalList ({Key key, this.user}) : super(key: key);
   @override
   _HorizontalListState createState() => _HorizontalListState();
 }
@@ -19,7 +16,8 @@ class _HorizontalListState extends State<HorizontalList> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<Auths>(context);
+
+
     return  Container(
       decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.1),
@@ -28,19 +26,10 @@ class _HorizontalListState extends State<HorizontalList> {
       //color: Colors.grey,
       height: 150.0,
       width: double.infinity,
-      child: ListView.builder(
-          itemCount: userProvider.currentUser.childMod.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            print('----------HOME PAGE.dart current user length ------------');
-            print(userProvider.currentUser.childMod.length);
-            return Kids(
-              image_caption: userProvider.currentUser.childMod[index].name,
-              image_location: userProvider.currentUser.childMod[index].image,
-              onPressed: null,
-            );
-          }
-
+      child:  Kids(
+        image_caption: 'Carla',
+        image_location: 'assets/children/Carla.jpg',
+        onPressed: null,
       ),
     );
   }

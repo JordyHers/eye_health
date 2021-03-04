@@ -57,6 +57,7 @@ dependencies:
   percent_indicator: ^2.1.9+1
   geolocator: ^5.3.1
   google_maps_flutter: ^0.5.25+3
+  device_preview:
 
 
   # The following adds the Cupertino Icons font to your application.

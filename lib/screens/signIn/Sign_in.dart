@@ -2,9 +2,6 @@ import 'dart:ui';
 
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/services/Google_Service/google_signin.dart';
-import 'package:eye_test/services/Internet_Connection/network_bloc.dart';
-import 'package:eye_test/services/Internet_Connection/network_event.dart';
-import 'package:eye_test/services/Internet_Connection/network_state.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
