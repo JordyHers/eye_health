@@ -1,6 +1,6 @@
-import 'package:app_usage/app_usage.dart';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:eye_test/screens/signIn/Sign_in.dart';
+import 'package:eye_test/screens/sign_pages/Sign_in.dart';
 import 'package:eye_test/services/Api/Auths.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +31,7 @@ class _LandingPageState extends State<LandingPage> {
           if (snapshot.connectionState == ConnectionState.active){
             final user = snapshot.data;
             if(user == null){
-              return Login();
+              return Login(context: context);
             }
             return SafeArea(
                 child: Scaffold(
@@ -142,7 +142,7 @@ class _LandingPageState extends State<LandingPage> {
                           color: LightColor.accentBlue,
                           onPressed: () async {
                             userProvider.getUsageStats();
-                            _isParent ? await Navigator.pushReplacementNamed(context, '/Homepage') : Navigator.pushNamed(context, '/child_home');
+                            _isParent ? await Navigator.pushReplacementNamed(context, '/parent_page') : Navigator.pushNamed(context, '/child_home');
 
                           },
                           child: Text(

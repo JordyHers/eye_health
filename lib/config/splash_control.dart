@@ -12,7 +12,7 @@ class SplashControl extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ScreensController(),
+      body: ScreensController(context: context),
     );
   }
 }

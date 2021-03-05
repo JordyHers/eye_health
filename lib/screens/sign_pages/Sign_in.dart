@@ -14,6 +14,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
+  final BuildContext context;
+
+  const Login({Key key, this.context}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }

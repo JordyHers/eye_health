@@ -18,12 +18,12 @@ import 'package:provider/provider.dart';
 
 import 'file:///C:/Users/jordy/AndroidStudioProjects/Eye_Test/eye_test/lib/components/horizontal_ListView.dart';
 
-class HomePage extends StatefulWidget {
+class ParentPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ParentPageState createState() => _ParentPageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _ParentPageState extends State<ParentPage>
     with SingleTickerProviderStateMixin {
   final picker = ImagePicker();
   List<DocumentSnapshot> Apps = <DocumentSnapshot>[];

@@ -1,12 +1,9 @@
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class HorizontalList extends StatefulWidget {
+class HorizontalList extends StatelessWidget {
   @override
-  _HorizontalListState createState() => _HorizontalListState();
-}
 
-class _HorizontalListState extends State<HorizontalList> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,8 +17,8 @@ class _HorizontalListState extends State<HorizontalList> {
         scrollDirection: Axis.horizontal,
         children: [
           Kids(
-            image_location: 'assets/children/Carla.jpg',
-            image_caption: 'Carla',
+            image_location: 'assets/children/Kyle.jpg',
+            image_caption: 'Kyle',
             onPressed: null,
           ),
           Kids(
