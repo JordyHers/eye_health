@@ -159,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                                           return;
                                         }
                                         await user.continueSignUp();
-                                        Navigator.pushReplacementNamed(context, '/Homepage');
+                                        Navigator.pushReplacementNamed(context, '/landing_page');
                                       }
                                     },
                                     minWidth: MediaQuery.of(context).size.width,
@@ -201,7 +201,7 @@ class _SignUpState extends State<SignUp> {
                                                signInWithGoogle().then((result) async {
                                                 await user.continueSignUp();
                                                 if (result != null) {
-                                                  await Navigator.pushNamed(context, '/Homepage');
+                                                  await Navigator.pushNamed(context, '/landing_page');
                                                 }
                                               });
                                             },

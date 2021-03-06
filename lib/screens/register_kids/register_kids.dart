@@ -26,7 +26,7 @@ class _RegisterChildState extends State<RegisterChild> {
   final _key = GlobalKey<ScaffoldState>();
   String _imageUrl;
   File _imageFile;
-  ChildModel _childModel = ChildModel();
+  final ChildModel _childModel = ChildModel();
 
 
   final TextEditingController _name = TextEditingController();
@@ -46,6 +46,7 @@ class _RegisterChildState extends State<RegisterChild> {
     }
      print (_currentUser.reference.id);
   }
+  // ignore: missing_return
   StatelessWidget _showImage() {
     if (_imageFile == null && _imageUrl == null) {
       return Icon(Icons.person,size: 90,color: Colors.grey[500],);
@@ -211,13 +212,17 @@ class _RegisterChildState extends State<RegisterChild> {
                                    _formKey.currentState.save();
                                   _childModel.name =_name.text;
                                   _childModel.surname =_surname.text;
+                                  _childModel.totalDuration = 000;
+                                  _childModel.position = null;
+
                                   var isUpdating = false;
+
+                                   uploadUserChild(_childModel, isUpdating, _imageFile);
 
                                    print('register_kids.dart / Register kids------------');
                                    print(_childModel);
-                                  uploadUserChild(_childModel, isUpdating, _imageFile);
-
                                 }
+                                Navigator.pushReplacementNamed(context, '/parent_page');
                               },
 
                               child: Text(
@@ -241,8 +246,7 @@ class _RegisterChildState extends State<RegisterChild> {
 
 
   // ignore: always_declare_return_types
-  uploadUserChild( ChildModel child , bool isUpdating, File localFile) async {
-    //var reference = FirebaseFirestore.instance.collection('Users');
+  uploadUserChild( ChildModel child , bool isUpdating, File localFile ) async {
 
     if (localFile != null) {
       print('uploading image');
@@ -259,7 +263,7 @@ class _RegisterChildState extends State<RegisterChild> {
 
       String url = await firebaseStorageRef.getDownloadURL();
       print('download url: $url');
-      uploadChild(child, isUpdating, imageUrl: url);
+      uploadChild(child, isUpdating, imageUrl: url, context: context);
     } else {
       print('...skipping image upload');
       uploadChild(child, isUpdating);
@@ -267,32 +271,21 @@ class _RegisterChildState extends State<RegisterChild> {
   }
 
   // ignore: always_declare_return_types
-  uploadChild(ChildModel child, bool isUpdating, {String imageUrl}) async {
+  uploadChild(ChildModel child, bool isUpdating, {String imageUrl, BuildContext context}) async {
     var collection = FirebaseFirestore.instance.collection('Data');
-    final userProvider = Provider.of<Auths>(context, listen: false);
-    // var uid = Uuid().v4();
+
 
     if (imageUrl != null) {
       child.image = imageUrl;
-
     }
-    child.token = 'This is just an example';
-    child.position = null;
-    child.appsUsageModel =null;
-    child.totalDuration =0;
-    child.reference = null;
-
-    if (isUpdating) {
-      await collection.doc(_currentUser.reference.id).update(child.toJson());
-      print('updated User child with id: ${child.reference.id}');
-    } else {
-      await collection.doc(_currentUser.reference.id).update({
-        'childModel':FieldValue.arrayUnion([child.toJson()])});
+       //await userProvider.addChild(childModel: child);
+      // await collection.doc(_currentUser.reference.id).update({
+      //   'childModel':FieldValue.arrayUnion([child.toJson()])});
 
       print('uploaded child successfully: ${child.toJson()}');
-      await userProvider.reloadUserModel();
+
 
 
     }
   }
-}
+

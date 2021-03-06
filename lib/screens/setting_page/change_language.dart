@@ -12,13 +12,6 @@ class SettingsPage  extends StatefulWidget  {
 
 class _SettingsPageState extends State<SettingsPage> with ChangeNotifier  {
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //  _SettingsPageState _settingsPageState = new _SettingsPageState();
-  //   _settingsPageState.dispose();
-  // }
- // bool isUpdated;
   @override
   Widget build(BuildContext context) {
     final isUpdated = Provider.of<Auths>(context);

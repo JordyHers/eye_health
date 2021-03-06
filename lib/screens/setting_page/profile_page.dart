@@ -217,7 +217,7 @@ class _ProfileListItemsState extends State<ProfileListItems> {
           ProfileListItem(
             icon: LineAwesomeIcons.language,
             onPressed: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.pushNamed(context, '/change_language');
             },
             text: 'change language'.tr().toString(),
           ),

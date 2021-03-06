@@ -21,7 +21,7 @@ class UserModel {
 
   List<ChildModel> childMod = <ChildModel>[];
   List<AppUsageInfo> appsUsageModel = <AppUsageInfo>[];
-  DocumentReference reference;
+  dynamic  reference;
 
   UserModel({this.name, this.surname, this.id, this.email, this.reference,  this.token,this.image,  this.appsUsageModel, this.totalDuration,this.childMod});
 

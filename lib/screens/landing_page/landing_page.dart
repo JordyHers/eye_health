@@ -62,7 +62,6 @@ class _LandingPageState extends State<LandingPage> {
                                     setState(() {
                                       _isParent =true;
                                       _isChild =false;
-
                                       print('isTap activated Parents');
                                     });
                                   },
@@ -165,7 +164,7 @@ class _LandingPageState extends State<LandingPage> {
                         )
                       ],
                     )),
-              );;
+              );
           }
           return Scaffold(
             body: Center(child: CircularProgressIndicator(),),

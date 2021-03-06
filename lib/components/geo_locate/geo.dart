@@ -17,7 +17,7 @@ class Geo extends StatefulWidget {
 
 class _GeoState extends State<Geo> {
   final GeoLocatorService geoService = GeoLocatorService();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   @override
   void initState() {

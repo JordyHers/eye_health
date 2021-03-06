@@ -5,7 +5,6 @@ import 'package:eye_test/services/Google_Service/google_signin.dart';
 import 'package:eye_test/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -137,7 +136,7 @@ class _LoginState extends State<Login> {
                                           onPressed: () async {
                                             if (_formKey.currentState.validate()) {
                                               if (await user.signIn(_email.text, _password.text)){
-                                                Navigator.pushReplacementNamed(context, '/Homepage');
+                                                Navigator.pushReplacementNamed(context, '/landing_page');
                                               }
 
                                               if (!await user.signIn(_email.text, _password.text)) {
@@ -189,7 +188,7 @@ class _LoginState extends State<Login> {
                                                   // ignore: unawaited_futures
                                                   user.continueSignUp();
                                                 });
-                                                Navigator.pushReplacementNamed(context, '/Homepage');
+                                                Navigator.pushReplacementNamed(context, '/landing_page');
                                               },
                                               child: Image.asset(
                                                 'assets/png/google_search.png',
@@ -209,12 +208,4 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // Future<void> _handlePermissions() async {
-  //   var statuses = await [
-  //     Permission.notification,
-  //     Permission.location,
-  //     Permission.storage,
-  //   ].request();
-  //   print(statuses[Permission.location]);
-  // }
 }

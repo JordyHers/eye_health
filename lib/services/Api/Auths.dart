@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
+
 
 import 'package:app_usage/app_usage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_test/models/child_model.dart';
 import 'package:eye_test/models/users.dart';
 
@@ -21,15 +22,12 @@ abstract class BaseAuth {
 
   Future<bool> signUp(String email, String password);
 
-  Future<bool> sendEmailVerification();
+  Stream<List<UserModel>> UserStream();
 
   Future <bool> continueSignUp();
 
   Future<void> signOut();
 
-  Future<void> resetPassword(String email);
-
-  Future<bool> isEmailVerified();
 
   Future<void> reloadUserModel();
 }
@@ -38,14 +36,13 @@ abstract class BaseAuth {
 
    final _firebaseAuth = FirebaseAuth.instance;
   List<AppUsageInfo> _infos = <AppUsageInfo> [];
+
+  Iterable<ChildModel> childModel;
   List<AppUsageInfo> get infos => _infos;
 
-StreamController <User> _stream = StreamController();
-
-  @override
   Stream<User> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  //UnmodifiableListView <ChildModel> get child => UnmodifiableListView(_childModel);
+  UnmodifiableListView <ChildModel> get child => UnmodifiableListView(childModel);
 
 
   final FirebaseAuth _auth;
@@ -56,22 +53,17 @@ StreamController <User> _stream = StreamController();
 
   final UserServices _userServices = UserServices();
 
-  UserModel get userModel => _userModel;
+
   UserModel get currentUser => _userModel;
 
-  UserModel _userModel ;
+  UserModel _userModel = UserModel();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-
   String _token;
   bool isLogged = false;
 
   Auths.initialize(): _auth = FirebaseAuth.instance{
     _auth.authStateChanges().listen(_onStateChanged);
-
   }
-
-
 
    set infos(List<AppUsageInfo> infos){
     _infos =infos;
@@ -79,7 +71,38 @@ StreamController <User> _stream = StreamController();
    }
 
 
+   Stream<List<UserModel>> UserStream(){
+    final path = 'Data';
+     final reference = FirebaseFirestore.instance.collection(path);
+     final snapshots = reference.snapshots();
+     /// Here snapshots returns a stream of documents
+     ///available in the given path.[snapshot is a collection
+     //snapshots.listen((snapshot) {
 
+     /// Here for each document in the collection snapshot
+     /// print their corresponding data [snapshot is a document]
+     // snapshot.docs.forEach((snapshot) => print(snapshot.data()));
+
+     /// Here we convert a collection snapshot into a list
+     return snapshots.map((snapshot) =>  snapshot.docs.map((snapshot){
+       ///then the second snapshot = document turns them into data
+       final data = snapshot.data();
+       print(data);
+       return data != null ? UserModel(
+         name: data['name'],
+         surname: data['surname'],
+         email: data['email'],
+         image: data['image'],
+         childMod:  data['childMod'],
+         appsUsageModel: data['appsUsageModel'].cast<AppUsageInfo>(),
+         token: data['token'],
+         id: data['id'],
+         reference: data['reference'],
+         totalDuration: data['totalDuration']
+       ) : null ;
+     },).toList());
+
+   }
 
   @override
   Future<bool> continueSignUp() async {
@@ -91,9 +114,6 @@ StreamController <User> _stream = StreamController();
       'image': user.photoURL,
       'uid': user.uid,});
 
-    print('continue From SignUp called  in Auths.dart file\n'
-        '----------------------------------------------------');
-    print(_userModel.toJson());
     return true;
 
   }
@@ -113,6 +133,34 @@ StreamController <User> _stream = StreamController();
     }
 
   }
+   Future<bool> addChild(
+       {ChildModel childModel}) async {
+     try {
+
+       List<ChildModel> child = _userModel.childMod;
+
+       var childItem = {
+         'id': '123456',
+         'name': childModel.name,
+         'image': childModel.image,
+         'reference': childModel.reference,
+         'appUsageModel': _infos,
+         'totalDuration':childModel.totalDuration,
+         'token': childModel.token,
+
+       };
+
+       ChildModel item = ChildModel.fromJson(childItem);
+//      if(!itemExists){
+       print("ChILD ITEMS ARE: ${child.toString()}");
+       _userServices.addchild(userId: _user.uid, childModel: item);
+//      }
+       return true;
+     } catch (e) {
+       print("THE ERROR ${e.toString()}");
+       return false;
+     }
+   }
 
   @override
   Future<bool> signUp(String email, String password) async {
@@ -162,25 +210,28 @@ StreamController <User> _stream = StreamController();
     }
   }
 
-  void VerifyInfoscurrentUser(){
+  void VerifyInfoscurrentUser() async {
+    _userModel = await _userServices.getUserById(user.uid);
     try {
       print('Verify user infos called \n'
           '-----------------------------------');
-      print(currentUser.toJson());
+      print(_userModel.toJson());
     } on Exception catch (e) {
       print(' ---------------- COULD NT COMPLETE VERIFY USER INFOS');
+      print(e.toString());
     }
 
   }
 
   void setTokenAndAppList() async {
+    _userModel = await _userServices.getUserById(user.uid);
     try {
       await _firebaseMessaging.getToken().then((token) {
         _token = token;
         print('Device Token: $_token');
       });
 
-      print('Auths.dart  ________________________');
+      print(' _____________Auths.dart  ________________________');
       print(_userModel.appsUsageModel);
     }
     catch(e){
@@ -188,27 +239,6 @@ StreamController <User> _stream = StreamController();
     }
   }
 
-  @override
-  // ignore: missing_return
-  Future<bool> sendEmailVerification() async {
-    var user = await  _auth.currentUser;
-    try {
-      await user.sendEmailVerification();
-      return true;
-    } catch (e) {
-      
-      print('Bir hata oldu');
-      print(e.message);
-    }
-  }
-
-  @override
-  Future<bool> isEmailVerified() async {
-    var user = await _auth.currentUser;
-    return user.emailVerified;
-  }
-
-  @override
   Future<void> resetPassword(String email) async {
     return _auth.sendPasswordResetEmail(email: email);
   }
@@ -227,54 +257,8 @@ StreamController <User> _stream = StreamController();
   }
 }
 
-class PushNotificationService {
-  final FirebaseMessaging _fcm = FirebaseMessaging();
-
-  Future initialise() async {
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
-    }
-    _fcm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-      },
-    );
-  }
-
-}
 
 
 
 
 
-
-
-
-
-
-
-
-
-// Future <FirebaseUser> signUpWithFacebook() async {
-//   try{
-//     _status = Status.Authenticating;
-//     notifyListeners();
-//     var facebookLogin = FacebookLogin();
-//     var  result = await facebookLogin.logIn(['email']);
-//     if (result.status == FacebookLoginStatus.loggedIn){
-//       _status = Status.Authenticated;
-//       notifyListeners();
-//       final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken:result.accessToken.token);
-//       final FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-//       return user;
-//     }
-//   }catch(e){
-//     print(e.message);
-//   }
-// }
