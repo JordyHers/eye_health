@@ -1,9 +1,11 @@
-# Time's Up
+# Time's Up 
 
 >Time's Up is a mobile application developed using flutter to monitor the time kids spend on screen.
 So far the app is only available on Android. The app can't run on iOS devices.The application has for sole purpose to 
 track and record the data from the child's device and send it to parents. The application does not violate the privacy policies
 settled for user, and doesn't collect data for third parties companies.
+
+
 
 ## Parent side
 
@@ -13,11 +15,15 @@ A splash screen will present a landing page. In this case, suppose the login is 
 ust touch the Parent DEVICE button for the parent. After that, you will be redirected to a login page.
 There are currently 4 possible input options. See Figure (4.2).
 
+``` dart
 - SIGN IN WITH EMAIL
 - LOGIN WITH FACEBOOK 
 -  SIGN IN WITH GOOGLE
 - SIGN IN ANONYMOUS
+```
+
 <img width="584" alt="Screen Shot 2022-01-15 at 15 56 29" src="https://user-images.githubusercontent.com/49708438/149622459-67119136-27df-40ca-8738-fe2aea2f5fc8.png">
+
 
 ## Registering the new child's device
 
