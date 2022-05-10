@@ -33,11 +33,13 @@ This allows to map the data from the layer above to `AsyncValue` objects that ca
 
 ## Packages in use
 
-- [riverpod](https://pub.dev/packages/riverpod) for state management
-- [freezed](https://pub.dev/packages/freezed) for code generation
-- [http](https://pub.dev/packages/http) for talking to the REST API
+- [firebase auth](https://pub.dev/packages/firebase_auth) for authentication
+- [provider](https://pub.dev/packages/provider) for state management
+- [algolia](https://pub.dev/packages/algolia) for backend search logic
+- [easy location](https://pub.dev/packages/easy_location) for tracking locations
+- [geo_locator](https://pub.dev/packages/geo_locator) for Lat and long values
 - [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
-- [mocktail](https://pub.dev/packages/mocktail) for testing
+- [app_usage](https://pub.dev/packages/app_usage) for app usage data
 
 
 ## Parent side
