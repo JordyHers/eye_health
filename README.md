@@ -6,6 +6,37 @@ track and record the data from the child's device and send it to parents. The ap
 settled for user, and doesn't collect data for third parties companies.
 
 
+## Supported Features
+
+- [x] Location Tracking
+- [x] App Usage Data
+- [x] CloudFunctions
+- [x] Messaging
+- [x] PushNotifications
+
+## App Architecture
+
+The app is composed by two main layers.
+
+
+### Presentation Layer
+
+This layer holds all the widgets, along with their controllers.
+
+Widgets do not communicate directly with the repository.
+
+Instead, they watch some controllers that extend the `StateNotifier` class (using Riverpod).
+
+This allows to map the data from the layer above to `AsyncValue` objects that can be mapped to the appropriate UI states (data, loading, error).
+
+## Packages in use
+
+- [riverpod](https://pub.dev/packages/riverpod) for state management
+- [freezed](https://pub.dev/packages/freezed) for code generation
+- [http](https://pub.dev/packages/http) for talking to the REST API
+- [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images
+- [mocktail](https://pub.dev/packages/mocktail) for testing
+
 
 ## Parent side
 
@@ -54,6 +85,10 @@ To achieve this a FloatingActionButton (+) is available on the Home page. This a
 
 <img width="507" alt="Screen Shot 2022-01-15 at 16 08 38" src="https://user-images.githubusercontent.com/49708438/149622900-03ea5412-43b6-4b17-a5d0-838b9b027042.png">
 
+
+**Note**: to use the API you'll need to register an account and obtain your own API key. This can be set via `--dart-define` or inside `lib/src/api/api_keys.dart`.
+
+### [LICENSE: MIT](LICENSE.md)
 
 
 
