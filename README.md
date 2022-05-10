@@ -5,6 +5,8 @@ So far the app is only available on Android. The app can't run on iOS devices.Th
 track and record the data from the child's device and send it to parents. The application does not violate the privacy policies
 settled for user, and doesn't collect data for third parties companies.
 
+<img width="1315" alt="Screen Shot 2022-05-10 at 19 51 51" src="https://user-images.githubusercontent.com/49708438/167681689-5428b418-d019-4b64-bc45-ab54ef4ea25a.png">
+
 
 ## Supported Features
 
